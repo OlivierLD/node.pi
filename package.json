@@ -1,0 +1,13 @@
+{
+  "name": "NodeOnPi",
+  "version": "0.0.1",
+  "description": "Samples scripts for nodejs on the Raspberry PI, using onoff.js",
+  "keywords": [
+    "RaspberryPI",
+    "onoff"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "onoff": "^1.1.1"
+  }
+}
