@@ -15,6 +15,7 @@ To run a test script:
 ```
  $> node test_mcp3008.js
 ```
+The pin numbers are always something, depending on the framework you are using (PI4J, WiringPI, onoff, etc).
 The wiring corresponding to the code is that one:
 ![MCP3008 wiring](./mcp3008.png "Wiring")
 
