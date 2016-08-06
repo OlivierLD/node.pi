@@ -15,7 +15,8 @@ To run a test script:
 ```
  $> node tes_mcp3008.js
 ```
-
+The wiring corresponding to the code is that one:
+![MCP3008 wiring](./mcp3008.png "Wiring")
 
 ### To debug a nodejs application:
 
