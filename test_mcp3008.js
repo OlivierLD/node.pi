@@ -26,7 +26,7 @@ var iv = setInterval(function () {
 setTimeout(function () {
   clearInterval(iv); // Stop reading
   exit();
-}, 10000);
+}, 100000);
 
 
 // cleanup GPIO on exit

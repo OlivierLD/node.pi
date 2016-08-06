@@ -1,13 +1,27 @@
 {
-  "name": "NodeOnPi",
+  "name": "node-on-pi",
   "version": "0.0.1",
   "description": "Samples scripts for nodejs on the Raspberry PI, using onoff.js",
   "keywords": [
     "RaspberryPI",
     "onoff"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "onoff": "^1.1.1"
-  }
+  },
+  "main": "test_mcp3008.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "test_mcp3008.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlivierLD/node.pi.git"
+  },
+  "author": "Olivier LeDiouris <olivier.lediouris@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/OlivierLD/node.pi/issues"
+  },
+  "homepage": "https://github.com/OlivierLD/node.pi#readme"
 }
