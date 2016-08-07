@@ -19,6 +19,13 @@ The pin numbers are always something, depending on the framework you are using (
 The wiring corresponding to the code is that one:
 ![MCP3008 wiring](./mcp3008.png "Wiring")
 
+### I2C BME280 (Pressure, Humidity, Temperature, Altitude)
+The source is in `mbe280.js`.
+To run a test script:
+```
+ $> node test_mbe280.js
+```
+
 ### To debug a nodejs application:
 
 To do once:
