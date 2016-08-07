@@ -18,7 +18,6 @@ var BOTH    = 'both';
 var utils = require('./utils/utils.js'); // This is a class. Explicit location (path), not in 'node_modules'.
 var Gpio = require('onoff').Gpio; // Constructor function for Gpio objects.
 
-// Try that:
 Gpio.prototype.high = function() {
   this.writeSync(HIGH);
 };    

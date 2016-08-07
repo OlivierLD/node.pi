@@ -1,14 +1,5 @@
 "use strict";
 
-var debug = false;
-console.log("Usage: node " + __filename + " [debug]");
-
-if (process.argv.length > 2) {
-  if (process.argv[2] === 'debug') {
-    debug = true;
-  }
-}
-
 var BME280 = require('./bme280.js').BME280;
 
 var bme280 = new BME280();
@@ -21,6 +12,7 @@ var iv = setInterval(function () {
     console.log("Temperature : " + temp.toFixed(2) + "°C");
     console.log("Humidity    : " + bme280.readHumidity().toFixed(2) + " %");
     console.log("Pressure    : " + (bme280.readPressure() / 100).toFixed(2) + " hPa");
+    console.log("--------------------------------");
   });
 }, 1000);
 

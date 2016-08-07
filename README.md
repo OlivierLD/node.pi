@@ -1,9 +1,13 @@
 ## Sample scripts for nodejs on the Raspberry PI
+This project is gathering scripts based on two `nodejs` modules: [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
+
+This goal is to provide a JavaScript access to sensors, PCBs and accessories hooked up on a Raspberry PI, 
+like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
 
 ### First installation
-We assume you have installed `nodejs` and `npm` on the Raspberry PI.
-After cloning this repository on the RaspberryPI, run the following command from the root directory of the project
-(the one containing `package.json`)
+We assume you have already installed `nodejs` and `npm` on the Raspberry PI.
+After cloning this repository on the RaspberryPI, run the following command from the root directory 
+of the project (the one containing `package.json`):
 ```
  $> npm install
 ```
@@ -13,7 +17,7 @@ This will install the required nodejs modules.
 The source is in `mcp3008.js`.
 To run a test script:
 ```
- $> node test_mcp3008.js
+ $> node testMcp3008.js
 ```
 The pin numbers are always something, depending on the framework you are using (PI4J, WiringPI, onoff, etc).
 The wiring corresponding to the code is that one:
@@ -23,7 +27,7 @@ The wiring corresponding to the code is that one:
 The source is in `mbe280.js`.
 To run a test script:
 ```
- $> node test_mbe280.js
+ $> node testMbe280.js
 ```
 
 ### To debug a nodejs application:
@@ -34,10 +38,10 @@ $> [sudo] npm install -g node-inspector
 ```
 Then
 ```
-$> node-debug server.js
+$> node-debug testUtils.js
 Node Inspector v0.12.8
 Visit http://127.0.0.1:8080/?port=5858 to start debugging.
-Debugging `server.js`
+Debugging `testUtils.js`
 
 Debugger listening on port 5858
 ```
