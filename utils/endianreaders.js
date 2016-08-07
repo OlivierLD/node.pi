@@ -8,10 +8,10 @@ var Endianness = {
 /**
  * Read an unsigned byte from the I2C device
  */
-var readU8 = function(device, i2caddr, reg) {
+var readU8 = function(device, i2cAddr, reg) {
   var result = 0;
   try {
-    result = device.readByteSync(i2caddr, reg);
+    result = device.readByteSync(i2cAddr, reg);
   } catch (ex) {
     console.log(ex);
   }
@@ -21,10 +21,10 @@ var readU8 = function(device, i2caddr, reg) {
 /**
  * Read a signed byte from the I2C device
  */
-var readS8 = function(device, i2caddr, reg) {
+var readS8 = function(device, i2cAddr, reg) {
   var result = 0;
   try {
-    result = device.readByteSync(i2caddr, reg); // & 0x7F;
+    result = device.readByteSync(i2cAddr, reg); // & 0x7F;
     if (result > 127) {
       result -= 256;
     }
@@ -34,38 +34,38 @@ var readS8 = function(device, i2caddr, reg) {
   return result; // & 0xFF;
 };
 
-var readU16 = function(device, i2caddr, register, endianness) {
-  var hi = readU8(device, i2caddr, register);
-  var lo = readU8(device, i2caddr, register + 1);
+var readU16 = function(device, i2cAddr, register, endianness) {
+  var hi = readU8(device, i2cAddr, register);
+  var lo = readU8(device, i2cAddr, register + 1);
   return ((endianness === Endianness.BIG_ENDIAN) ? (hi << 8) + lo : (lo << 8) + hi); // & 0xFFFF;
 };
 
-var readS16 = function(device, i2caddr, register, endianness) {
+var readS16 = function(device, i2cAddr, register, endianness) {
   var hi = 0, lo = 0;
   if (endianness === Endianness.BIG_ENDIAN) {
-    hi = readS8(device, i2caddr, register);
-    lo = readU8(device, i2caddr, register + 1);
+    hi = readS8(device, i2cAddr, register);
+    lo = readU8(device, i2cAddr, register + 1);
   } else {
-    lo = readU8(device, i2caddr, register);
-    hi = readS8(device, i2caddr, register + 1);
+    lo = readU8(device, i2cAddr, register);
+    hi = readS8(device, i2cAddr, register + 1);
   }
   return ((hi << 8) + lo); // & 0xFFFF;
 };
 
-var readU16LE = function(device, i2caddr, register) {
-  return readU16(device, i2caddr, register, Endianness.LITTLE_ENDIAN);
+var readU16LE = function(device, i2cAddr, register) {
+  return readU16(device, i2cAddr, register, Endianness.LITTLE_ENDIAN);
 };
 
-var readU16BE = function(device, i2caddr, register) {
-  return readU16(device, i2caddr, register, Endianness.BIG_ENDIAN);
+var readU16BE = function(device, i2cAddr, register) {
+  return readU16(device, i2cAddr, register, Endianness.BIG_ENDIAN);
 };
 
-var readS16LE = function(device, i2caddr, register) {
-  return readS16(device, i2caddr, register, Endianness.LITTLE_ENDIAN);
+var readS16LE = function(device, i2cAddr, register) {
+  return readS16(device, i2cAddr, register, Endianness.LITTLE_ENDIAN);
 };
 
-var readS16BE = function(device, i2caddr, register) {
-  return readS16(device, i2caddr, register, Endianness.BIG_ENDIAN);
+var readS16BE = function(device, i2cAddr, register) {
+  return readS16(device, i2cAddr, register, Endianness.BIG_ENDIAN);
 };
 
 // Made public.

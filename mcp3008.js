@@ -32,12 +32,17 @@ Gpio.prototype.tick = function() {
   this.writeSync(LOW);
 };
 
+var defaultClock = 18; // GPIO_18, Wiring/PI4J 1
+var defaultMiso  = 23; // GPIO_23, Wiring/PI4J 4
+var defaultMosi  = 24; // GPIO_24, Wiring/PI4J 5
+var defaultCs    = 25; // GPIO_25, Wiring/PI4J 6
+
 var MCP3008 = function(clock, miso, mosi, cs) {
 
-  clock |= 18; // GPIO_18, Wiring/PI4J 1
-  miso  |= 23; // GPIO_23, Wiring/PI4J 4
-  mosi  |= 24; // GPIO_24, Wiring/PI4J 5
-  cs    |= 25; // GPIO_25, Wiring/PI4J 6
+  clock |= defaultClock;
+  miso  |= defaultMiso;
+  mosi  |= defaultMosi;
+  cs    |= defaultCs;
   console.log("Reading MCP3008: CLK:", clock, "MISO:", miso, "MOSI:", mosi, "CS:", cs);
 
   var debug = false;
@@ -45,14 +50,15 @@ var MCP3008 = function(clock, miso, mosi, cs) {
     debug = val;
   };
 
-  this.CHANNEL_0 = 0;
-  this.CHANNEL_1 = 1;
-  this.CHANNEL_2 = 2;
-  this.CHANNEL_3 = 3;
-  this.CHANNEL_4 = 4;
-  this.CHANNEL_5 = 5;
-  this.CHANNEL_6 = 6;
-  this.CHANNEL_7 = 7;
+  this.channels = {
+    CHANNEL_0: 0,
+    CHANNEL_1: 1,
+    CHANNEL_2: 2,
+    CHANNEL_3: 3,
+    CHANNEL_4: 4,
+    CHANNEL_5: 5,
+    CHANNEL_6: 6,
+    CHANNEL_7: 7 };
 
   var SPI_CLK  = new Gpio(clock, OUT),
       SPI_MISO = new Gpio(miso,  IN), 
@@ -64,7 +70,7 @@ var MCP3008 = function(clock, miso, mosi, cs) {
   SPI_CS.low();
 
   this.readAdc = function(ch) {
-  	ch |= this.CHANNEL_0;
+  	ch |= this.channels.CHANNEL_0;
 
     SPI_CS.high();
     SPI_CLK.low();

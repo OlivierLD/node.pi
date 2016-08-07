@@ -17,7 +17,7 @@ if (debug === true) {
 }
 
 var iv = setInterval(function () {
-  var adc = mcp3008.readAdc(mcp3008.CHANNEL_0);
+  var adc = mcp3008.readAdc(mcp3008.channels.CHANNEL_0);
   console.log("Val:" + adc);
 }, 1000);
 
