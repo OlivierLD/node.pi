@@ -76,29 +76,29 @@ var MCP3008 = function(clock, miso, mosi, cs) {
     SPI_CLK.low();
     SPI_CS.low();
     
-    var adccommand = ch;
+    var adcCommand = ch;
     if (debug) {
-      console.log(">> 1 -       ADCCOMMAND", utils.hexFmt(adccommand, 4), utils.binFmt(adccommand, 16));
+      console.log(">> 1 -       ADCCOMMAND", utils.hexFmt(adcCommand, 4), utils.binFmt(adcCommand, 16));
     }
-    adccommand |= 0x18; // 0x18: 00011000
+    adcCommand |= 0x18; // 0x18: 00011000
     if (debug) {
-      console.log(">> 2 -       ADCCOMMAND", utils.hexFmt(adccommand, 4), utils.binFmt(adccommand, 16));
+      console.log(">> 2 -       ADCCOMMAND", utils.hexFmt(adcCommand, 4), utils.binFmt(adcCommand, 16));
     }
-    adccommand <<= 3;
+    adcCommand <<= 3;
     if (debug) {
-      console.log(">> 3 -       ADCCOMMAND", utils.hexFmt(adccommand, 4), utils.binFmt(adccommand, 16));
+      console.log(">> 3 -       ADCCOMMAND", utils.hexFmt(adcCommand, 4), utils.binFmt(adcCommand, 16));
     }
     // Send 5 bits: 8 - 3. 8 input channels on the MCP3008.
     for (var i=0; i<5; i++) {
       if (debug) {
-        console.log(">> 4 - (i=" + i + ") ADCCOMMAND", utils.hexFmt(adccommand, 4), utils.binFmt(adccommand, 16));
+        console.log(">> 4 - (i=" + i + ") ADCCOMMAND", utils.hexFmt(adcCommand, 4), utils.binFmt(adcCommand, 16));
       }
-      if ((adccommand & 0x80) != 0x0) { // 0x80 = 0&10000000
+      if ((adcCommand & 0x80) != 0x0) { // 0x80 = 0&10000000
         SPI_MOSI.high();
       } else {
         SPI_MOSI.low();
       }
-      adccommand <<= 1;      
+      adcCommand <<= 1;
       SPI_CLK.tick();
     }
     var adcOut = 0;
