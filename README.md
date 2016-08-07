@@ -1,4 +1,4 @@
-## Sample script for nodejs on the Raspberry PI
+## Sample scripts for nodejs on the Raspberry PI
 
 ### First installation
 We assume you have installed `nodejs` and `npm` on the Raspberry PI.
