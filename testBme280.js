@@ -18,10 +18,10 @@ bme280.init();
 
 var iv = setInterval(function () {
   bme280.readTemperature(function(temp) {
-    console.log("Temperature : " + temp.toFixed(2) + " C");
+    console.log("Temperature : " + temp.toFixed(2) + "°C");
+    console.log("Humidity    : " + bme280.readHumidity().toFixed(2) + " %");
+    console.log("Pressure    : " + (bme280.readPressure() / 100).toFixed(2) + " hPa");
   });
-  console.log("Humidity    : " + bme280.readHumidity().toFixed(2) + " %");
-  console.log("Pressure    : " + (bme280.readPressure() / 100).toFixed(2) + " hPa");
 }, 1000);
 
 setTimeout(function () {

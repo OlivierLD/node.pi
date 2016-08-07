@@ -26,7 +26,6 @@ setTimeout(function () {
   exit();
 }, 100000);
 
-
 // cleanup GPIO on exit
 function exit() {
   mcp3008.shutdown();
