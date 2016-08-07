@@ -2,6 +2,7 @@
 
 var debug = false;
 console.log("Usage: node " + __filename + " [debug]");
+console.log("Ctrl+C to stop");
 
 if (process.argv.length > 2) {
   if (process.argv[2] === 'debug') {
