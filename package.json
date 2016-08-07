@@ -4,11 +4,18 @@
   "description": "Samples scripts for nodejs on the Raspberry PI, using onoff.js",
   "keywords": [
     "RaspberryPI",
-    "onoff"
+    "onoff",
+    "i2c-bus",
+    "I2C",
+    "ADC",
+    "SPI",
+    "sensor",
+    "robot"
   ],
   "license": "MIT",
   "dependencies": {
-    "onoff": "^1.1.1"
+    "onoff": "^1.1.1",
+    "i2c-bus": "^1.1.1"
   },
   "main": "test_mcp3008.js",
   "devDependencies": {},

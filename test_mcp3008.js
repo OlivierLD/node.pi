@@ -9,8 +9,6 @@ if (process.argv.length > 2) {
   }
 }
 
-var AIOKey = process.argv[2];
-
 var MCP3008 = require('./mcp3008.js').MCP3008; // This is a class. Explicit location (path), not in 'node_modules'.
 
 var mcp3008 = new MCP3008();
