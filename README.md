@@ -32,6 +32,11 @@ To run a test script:
 _Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
 
+### To come...
+ * FONA
+ * Servo HAT
+ * ... and more
+
 ### To debug a nodejs application:
 
 To do once:
