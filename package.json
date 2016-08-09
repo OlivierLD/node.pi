@@ -15,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "onoff": "^1.1.1",
-    "i2c-bus": "^1.1.1"
+    "i2c-bus": "^1.1.1",
+    "serialport": "^4.0.1"
   },
   "main": "test_mcp3008.js",
   "devDependencies": {},
