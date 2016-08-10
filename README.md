@@ -32,10 +32,16 @@ To run a test script:
 _Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
 
+### Read GPS data, through a Serial port
+See the code in `NMEAReader.js` and `NMEAParser.js`.
+To run a test script:
+```
+ $> sudo node testGPS.js
+```
+
 ### To come...
  * FONA
  * Servo HAT
- * Read GPS Data
  * ... and more
 
 ### To debug a nodejs application:

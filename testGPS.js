@@ -4,6 +4,9 @@ var GPS = require('./NMEAReader.js').NMEA;
 // var gps = new GPS('/dev/ttyUSB0', 4800);
 var gps = new GPS();
 
+gps.onPosition = function(pos) {
+  console.log("Position:", pos);
+};
 
 var exit = function() {
   gps.exit();

@@ -9,6 +9,8 @@ var NMEAParser = require('./NMEAParser.js');
 
 var NMEA = function(serial, br) {
 
+  var instance = this;
+
   if (serial === undefined) {
     serial = '/dev/ttyUSB0';
   }
@@ -50,13 +52,38 @@ var NMEA = function(serial, br) {
           if (isSentenceCompleted(sentences[i])) {
             try {
               var id = NMEAParser.validate(sentences[i]); // Validation!
-              console.log(">> Sentence: ", sentences[i]); // TODO Manage that one
               if (id !== undefined) {
-                if (id.id === 'RMC') { // TODO a switch?
-                  var rmc = NMEAParser.parseRMC(sentences[i]);
-                  if (rmc !== undefined) {
-                    console.log("RMC:", rmc);
-                  }
+                switch (id.id) {
+                  case 'RMC':
+                    var rmc = NMEAParser.parseRMC(sentences[i]);
+                    if (rmc !== undefined) {
+                      console.log("RMC:", rmc);
+                      if (instance.onPosition !== undefined) {
+                        if (rmc.pos !== undefined) {
+                          instance.onPosition(rmc.pos);
+                        }
+                      }
+                      if (instance.onTime !== undefined) {
+                        if (rmc.epoch !== undefined) {
+                          instance.onTime(rmc.epoch);
+                        }
+                      }
+                      if (instance.onCOG !== undefined) {
+                        if (rmc.cog !== undefined) {
+                          instance.onCOG(rmc.cog);
+                        }
+                      }
+                      if (instance.onSOG !== undefined) {
+                        if (rmc.sog !== undefined) {
+                          instance.onSOG(rmc.sog);
+                        }
+                      }
+                    }
+                    break;
+                  default:
+                    console.log(id.id + " not managed yet");
+                    console.log(">> Sentence: ", sentences[i]);
+                    break;
                 }
               }
             } catch (err) {
