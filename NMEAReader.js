@@ -27,7 +27,6 @@ var NMEA = function(serial, br) {
     console.log('Port open');
   });
 
-  var received = "";
   var dataBuffer = Buffer.from("");
 
   var EOS = "\r\n";
