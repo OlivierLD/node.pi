@@ -49,10 +49,18 @@ var NMEA = function(serial, br) {
         if (sentences[i].charAt(0) === '$') {
           if (isSentenceCompleted(sentences[i])) {
             try {
-              NMEAParser.validate(sentences[i]); // Validation!
+              var id = NMEAParser.validate(sentences[i]); // Validation!
               console.log(">> Sentence: ", sentences[i]); // TODO Manage that one
+              if (id !== undefined) {
+                if (id.id === 'RMC') { // TODO a switch?
+                  var rmc = NMEAParser.parseRMC(sentences[i]);
+                  if (rmc !== undefined) {
+                    console.log("RMC:", rmc);
+                  }
+                }
+              }
             } catch (err) {
-              console.log("Argh!");
+              console.log("Argh!", err);
             }
           } else {
             dataBuffer = Buffer.from(sentences[i]);
@@ -76,6 +84,11 @@ var NMEA = function(serial, br) {
   this.exit = function() {
     port.close();
   };
+
+  this.onPosition;
+  this.onTime;
+  this.onCOG;
+  this.onSOG;
 };
 
 // Made public.
