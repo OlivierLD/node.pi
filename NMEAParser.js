@@ -127,25 +127,25 @@ var decToSex = function(val, ns_ew) {
   return s;
 }
 
+// Tests
+var tests = function() {
+  var val = sexToDec(333, 22.07);
+  console.log(val);
+  var ret = decToSex(val, 'EW');
+  console.log(ret);
+
+  var rmc = "$IIRMC,225158,A,3730.075,N,12228.854,W,,,021014,15,E,A*3C";
+  console.log(rmc);
+  console.log(validate(rmc));
+  var parsed = parseRMC(rmc);
+  console.log(parsed);
+  console.log("Pos: " + decToSex(parsed.pos.lat, 'NS') + " " + decToSex(parsed.pos.lon, 'NS'));
+  var date = new Date(parsed.epoch);
+  console.log(date);
+};
 
 // Made public.
 exports.validate = validate;
 exports.toDegMin = decToSex;
 exports.parseRMC = parseRMC;
 
-// Tests
-/*
-var val = sexToDec(333, 22.07);
-console.log(val);
-var ret = decToSex(val, 'EW');
-console.log(ret);
-
-var rmc = "$IIRMC,225158,A,3730.075,N,12228.854,W,,,021014,15,E,A*3C";
-console.log(rmc);
-console.log(validate(rmc));
-var parsed = parseRMC(rmc);
-console.log(parsed);
-console.log("Pos: " + decToSex(parsed.pos.lat, 'NS') + " " + decToSex(parsed.pos.lon, 'NS'));
-var date = new Date(parsed.epoch);
-console.log(date);
-*/
