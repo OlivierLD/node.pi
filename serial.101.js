@@ -2,27 +2,22 @@
 
 /*
  * Doc at https://www.npmjs.com/package/serialport
+ * Use this to see if your serial output is available and readable.
  */
 
 var SerialPort = require('serialport');
 var port = new SerialPort('/dev/ttyUSB0', {
-  baudRate: 9600,
+  baudRate: 4800,
   parser: SerialPort.parsers.raw
 });
  
 port.on('open', function() {
   console.log('Port open');
-//  port.write('main screen turn on', function(err) {
-//    if (err) {
-//      return console.log('Error on write: ', err.message);
-//    }
-//    console.log('message written');
-//  });
 });
 
 port.on('data', function (data) {
   try {
-    console.log('Data: ', data);
+    console.log(data.toString());
   } catch (err) {
     console.log('Oops');
   }

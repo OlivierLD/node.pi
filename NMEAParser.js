@@ -1,3 +1,5 @@
+"use strict";
+
 var nmea = "$IIRMC,225158,A,3730.075,N,12228.854,W,,,021014,15,E,A*3C";
 
 var checksum = function(str) {
@@ -34,8 +36,7 @@ var validate = function(str) {
   var sentenceId = str.substring(3, 6);
 
   var chunks = nmea.split(",");
-  console.log("There are " + chunks.length + " chunk(s)");
-  
+  // TODO Keep going...
 };
 
 
@@ -57,3 +58,5 @@ try {
   console.log("Error:", err);
 }
 
+// Made public.
+exports.validate = validate;
