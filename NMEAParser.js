@@ -97,7 +97,6 @@ var parseRMC = function(str) {
   if (data[11] === 'W') {
     W = -W;
   }
-
   return { type: "RMC", epoch: d.getTime(), sog: sog, cog: cog, variation: W, pos: {lat: lat, lon: lon} };
 };
 

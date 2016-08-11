@@ -56,7 +56,7 @@ var NMEA = function(serial, br) {
                   case 'RMC':
                     var rmc = NMEAParser.parseRMC(sentences[i]);
                     if (rmc !== undefined) {
-                      console.log("RMC:", rmc);
+                //    console.log("RMC:", rmc);
                       if (instance.onPosition !== undefined) {
                         if (rmc.pos !== undefined) {
                           instance.onPosition(rmc.pos);
@@ -80,8 +80,7 @@ var NMEA = function(serial, br) {
                     }
                     break;
                   default:
-                    console.log(id.id + " not managed yet");
-                    console.log(">> Sentence: ", sentences[i]);
+               //   console.log(">> Sentence: " + sentences[i] + " not managed yet");
                     break;
                 }
               }
