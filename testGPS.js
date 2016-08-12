@@ -1,5 +1,8 @@
 "use strict";
 
+console.log('To stop: Ctrl-C, or enter "quit" + [return]');
+
+var util = require('util');
 var GPS = require('./NMEAReader.js').NMEA;
 var gps = new GPS('/dev/ttyUSB0', 4800);
 // var gps = new GPS();
@@ -13,6 +16,22 @@ gps.onTime = function(epoch) {
 
 var exit = function() {
   gps.exit();
+  process.stdin.pause();
 };
 
 process.on('SIGINT', exit); // Ctrl C
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', function (text) {
+//console.log('received data:', util.inspect(text));
+  if (text.startsWith('quit')) {
+    done();
+  }
+});
+
+function done() {
+  console.log("Bye now!");
+  exit();
+  process.exit();
+};
