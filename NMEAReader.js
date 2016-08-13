@@ -52,36 +52,40 @@ var NMEA = function(serial, br) {
             try {
               var id = NMEAParser.validate(sentences[i]); // Validation!
               if (id !== undefined) {
-                switch (id.id) {
-                  case 'RMC':
-                    var rmc = NMEAParser.parseRMC(sentences[i]);
-                    if (rmc !== undefined) {
-                //    console.log("RMC:", rmc);
-                      if (instance.onPosition !== undefined) {
-                        if (rmc.pos !== undefined) {
-                          instance.onPosition(rmc.pos);
+                if (global.displayMode === 'fmt') {
+                  switch (id.id) {
+                    case 'RMC':
+                      var rmc = NMEAParser.parseRMC(sentences[i]);
+                      if (rmc !== undefined) {
+                  //    console.log("RMC:", rmc);
+                        if (instance.onPosition !== undefined) {
+                          if (rmc.pos !== undefined) {
+                            instance.onPosition(rmc.pos);
+                          }
+                        }
+                        if (instance.onTime !== undefined) {
+                          if (rmc.epoch !== undefined) {
+                            instance.onTime(rmc.epoch);
+                          }
+                        }
+                        if (instance.onCOG !== undefined) {
+                          if (rmc.cog !== undefined) {
+                            instance.onCOG(rmc.cog);
+                          }
+                        }
+                        if (instance.onSOG !== undefined) {
+                          if (rmc.sog !== undefined) {
+                            instance.onSOG(rmc.sog);
+                          }
                         }
                       }
-                      if (instance.onTime !== undefined) {
-                        if (rmc.epoch !== undefined) {
-                          instance.onTime(rmc.epoch);
-                        }
-                      }
-                      if (instance.onCOG !== undefined) {
-                        if (rmc.cog !== undefined) {
-                          instance.onCOG(rmc.cog);
-                        }
-                      }
-                      if (instance.onSOG !== undefined) {
-                        if (rmc.sog !== undefined) {
-                          instance.onSOG(rmc.sog);
-                        }
-                      }
-                    }
-                    break;
-                  default:
-               //   console.log(">> Sentence: " + sentences[i] + " not managed yet");
-                    break;
+                      break;
+                    default:
+                 //   console.log(">> Sentence: " + sentences[i] + " not managed yet");
+                      break;
+                  }
+                } else {
+                  console.log(sentences[i]);
                 }
               }
             } catch (err) {

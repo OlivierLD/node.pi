@@ -1,19 +1,29 @@
 "use strict";
 
-console.log('To stop: Ctrl-C, or enter "quit" + [return]');
+console.log('To stop: Ctrl-C, or enter "quit" + [return] her ein the console');
+console.log("Usage: node " + __filename + " [raw]|fmt");
+
+global.displayMode = "raw";
+
+if (process.argv.length > 2) {
+  if (process.argv[2] === 'fmt') {
+    global.displayMode = "fmt";
+  }
+}
 
 var util = require('util');
 var GPS = require('./NMEAReader.js').NMEA;
 var gps = new GPS('/dev/ttyUSB0', 4800);
 // var gps = new GPS();
 
-gps.onPosition = function(pos) {
-  console.log("Position:", pos);
-};
-gps.onTime = function(epoch) {
-  console.log("Time: " + new Date(epoch));
-};
-
+if (global.displayMode === 'fmt') {
+  gps.onPosition = function(pos) {
+    console.log("Position:", pos);
+  };
+  gps.onTime = function(epoch) {
+    console.log("Time: " + new Date(epoch));
+  };
+}
 var exit = function() {
   gps.exit();
   process.stdin.pause();
