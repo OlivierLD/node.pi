@@ -1,4 +1,5 @@
-## <img src="http://code-maven.com/img/node.png" width="70" height="62" alt="NodeJS server"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShXziEYSrwRD_qhgn29_PZsGBBTcrqty5O3dTViH1OpylgCpiQBg"  width="51" height="62" alt="Raspberry PI"> Sample scripts for nodejs on the Raspberry PI
+<img src="http://code-maven.com/img/node.png" width="70" height="62" alt="NodeJS server"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShXziEYSrwRD_qhgn29_PZsGBBTcrqty5O3dTViH1OpylgCpiQBg"  width="51" height="62" alt="Raspberry PI"> 
+## Sample scripts for nodejs on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
 This goal is to provide a JavaScript access to sensors, PCBs and accessories hooked up on a Raspberry PI, 
