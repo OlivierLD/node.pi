@@ -13,7 +13,7 @@ of the project (the one containing `package.json`):
 ```
 This will install the required nodejs modules.
 
-### MCP3008. Analog to Digital Converter
+### MCP3008. Analog to Digital Converter with SPI interface.
 The source is in `mcp3008.js`.
 To run a test script:
 ```
@@ -30,6 +30,7 @@ To run a test script:
  Val:815
  Val:967
  Val:972
+ ...
 ```
 The pin numbers are always something, depending on the framework you are using (PI4J, WiringPI, onoff, etc).
 The wiring corresponding to the code is that one:
@@ -53,6 +54,7 @@ To run a test script:
  Humidity    : 61.10 %
  Pressure    : 1017.17 hPa
  --------------------------------
+ ...
 ```
 _Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
@@ -89,6 +91,7 @@ To run a test script:
   $GPGSA,A,3,20,21,15,13,10,29,,,,,,,2.3,1.5,1.8*33
   $GPGSV,3,1,12,20,24,056,34,21,64,070,33,15,33,055,35,13,08,036,16*74
   $GPGSV,3,1,12,20,24,056,34,21,64,070,33,15,33,055,35,13,08,036,16*74
+  ...
 ```
 or
 ```
@@ -109,6 +112,57 @@ or
  Time: Sat Aug 13 2016 01:45:46 GMT+0000 (UTC)
  Position: { lat: 37.748895, lon: -122.506955 }
  Time: Sat Aug 13 2016 01:45:46 GMT+0000 (UTC)
+ ...
+```
+
+### I2C L3GD20 (Gyroscope)
+See the code in `l3gd20.js`.
+To run a test script:
+```
+ $> sudo node testL3gd20.js
+    To stop: Ctrl-C
+    Usage: node /home/pi/node.pi/testL3gd20.js [verbose]
+    Init...
+    Starting...
+    Calibrating X, please do not move the sensor...
+    Calibrating Y, please do not move the sensor...
+    Calibrating Z, please do not move the sensor...
+    >> X:0 Y:0 Z:0
+    >> X:0 Y:0.7393750000000003 Z:-10.399375000000001
+    >> X:-0.6216874999999997 Y:3.5393750000000006 Z:-59.189375000000005
+    >> X:0 Y:0 Z:-6.383125000000001
+    >> X:0.19206250000000002 Y:-1.3256249999999996 Z:8.220625
+    >> X:-0.2891874999999997 Y:0 Z:0
+    >> X:0 Y:-0.3368749999999996 Z:0
+    >> X:-0.3154374999999998 Y:-0.22312499999999957 Z:0
+    >> X:0 Y:-0.17937499999999984 Z:0
+    >> X:-0.15793750000000006 Y:0 Z:0
+    >> X:0.12206250000000018 Y:0.32812500000000044 Z:0
+    >> X:0.1483125000000003 Y:0.4506250000000005 Z:0
+    >> X:-0.4991875000000001 Y:0.5381250000000004 Z:-18.388125000000002
+    >> X:-0.48168750000000005 Y:1.8068750000000007 Z:-33.306875000000005
+    >> X:-0.5079374999999997 Y:2.314375000000001 Z:-35.98437500000001
+    >> X:-0.6391874999999998 Y:4.633125000000001 Z:-74.904375
+    >> X:3.6745625000000004 Y:6.418125000000002 Z:-97.72437500000001
+    >> X:-1.0504375000000001 Y:4.886875000000001 Z:-76.313125
+    >> X:-0.4904375000000001 Y:3.4868750000000004 Z:-51.760625000000005
+    >> X:-0.2279374999999999 Y:1.7718750000000005 Z:-41.426875
+    >> X:-0.1754374999999997 Y:4.213125000000001 Z:-67.274375
+    >> X:3.7095625000000005 Y:4.554375000000001 Z:-71.150625
+    >> X:4.1033125 Y:4.493125000000001 Z:-77.091875
+    >> X:3.5433125000000003 Y:2.1831250000000004 Z:-49.39812500000001
+    >> X:6.308312500000001 Y:2.349375 Z:-78.544375
+    >> X:6.387062500000001 Y:2.751875000000001 Z:-97.356875
+    >> X:6.868312500000001 Y:1.2993750000000004 Z:-80.058125
+    >> X:-1.8904375 Y:3.670625000000001 Z:-27.706875000000004
+    >> X:-4.217937500000001 Y:5.718125000000001 Z:-29.885625000000005
+    >> X:-0.8754375000000003 Y:1.8943750000000001 Z:-36.010625000000005
+    >> X:-7.936687500000001 Y:2.988125000000001 Z:19.770625000000003
+    >> X:-3.3954375 Y:-6.024375 Z:67.43187500000002
+    >> X:0.7170625000000004 Y:-7.958125000000001 Z:78.77187500000001
+    >> X:0.5858125000000003 Y:-4.974375 Z:62.16437500000001
+    >> X:-0.1404375 Y:0 Z:0
+ ...
 ```
 
 ### To come...
@@ -134,4 +188,4 @@ Debugger listening on port 5858
 ```
 
 Then open Chrome, and load the URL above.
-Switch to the "Sources" tab, set your breakpoints, and begin debugging!
+Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, and begin debugging!

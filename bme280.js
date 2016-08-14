@@ -4,8 +4,8 @@
  * Doc is at https://www.npmjs.com/package/i2c-bus
  */
 
-var utils = require('./utils/utils.js');                 // This is a class. Explicit location (path), not in 'node_modules'.
-var EndianReaders = require('./utils/endianreaders.js'); // This is a class. Explicit location (path), not in 'node_modules'.
+var utils = require('./utils/utils.js');
+var EndianReaders = require('./utils/endianreaders.js').EndianReaders;
 var i2c   = require('i2c-bus');
 
 var BME280_I2CADDR = 0x77;

@@ -1,6 +1,6 @@
 "use strict";
 
-console.log('To stop: Ctrl-C, or enter "quit" + [return] her ein the console');
+console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
 console.log("Usage: node " + __filename + " [raw]|fmt");
 
 global.displayMode = "raw";

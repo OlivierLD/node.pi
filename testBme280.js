@@ -1,5 +1,15 @@
 "use strict";
 
+console.log('To stop: Ctrl-C');
+console.log("Usage: node " + __filename + " [verbose]");
+global.verbose = false;
+
+if (process.argv.length > 2) {
+  if (process.argv[2] === 'verbose') {
+    global.verbose = true;
+  }
+}
+
 var BME280 = require('./bme280.js').BME280;
 
 var bme280 = new BME280();
