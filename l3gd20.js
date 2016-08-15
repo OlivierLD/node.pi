@@ -127,7 +127,9 @@ var L3GD20 = function(addr) {
     var current = EndianReaders.readU8(i2c1, addr, register);
     var newValue = BitOps.setValueUnderMask(value, current, mask);
     if (global.verbose === true) {
-      console.log("(Write) I2C: Device " + utils.hexFmt(addr, 2) + " writing " + utils.hexFmt(newValue, 2) + " to reg " + utils.hexFmt(register, 2));
+      console.log("(Write) I2C: Device " + utils.hexFmt(addr, 2) +
+                             " writing " + utils.hexFmt(newValue, 2) +
+                              " to reg " + utils.hexFmt(register, 2));
     }
     i2c1.writeByteSync(addr, register, newValue);
   };
@@ -399,7 +401,9 @@ var L3GD20 = function(addr) {
 
   this.setAxisXEnabled = function(enabled) {
     if (global.verbose === true) {
-      console.log("setAxisXEnabled: enabled " + enabled + " (" + (enabled === true) + "), setting to " + (enabled === true ? L3GD20Dictionaries.TRUE : L3GD20Dictionaries.FALSE));
+      console.log("setAxisXEnabled: enabled " + enabled +
+                  " (" + (enabled === true) + "), setting to " +
+                  (enabled === true ? L3GD20Dictionaries.TRUE : L3GD20Dictionaries.FALSE));
     }
     writeToRegisterWithDictionaryCheck(L3GD20_REG_RW_CTRL_REG1,
                                        L3GD20_MASK_CTRL_REG1_Xen,
@@ -458,11 +462,15 @@ var L3GD20 = function(addr) {
   };
 
   var getPowerMode = function() {
-    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_PD | L3GD20_MASK_CTRL_REG1_Xen | L3GD20_MASK_CTRL_REG1_Yen | L3GD20_MASK_CTRL_REG1_Zen);
+    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1,
+                                     L3GD20_MASK_CTRL_REG1_PD |
+                                     L3GD20_MASK_CTRL_REG1_Xen |
+                                     L3GD20_MASK_CTRL_REG1_Yen |
+                                     L3GD20_MASK_CTRL_REG1_Zen);
     var dictval = -1;
     if (!BitOps.checkBit(powermode, 3)) {
       dictval = 0;
-    } else if (powermode == 0b1000) {
+    } else if (powermode == 0x8) { // 0b1000) { // L3GD20_MASK_CTRL_REG1_PD, Power Down
       dictval = 1;
     } else if (BitOps.checkBit(powermode, 3)) {
       dictval = 2;

@@ -19,7 +19,9 @@ var EndianReaders = {
       console.log(ex);
     }
     if (global.verbose === true) {
-      console.log("(U8) I2C: Device " + utils.hexFmt(i2cAddr, 2) + " returned " + utils.hexFmt(result, 2) + " from reg " + utils.hexFmt(reg, 2));
+      console.log("(U8) I2C: Device " + utils.hexFmt(i2cAddr, 2) +
+                         " returned " + utils.hexFmt(result, 2) +
+                         " from reg " + utils.hexFmt(reg, 2));
     }
     return result; // & 0xFF;
   },
@@ -37,7 +39,9 @@ var EndianReaders = {
       console.log(ex);
     }
     if (global.verbose === true) {
-      console.log("(S8) I2C: Device " + utils.hexFmt(i2cAddr, 2) + " returned " + utils.hexFmt(result, 2) + " from reg " + utils.hexFmt(reg, 2));
+      console.log("(S8) I2C: Device " + utils.hexFmt(i2cAddr, 2) +
+                         " returned " + utils.hexFmt(result, 2) +
+                         " from reg " + utils.hexFmt(reg, 2));
     }
     return result; // & 0xFF;
   },
