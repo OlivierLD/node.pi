@@ -33,12 +33,17 @@ l3gd20.calibrate();
 
 var prevX, prevY, prevZ;
 
+var minX, maxX, minY, maxY, minZ, maxZ;
+
 var iv = setInterval(function () {
   var data = l3gd20.getCalOutValue();
   var x = data[0], y = data[1], z = data[2];
   if (x !== prevX || y !== prevY || z !== prevZ) {
     console.log(">> X:" + x + " Y:" + y + " Z:" + z);
   }
+  minX = Math.min(x, minX); maxX = Math.max(x, maxX);
+  minY = Math.min(y, minY); maxY = Math.max(y, maxY);
+  minZ = Math.min(z, minZ); maxZ = Math.max(z, maxZ);
   prevX = x; prevY = y; prevZ = z;
 }, 20);
 
@@ -51,6 +56,9 @@ setTimeout(function () {
 var exit = function() {
   console.log("Bye!");
   l3gd20.shutdown();
+  console.log("x in [" + minX + ", " + maxX +
+           "], y in [" + minY + ", " + maxY +
+           "], z in [" + minZ + ", " + maxZ + "]");
   process.exit();
 }
 process.on('SIGINT', exit); // Ctrl C
