@@ -2,7 +2,7 @@
 ## Sample scripts for nodejs on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
-This goal is to provide a JavaScript access to sensors, PCBs and accessories hooked up on a Raspberry PI, 
+This goal is to provide a JavaScript access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
 like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
 
 ### First installation

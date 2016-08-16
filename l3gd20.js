@@ -127,7 +127,9 @@ var L3GD20 = function(addr) {
     var current = EndianReaders.readU8(i2c1, addr, register);
     var newValue = BitOps.setValueUnderMask(value, current, mask);
     if (global.verbose === true) {
-      console.log("(Write) I2C: Device " + utils.hexFmt(addr, 2) + " writing " + utils.hexFmt(newValue, 2) + " to reg " + utils.hexFmt(register, 2));
+      console.log("(Write) I2C: Device " + utils.hexFmt(addr, 2) +
+                             " writing " + utils.hexFmt(newValue, 2) +
+                              " to reg " + utils.hexFmt(register, 2));
     }
     i2c1.writeByteSync(addr, register, newValue);
   };
@@ -382,11 +384,17 @@ var L3GD20 = function(addr) {
    * All getters and setters
    */
   var getFullScaleValue = function() {
-    return readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG4, L3GD20_MASK_CTRL_REG4_FS, L3GD20Dictionaries.FullScaleMap);
+    return readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG4,
+                                               L3GD20_MASK_CTRL_REG4_FS,
+                                               L3GD20Dictionaries.FullScaleMap);
   };
 
   this.setFullScaleValue = function(value) {
-    writeToRegisterWithDictionaryCheck(L3GD20_REG_RW_CTRL_REG4, L3GD20_MASK_CTRL_REG4_FS, value, L3GD20Dictionaries.FullScaleMap, "FullScaleMap") ;
+    writeToRegisterWithDictionaryCheck(L3GD20_REG_RW_CTRL_REG4,
+                                       L3GD20_MASK_CTRL_REG4_FS,
+                                       value,
+                                       L3GD20Dictionaries.FullScaleMap,
+                                       "FullScaleMap") ;
   };
 
   var returnConfiguration = function() {
@@ -399,7 +407,9 @@ var L3GD20 = function(addr) {
 
   this.setAxisXEnabled = function(enabled) {
     if (global.verbose === true) {
-      console.log("setAxisXEnabled: enabled " + enabled + " (" + (enabled === true) + "), setting to " + (enabled === true ? L3GD20Dictionaries.TRUE : L3GD20Dictionaries.FALSE));
+      console.log("setAxisXEnabled: enabled " + enabled +
+                                         " (" + (enabled === true) + "), setting to " +
+                                                (enabled === true ? L3GD20Dictionaries.TRUE : L3GD20Dictionaries.FALSE));
     }
     writeToRegisterWithDictionaryCheck(L3GD20_REG_RW_CTRL_REG1,
                                        L3GD20_MASK_CTRL_REG1_Xen,
@@ -409,7 +419,9 @@ var L3GD20 = function(addr) {
   };
 
   this.isAxisXEnabled = function() {
-    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_Xen, L3GD20Dictionaries.EnabledMap);
+    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1,
+                                                      L3GD20_MASK_CTRL_REG1_Xen,
+                                                      L3GD20Dictionaries.EnabledMap);
     return enabled === L3GD20Dictionaries.TRUE;
   };
 
@@ -422,7 +434,9 @@ var L3GD20 = function(addr) {
   };
 
   this.isAxisYEnabled = function() {
-    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_Yen, L3GD20Dictionaries.EnabledMap);
+    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1,
+                                                      L3GD20_MASK_CTRL_REG1_Yen,
+                                                      L3GD20Dictionaries.EnabledMap);
     return enabled === L3GD20Dictionaries.TRUE;
   };
 
@@ -435,7 +449,9 @@ var L3GD20 = function(addr) {
   };
 
   this.isAxisZEnabled = function() {
-    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_Zen, L3GD20Dictionaries.EnabledMap);
+    var enabled = readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_CTRL_REG1,
+                                                      L3GD20_MASK_CTRL_REG1_Zen,
+                                                      L3GD20Dictionaries.EnabledMap);
     return enabled === L3GD20Dictionaries.TRUE;
   };
 
@@ -458,7 +474,9 @@ var L3GD20 = function(addr) {
   };
 
   var getPowerMode = function() {
-    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_PD | L3GD20_MASK_CTRL_REG1_Xen | L3GD20_MASK_CTRL_REG1_Yen | L3GD20_MASK_CTRL_REG1_Zen);
+    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_PD |
+                                     L3GD20_MASK_CTRL_REG1_Xen | L3GD20_MASK_CTRL_REG1_Yen |
+                                     L3GD20_MASK_CTRL_REG1_Zen);
     var dictval = -1;
     if (!BitOps.checkBit(powermode, 3)) {
       dictval = 0;
@@ -486,7 +504,9 @@ var L3GD20 = function(addr) {
   };
 
   var getFifoModeValue = function() {
-    return readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_FIFO_CTRL_REG, L3GD20_MASK_FIFO_CTRL_REG_FM, L3GD20Dictionaries.FifoModeMap);
+    return readFromRegisterWithDictionaryMatch(L3GD20_REG_RW_FIFO_CTRL_REG,
+                                               L3GD20_MASK_FIFO_CTRL_REG_FM,
+                                               L3GD20Dictionaries.FifoModeMap);
   };
 
   var setDataRateAndBandwidth = function(datarate, bandwidth) {
@@ -515,7 +535,8 @@ var L3GD20 = function(addr) {
   var getDataRateAndBandwidth = function() {
     var dr;
     var bw;
-    var current = readFromRegister(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_DR | L3GD20_MASK_CTRL_REG1_BW);
+    var current = readFromRegister(L3GD20_REG_RW_CTRL_REG1,
+                                   L3GD20_MASK_CTRL_REG1_DR | L3GD20_MASK_CTRL_REG1_BW);
     for (var drIdx in L3GD20Dictionaries.DataRateBandWidthMap) {
       var drKey = L3GD20Dictionaries.DataRateBandWidthMap[drIdx].dr;
       var drMap = L3GD20Dictionaries.DataRateBandWidthMap[drKey].bw;
