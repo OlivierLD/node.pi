@@ -474,13 +474,15 @@ var L3GD20 = function(addr) {
   };
 
   var getPowerMode = function() {
-    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1, L3GD20_MASK_CTRL_REG1_PD |
-                                     L3GD20_MASK_CTRL_REG1_Xen | L3GD20_MASK_CTRL_REG1_Yen |
+    var powermode = readFromRegister(L3GD20_REG_RW_CTRL_REG1,
+                                     L3GD20_MASK_CTRL_REG1_PD |
+                                     L3GD20_MASK_CTRL_REG1_Xen |
+                                     L3GD20_MASK_CTRL_REG1_Yen |
                                      L3GD20_MASK_CTRL_REG1_Zen);
     var dictval = -1;
     if (!BitOps.checkBit(powermode, 3)) {
       dictval = 0;
-    } else if (powermode == 0b1000) {
+    } else if (powermode == 0x8) { // 0b1000) { // L3GD20_MASK_CTRL_REG1_PD, Power Down
       dictval = 1;
     } else if (BitOps.checkBit(powermode, 3)) {
       dictval = 2;
