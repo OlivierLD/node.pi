@@ -120,7 +120,7 @@
     var view_matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
     // translating z
-    view_matrix[14] = view_matrix[14] - 6;//zoom
+    view_matrix[14] = view_matrix[14] - 6; //zoom
 
     /*==================== Rotation ====================*/
 
@@ -172,6 +172,8 @@
     var animate = function (time) {
 
         var dt = time - time_old;
+        console.log(">> dt= " + dt );
+
         rotateZ(mov_matrix, dt * 0.0005); //time
         rotateY(mov_matrix, dt * 0.0002);
         rotateX(mov_matrix, dt * 0.0003);

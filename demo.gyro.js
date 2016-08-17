@@ -76,8 +76,7 @@ var handler = function(req, res) {
                     contentType = "image/ico";
 
                   res.writeHead(200, {'Content-Type': contentType});
-              //  console.log('Data is ' + typeof(data));
-                  if (resource.endsWith(".jpg") || 
+                  if (resource.endsWith(".jpg") ||
                       resource.endsWith(".gif") ||
                       resource.endsWith(".ico") ||
                       resource.endsWith(".png"))
@@ -109,7 +108,6 @@ var handler = function(req, res) {
     }
   } else {
     console.log("Un-managed request: [" + req.url + "]");
-  //console.log(">>> " + JSON.stringify(req, null, 2));
     respContent = "Response from " + req.url;
     res.writeHead(404, {'Content-Type': 'text/plain'});
     res.end(); // respContent);
