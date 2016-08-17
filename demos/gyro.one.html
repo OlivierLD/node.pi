@@ -7,6 +7,7 @@
     <script type="text/javascript" src="client.gyro.js"></script>
   </head>
   <body style="text-align: center;">
+    <h2>Gyro Cube</h2>
     <table cellspacing="10" style="margin: auto;">
       <tr>
         <td style="width: 100px; text-align: center;">X</td>
@@ -29,27 +30,27 @@
 
     /*============ Defining and storing the geometry =========*/
     var vertices = [
-        -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1,
-        -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1,
-        -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1,
-        1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1,
-        -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1, -1,
-        -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1,
+      -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1,
+      -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1,
+      -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1,
+      1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1,
+      -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1, -1,
+      -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1,
     ];
 
     var colors = [
-        5, 3, 7, 5, 3, 7, 5, 3, 7, 5, 3, 7,
-        1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3,
-        0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
-        1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0,
-        0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0
+      5, 3, 7, 5, 3, 7, 5, 3, 7, 5, 3, 7,
+      1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3,
+      0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+      1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
+      1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0,
+      0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0
     ];
 
     var indices = [
-        0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7,
-        8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15,
-        16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23
+      0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7,
+      8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15,
+      16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23
     ];
 
     // Create and store data into vertex buffer
@@ -120,13 +121,13 @@
 
     /*==================== MATRIX =====================*/
     function get_projection(angle, a, zMin, zMax) {
-        var ang = Math.tan((angle * .5) * Math.PI / 180);  // angle*.5
-        return [
-            0.5 / ang, 0, 0, 0,
-            0, 0.5 * a / ang, 0, 0,
-            0, 0, -(zMax + zMin) / (zMax - zMin), -1,
-            0, 0, (-2 * zMax * zMin) / (zMax - zMin), 0
-        ];
+      var ang = Math.tan((angle * .5) * Math.PI / 180);  // angle*.5
+      return [
+        0.5 / ang, 0, 0, 0,
+        0, 0.5 * a / ang, 0, 0,
+        0, 0, -(zMax + zMin) / (zMax - zMin), -1,
+        0, 0, (-2 * zMax * zMin) / (zMax - zMin), 0
+      ];
     };
 
     var proj_matrix = get_projection(40, canvas.width / canvas.height, 1, 100);
@@ -143,75 +144,74 @@
     };
 
     function rotateZ(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+      var c = Math.cos(angle);
+      var s = Math.sin(angle);
+      var mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
-        m[0] = c * m[0] - s * m[1];
-        m[4] = c * m[4] - s * m[5];
-        m[8] = c * m[8] - s * m[9];
+      m[0] = c * m[0] - s * m[1];
+      m[4] = c * m[4] - s * m[5];
+      m[8] = c * m[8] - s * m[9];
 
-        m[1] = c * m[1] + s * mv0;
-        m[5] = c * m[5] + s * mv4;
-        m[9] = c * m[9] + s * mv8;
+      m[1] = c * m[1] + s * mv0;
+      m[5] = c * m[5] + s * mv4;
+      m[9] = c * m[9] + s * mv8;
     };
 
     function rotateX(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv1 = m[1], mv5 = m[5], mv9 = m[9];
+      var c = Math.cos(angle);
+      var s = Math.sin(angle);
+      var mv1 = m[1], mv5 = m[5], mv9 = m[9];
 
-        m[1] = m[1] * c - m[2] * s;
-        m[5] = m[5] * c - m[6] * s;
-        m[9] = m[9] * c - m[10] * s;
+      m[1] = m[1] * c - m[2] * s;
+      m[5] = m[5] * c - m[6] * s;
+      m[9] = m[9] * c - m[10] * s;
 
-        m[2] = m[2] * c + mv1 * s;
-        m[6] = m[6] * c + mv5 * s;
-        m[10] = m[10] * c + mv9 * s;
+      m[2] = m[2] * c + mv1 * s;
+      m[6] = m[6] * c + mv5 * s;
+      m[10] = m[10] * c + mv9 * s;
     };
 
     function rotateY(m, angle) {
-        var c = Math.cos(angle);
-        var s = Math.sin(angle);
-        var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+      var c = Math.cos(angle);
+      var s = Math.sin(angle);
+      var mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
-        m[0] = c * m[0] + s * m[2];
-        m[4] = c * m[4] + s * m[6];
-        m[8] = c * m[8] + s * m[10];
+      m[0] = c * m[0] + s * m[2];
+      m[4] = c * m[4] + s * m[6];
+      m[8] = c * m[8] + s * m[10];
 
-        m[2] = c * m[2] - s * mv0;
-        m[6] = c * m[6] - s * mv4;
-        m[10] = c * m[10] - s * mv8;
+      m[2] = c * m[2] - s * mv0;
+      m[6] = c * m[6] - s * mv4;
+      m[10] = c * m[10] - s * mv8;
     };
 
     /*================= Drawing ===========================*/
     var move = function (x, y, z) {
+      rotateZ(mov_matrix, z.toRad());
+      rotateY(mov_matrix, y.toRad());
+      rotateX(mov_matrix, x.toRad());
 
-        rotateZ(mov_matrix, z.toRad());
-        rotateY(mov_matrix, y.toRad());
-        rotateX(mov_matrix, x.toRad());
+      gl.enable(gl.DEPTH_TEST);
+      gl.depthFunc(gl.LEQUAL);
+      gl.clearColor(0.5, 0.5, 0.5, 0.9);
+      gl.clearDepth(1.0);
 
-        gl.enable(gl.DEPTH_TEST);
-        gl.depthFunc(gl.LEQUAL);
-        gl.clearColor(0.5, 0.5, 0.5, 0.9);
-        gl.clearDepth(1.0);
-
-        gl.viewport(0.0, 0.0, canvas.width, canvas.height);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        gl.uniformMatrix4fv(Pmatrix, false, proj_matrix);
-        gl.uniformMatrix4fv(Vmatrix, false, view_matrix);
-        gl.uniformMatrix4fv(Mmatrix, false, mov_matrix);
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
-        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+      gl.viewport(0.0, 0.0, canvas.width, canvas.height);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.uniformMatrix4fv(Pmatrix, false, proj_matrix);
+      gl.uniformMatrix4fv(Vmatrix, false, view_matrix);
+      gl.uniformMatrix4fv(Mmatrix, false, mov_matrix);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
+      gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
     };
-    move(0, 0, 0);
+    move(20, 45, 0); // Start position
 
-    var data2deg = (Math.PI / 30);
+    var data2deg = (Math.PI / 30);           // TODO Check that. Data must be in degrees (180/300 should do)
     var sendToCube = function(x, y, z) {
       move((x - prevX) * data2deg, (y - prevY) * data2deg, (z - prevZ) * data2deg);
       prevX = x;
       prevY = y;
-      prevY = y;
+      prevZ = z;
     };
 
     </script>

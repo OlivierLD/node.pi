@@ -6,8 +6,6 @@ var connection;
   var ws = window.WebSocket || window.MozWebSocket;
 
   // if browser doesn't support WebSocket, just show some notification and exit
-//  if (!window.WebSocket) 
-
   if (!ws) {
     displayMessage('Sorry, but your browser does not support WebSockets.');
     return;
@@ -31,9 +29,9 @@ var connection;
   connection.onmessage = function (message) {
     console.log('onmessage:', message.data);
     var mess = JSON.parse(message.data);
-    document.getElementById('X').innerHTML = mess.x;
-    document.getElementById('Y').innerHTML = mess.y;
-    document.getElementById('Z').innerHTML = mess.z;
+    document.getElementById('X').innerHTML = mess.x.toFixed(0);
+    document.getElementById('Y').innerHTML = mess.y.toFixed(0);
+    document.getElementById('Z').innerHTML = mess.z.toFixed(0);
     sendToCube(mess.x, mess.y, mess.z);
   };
 
@@ -44,29 +42,16 @@ var connection;
    */
   setInterval(function() {
     if (connection.readyState !== 1) {
-      displayMessage('Unable to communicate with the WebSocket server. Try again.');
+      displayMessage('Unable to communicate with the WebSocket server. Trying again.');
     }
   }, 3000); // Ping
 
 })();
 
-var sendMessage = function(msg) {
-  console.log("Sending:" + msg);
-  if (!msg) {
-    return;
-  }
-  // send the message as an ordinary text
-  connection.send(msg);
-};
- 
 var displayMessage = function(mess) {
   try {
     console.log(mess);
   } catch (err) {
     console.log(mess);
   }
-};
-
-var resetStatus = function() {
-  statusFld.innerHTML = "";
 };

@@ -3,6 +3,7 @@
  
 /*
  * WebSocket server for the L3GD20 gyroscope
+ * Doc at https://www.npmjs.com/package/websocket
  * Static requests must be prefixed with /data/, like in http://machine:9876/data/console.html
  */
 
@@ -21,7 +22,7 @@ var verbose = false;
  
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str)  {
-    return this.indexOf(str) == 0;
+    return this.indexOf(str) === 0;
   };
 }
 
@@ -77,8 +78,7 @@ var handler = function(req, res) {
                     contentType = "image/ico";
 
                   res.writeHead(200, {'Content-Type': contentType});
-              //  console.log('Data is ' + typeof(data));
-                  if (resource.endsWith(".jpg") || 
+                  if (resource.endsWith(".jpg") ||
                       resource.endsWith(".gif") ||
                       resource.endsWith(".ico") ||
                       resource.endsWith(".png"))
@@ -110,26 +110,13 @@ var handler = function(req, res) {
     }
   } else {
     console.log("Un-managed request: [" + req.url + "]");
-  //console.log(">>> " + JSON.stringify(req, null, 2));
     respContent = "Response from " + req.url;
     res.writeHead(404, {'Content-Type': 'text/plain'});
     res.end(); // respContent);
   }
 }; // HTTP Handler
 
-/**
- * Global variables
- */
-// list of currently connected clients
-var clients = [ ];
- 
-/**
- * Helper function for escaping input strings
- */
-var htmlEntities = function(str) {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-};
+var clients = []; // list of currently connected clients
  
 /**
  * HTTP server
@@ -163,11 +150,7 @@ wsServer.on('request', function(request) {
  
   // user sent some message
   connection.on('message', function(message) {
-//  console.log("On Message:" + JSON.stringify(message));
-
     if (message.type === 'utf8') { // accept only text
-//    console.log((new Date()) + ' Received Message: ' + message.utf8Data);
-//    console.log("Rebroadcasting: " + message.utf8Data);
       for (var i=0; i < clients.length; i++) {
         clients[i].sendUTF(message.utf8Data);
       }

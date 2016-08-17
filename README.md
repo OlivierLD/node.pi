@@ -2,6 +2,8 @@
 ## Sample scripts for nodejs on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
+_Note_ : Demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
+
 This goal is to provide a JavaScript access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
 like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
 
@@ -165,6 +167,16 @@ To run a test script:
     >> X:-0.1404375 Y:0 Z:0
  ...
 ```
+
+## Demos
+Some demos are available. As `nodejs` can also be used as an HTTP Server, they will display the sensors' data in a graphical Web UI.
+
+#### Gyroscope demo
+Start the server:
+```
+ $> sudo node demo.gyro.js
+```
+And load the URL displayed in the console in a WebSocket-enable browser.
 
 ### To come...
  * FONA
