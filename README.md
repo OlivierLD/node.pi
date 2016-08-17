@@ -182,6 +182,7 @@ And load the URL displayed in the console in a WebSocket-enable browser.
  * FONA
  * Servo HAT
  * Sense HAT
+ * IoT with Swagger and Adafruit-IO
  * ... and more
 
 ### To debug a nodejs application:
