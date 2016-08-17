@@ -178,6 +178,13 @@ Start the server:
 ```
 And load the URL displayed in the console in a WebSocket-enable browser.
 
+#### ADC (MCP3008) demo
+Start the server:
+```
+ $> node demo.adc.js
+```
+And load the URL displayed in the console in a WebSocket-enable browser.
+
 ### To come...
  * FONA
  * Servo HAT
