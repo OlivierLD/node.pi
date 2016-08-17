@@ -1,14 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+    <title>Gyroscope Raw Data</title>
+    <link rel="stylesheet" href="css/stylesheet.css" type="text/css"/>
+    <script type="text/javascript" src="client.gyro.js"></script>
+  </head>
   <body style="text-align: center;">
+    <table cellspacing="10" style="margin: auto;">
+      <tr>
+        <td style="width: 100px; text-align: center;">X</td>
+        <td style="width: 100px; text-align: center;">Y</td>
+        <td style="width: 100px; text-align: center;">Z</td>
+      </tr>
+      <tr>
+        <td style="width: 100; text-align: center;"><div id="X"></div></td>
+        <td style="width: 100; text-align: center;"><div id="Y"></div></td>
+        <td style="width: 100; text-align: center;"><div id="Z"></div></td>
+      </tr>
+    </table>
     <canvas width="400" height="400" id="CubeCanvas"></canvas>
-    <div style="text-align: center;">
-      <button onclick="move(-1, 0, 0);">-</button>X<button onclick="move(1, 0, 0);">+</button>&nbsp;
-      <button onclick="move(0, 0, -1);">-</button>Y<button onclick="move(0, 0, 1);">+</button>&nbsp;
-      <button onclick="move(0, -1, 0);">-</button>Z<button onclick="move(0, 1, 0);">+</button>
-    </div>
-
     <script>
+    var prevX = 0, prevY = 0, prevZ = 0;
+
     /*============= Creating a canvas =================*/
     var canvas = document.getElementById('CubeCanvas');
     gl = canvas.getContext('experimental-webgl');
@@ -192,6 +206,15 @@
     };
     move(0, 0, 0);
 
+    var data2deg = (Math.PI / 30);
+    var sendToCube = function(x, y, z) {
+      move((x - prevX) * data2deg, (y - prevY) * data2deg, (z - prevZ) * data2deg);
+      prevX = x;
+      prevY = y;
+      prevY = y;
+    };
+
     </script>
   </body>
 </html>
+  

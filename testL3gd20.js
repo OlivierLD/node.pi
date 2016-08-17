@@ -33,7 +33,7 @@ l3gd20.calibrate();
 
 var prevX, prevY, prevZ;
 
-var minX, maxX, minY, maxY, minZ, maxZ;
+var minX = 0, maxX = 0, minY = 0, maxY = 0, minZ = 0, maxZ = 0;
 
 var iv = setInterval(function () {
   var data = l3gd20.getCalOutValue();
@@ -50,7 +50,7 @@ var iv = setInterval(function () {
 setTimeout(function () {
   clearInterval(iv); // Stop reading
   exit();
-}, 10000);
+}, 600000);
 
 // cleanup on exit
 var exit = function() {
