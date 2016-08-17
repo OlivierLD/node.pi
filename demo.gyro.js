@@ -3,11 +3,10 @@
  
 /*
  * WebSocket server for the L3GD20 gyroscope
- * Static requests must be prefixed with /data/, like in http://machine:9876/data/console.html
+ * WebSocket doc at https://www.npmjs.com/package/websocket
+ * Static requests must be prefixed with /data/, like in http://machine:9876/data/demos/gyro.one.html
  */
-
-// Optional. You will see this name in eg. 'ps' or 'top' command
-process.title = 'node-gyro';
+process.title = 'node-gyro'; // Optional. You will see this name in eg. 'ps' or 'top' command
  
 // Port where we'll run the websocket server
 var port = 9876;
@@ -21,7 +20,7 @@ var verbose = false;
  
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str)  {
-    return this.indexOf(str) == 0;
+    return this.indexOf(str) === 0;
   };
 }
 
@@ -117,19 +116,7 @@ var handler = function(req, res) {
   }
 }; // HTTP Handler
 
-/**
- * Global variables
- */
-// list of currently connected clients
-var clients = [ ];
- 
-/**
- * Helper function for escaping input strings
- */
-var htmlEntities = function(str) {
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-};
+var clients = []; // list of currently connected clients
  
 /**
  * HTTP server
@@ -163,11 +150,7 @@ wsServer.on('request', function(request) {
  
   // user sent some message
   connection.on('message', function(message) {
-//  console.log("On Message:" + JSON.stringify(message));
-
     if (message.type === 'utf8') { // accept only text
-//    console.log((new Date()) + ' Received Message: ' + message.utf8Data);
-//    console.log("Rebroadcasting: " + message.utf8Data);
       for (var i=0; i < clients.length; i++) {
         clients[i].sendUTF(message.utf8Data);
       }
@@ -191,6 +174,7 @@ wsServer.on('request', function(request) {
   });
 });
 
+// Called by the gyroscope (below)
 var broadcastGyroData = function(x, y, z) {
   var mess = { x: x, y: y, z: z };
   for (var i=0; i < clients.length; i++) {
@@ -198,7 +182,7 @@ var broadcastGyroData = function(x, y, z) {
   }
 };
 
-// Gyro Sensor
+// Gyro Sensor part
 var L3GD20 = require('./l3gd20.js').L3GD20;
 var L3GD20Dictionaries = require('./utils/L3GD20Dictionaries.js').L3GD20Dictionaries;
 
@@ -228,7 +212,7 @@ var iv = setInterval(function () {
   var data = l3gd20.getCalOutValue();
   var x = data[0], y = data[1], z = data[2];
   if (x !== prevX || y !== prevY || z !== prevZ) {
-    broadcastGyroData(x, y, z);
+    broadcastGyroData(x, y, z); // Invoke the client
   }
   minX = Math.min(x, minX); maxX = Math.max(x, maxX);
   minY = Math.min(y, minY); maxY = Math.max(y, maxY);
