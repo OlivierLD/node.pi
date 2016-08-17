@@ -35,9 +35,8 @@ var connection;
       return;
     }
 
-    // NOTE: if you're not sure about the JSON structure
-    // check the server source code above
     if (json.type === 'message') {
+      displayMessage(json.data);
       // it's a single message
       var value = parseInt(json.data) * (100 / 1024);
    // console.log('Setting value to ' + value);
