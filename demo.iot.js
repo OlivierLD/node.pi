@@ -1,5 +1,21 @@
 "use strict";
 
+/**
+ * node-rest-client doc is at https://www.npmjs.com/package/node-rest-client
+ *
+ * You need an Adafruit-IO account (free).
+ * You can interact with the IoT server directly at https://io.adafruit.com/olivierld
+ *
+ * This code will push some data sensor, and read some feed(s).
+ * Also see the WebUI at demos/iot.one.html (can run in standalone).
+ *
+ * Feeds keys we need here are:
+ * - onoff
+ * - humidity
+ * - atm-press
+ * - air-temperature
+ */
+
 // Need the Adafruit-IO key as parameter
 var key;
 if (process.argv.length > 2) {
@@ -17,7 +33,7 @@ var Client = require('node-rest-client').Client;
 
 var client = new Client();
 
-// Get data
+// Get data, through a callback
 var getSwitchState = function(cb) {
     var url = PREFIX + ONOFF_FEED;
     var args = {
@@ -51,6 +67,7 @@ var previousState;
 var manageState = function(state) {
   if (state !== previousState) {
       console.log("State is now:" + state);
+      // Do something with the hardware here
       previousState = state;
   }
 };
@@ -60,8 +77,9 @@ var interv = setInterval(function() {
 }, 1000);
 
 setTimeout(function() {
-      setSwitchState('ON');
-    }, 5000);
+  // Read sensor, push data
+  setSwitchState('ON');
+}, 5000);
 
 function exit() {
     console.log("\nBye now!");
