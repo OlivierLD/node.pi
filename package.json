@@ -17,7 +17,8 @@
     "onoff": "^1.1.1",
     "i2c-bus": "^1.1.1",
     "serialport": "^4.0.1",
-    "websocket": "^1.0.23"
+    "websocket": "^1.0.23",
+    "node-rest-client": "2.0.1"
   },
   "main": "test_mcp3008.js",
   "devDependencies": {},
