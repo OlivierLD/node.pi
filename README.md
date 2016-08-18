@@ -1,11 +1,15 @@
 <img src="http://code-maven.com/img/node.png" width="70" height="62" alt="NodeJS server"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShXziEYSrwRD_qhgn29_PZsGBBTcrqty5O3dTViH1OpylgCpiQBg"  width="51" height="62" alt="Raspberry PI"> 
-## Sample scripts for nodejs on the Raspberry PI
+# Sample scripts for nodejs on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
 _Note_ : Demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
 
 This goal is to provide a JavaScript access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
 like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
+
+| Note  |
+|---|
+|  The Internet Of Things (IoT) is extensively using services (REST services are among the most popular). NodeJS provides all kind of modules, many of them will allow you to talk REST fluently. Bridging sensor data with an IoT server becomes a piece of cake. See the `Swagger` directory of this project for more details. |
 
 ### First installation
 We assume you have already installed `nodejs` and `npm` on the Raspberry PI.
@@ -67,7 +71,7 @@ See the code in `NMEAReader.js` and `NMEAParser.js`.
 To run a test script:
 ```
  $> sudo node testGPS.js
-  To stop: Ctrl-C, or enter "quit" + [return] her ein the console
+  To stop: Ctrl-C, or enter "quit" + [return] here in the console
   Usage: node /home/pi/node.pi/testGPS.js [raw]|fmt
   Serial /dev/ttyUSB0 br 4800
   Port open
