@@ -1,0 +1,117 @@
+swagger: '2.0'
+info:
+  title: RPi Sensor Reader
+  description: Sensor reader for NodeJS on the Raspberry PI
+  version: "0.0.1"
+host: localhost:8765
+schemes:
+  - http
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /sensors:
+    get:
+      description: |
+        The list of the supported sensors.
+      operationId: getSensors
+      tags:
+        - Sensors
+      responses:
+        200:
+          description: "Successfully read sensors list."
+          schema:
+            $ref: '#/definitions/sensorList'
+
+  /sensors/bme280:
+    get:
+      description: |
+        Read data from a BME280.
+      operationId: readBme280
+      tags:
+        - Sensors
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/bme280Data"
+        404:
+          description: Sensor not available
+
+  /sensors/gps:
+    get:
+      description: |
+        Read data from a GPS.
+      operationId: readGPS
+      tags:
+        - Sensors
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/gpsData"
+        404:
+          description: Sensor not available
+
+  /sensors/adc:
+    get:
+      description: |
+        Read data from an MCP3008.
+      operationId: readADC
+      tags:
+        - Sensors
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/mcp3008Data"
+        404:
+          description: Sensor not available
+
+definitions:
+  sensorList:
+    type: array
+    description: The list of the availabel sensors
+    items:
+      type: string
+      description: Sensor Name or ID
+
+  bme280Data:
+    type: object
+    description: Data returned by the BME280. `Pressure`, `Temperature`, `Humidity`, and `Altitude`.
+    properties:
+      temperature:
+        type: number
+        description: temperature in Celcius
+      pressure:
+        type: number
+        description: atmospheric pressure in hPa
+      humidity:
+        type: number
+        description: relative humidity in %
+      altitude:
+        type: number
+        description: altitude above sea level in meters
+
+  gpsData:
+    type: object
+    description: Parsed NMEA data, position, speed and heading.
+    properties:
+      latitude:
+        type: number
+        description: Latitude in degrees
+      longitude:
+        type: number
+        description: Longitude in degrees
+      speed:
+        type: number
+        description: Speed in knots
+      heading:
+        type: integer
+        description: True heading in degrees
+
+  mcp3008Data:
+    type: integer
+    description: ADC value, between 0 and 1023
+    minimum: 0
+    maximum: 1023
