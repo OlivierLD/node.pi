@@ -36,9 +36,9 @@ var connection;
     }
 
     if (json.type === 'message') {
-      displayMessage(json.data);
+      displayMessage("ADC Value: " + json.data);
       // it's a single message
-      var value = parseInt(json.data) * (100 / 1024);
+      var value = parseInt(json.data) * (100 / 1023);
    // console.log('Setting value to ' + value);
       displayValue.setValue(value);
     } else {
@@ -62,6 +62,7 @@ var displayMessage = function(mess) {
   var messList = statusFld.innerHTML;
   messList = (((messList !== undefined && messList.length) > 0 ? messList + '<br>' : '') + mess);
   statusFld.innerHTML = messList;
+  statusFld.scrollTop = statusFld.scrollHeight; // Scroll down
 };
 
 var resetStatus = function() {
