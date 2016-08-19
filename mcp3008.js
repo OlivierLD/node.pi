@@ -39,10 +39,10 @@ var defaultCs    = 25; // GPIO_25, Wiring/PI4J 6
 
 var MCP3008 = function(clock, miso, mosi, cs) {
 
-  clock |= defaultClock;
-  miso  |= defaultMiso;
-  mosi  |= defaultMosi;
-  cs    |= defaultCs;
+  if (clock === undefined) { clock = defaultClock };
+  if (miso === undefined)  { miso  = defaultMiso };
+  if (mosi === undefined)  { mosi = defaultMosi };
+  if (cs === undefined)    { cs = defaultCs };
   console.log("Reading MCP3008: CLK:", clock, "MISO:", miso, "MOSI:", mosi, "CS:", cs);
 
   var debug = false;
