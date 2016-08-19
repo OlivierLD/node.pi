@@ -28,6 +28,7 @@ To run a test script:
  $> node testSwitch.js
  
 ```
+This will turn the pin (#26, GPIO_07 in the `testSwitch.js` code) on and off, every second, for 100 seconds (one minute and forty seconds).
 
 ### MCP3008. Analog to Digital Converter with SPI interface.
 The source is in `mcp3008.js`.
@@ -207,6 +208,7 @@ And load the URL displayed in the console in a WebSocket-enable browser.
  * ... and more
 
 ### To debug a nodejs application:
+OK, `console.log` is great, but there are other ways to debug...
 
 To do once:
 ```

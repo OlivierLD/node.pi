@@ -4,32 +4,39 @@
  * For the onoff doc, 
  * see https://github.com/fivdi/onoff
  */
-var HIGH = 1;
-var LOW  = 0;
 
-var IN  = 'in';
-var OUT = 'out';
+var State = {
+  HIGH: 1,
+  LOW: 0
+};
 
-var NONE    = 'none';
-var RISING  = 'rising';
-var FAILING = 'failing';
-var BOTH    = 'both';
+var Direction = {
+  IN: 'in',
+  OUT: 'out'
+};
+
+var Event = {
+  NONE: 'none',
+  RISING: 'rising',
+  FAILING: 'failing',
+  BOTH: 'both'
+};
 
 var utils = require('./utils/utils.js'); // This is a class. Explicit location (path), not in 'node_modules'.
 var Gpio = require('onoff').Gpio; // Constructor function for Gpio objects.
 
 Gpio.prototype.high = function() {
-  this.writeSync(HIGH);
+  this.writeSync(State.HIGH);
 };    
 Gpio.prototype.low = function() {
-  this.writeSync(LOW);
+  this.writeSync(State.LOW);
 };    
 Gpio.prototype.isHigh = function() {
-  return this.readSync() === HIGH;
+  return this.readSync() === State.HIGH;
 };
 Gpio.prototype.tick = function() {
-  this.writeSync(HIGH);
-  this.writeSync(LOW);
+  this.writeSync(State.HIGH);
+  this.writeSync(State.LOW);
 };
 
 var defaultClock = 18; // GPIO_18, Wiring/PI4J 1
@@ -60,10 +67,10 @@ var MCP3008 = function(clock, miso, mosi, cs) {
     CHANNEL_6: 6,
     CHANNEL_7: 7 };
 
-  var SPI_CLK  = new Gpio(clock, OUT),
-      SPI_MISO = new Gpio(miso,  IN), 
-      SPI_MOSI = new Gpio(mosi,  OUT),
-      SPI_CS   = new Gpio(cs,    OUT);
+  var SPI_CLK  = new Gpio(clock, Direction.OUT),
+      SPI_MISO = new Gpio(miso,  Direction.IN),
+      SPI_MOSI = new Gpio(mosi,  Direction.OUT),
+      SPI_CS   = new Gpio(cs,    Direction.OUT);
 
   SPI_CLK.low();
   SPI_MOSI.low();
