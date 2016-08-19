@@ -207,13 +207,17 @@ var BME280 = function(addr) {
   };
 
   var standardSeaLevelPressure = 101325;
+  this.setPRMSL = function(press) {
+    standardSeaLevelPressure = press;
+  }
+
+  var calculateAltitude = function(press) {
+    // Calculates the altitude in meters
+    return 44330.0 * (1.0 - Math.pow(press / standardSeaLevelPressure, 0.1903));
+  };
 
   this.readAltitude = function() {
-    // Calculates the altitude in meters
-    var altitude = 0.0;
-    var pressure = readPressure();
-    altitude = 44330.0 * (1.0 - Math.pow(pressure / standardSeaLevelPressure, 0.1903));
-    return altitude;
+    return calculateAltitude(readPressure());
   };
 
   this.readAllData = function(cb) {
@@ -223,7 +227,8 @@ var BME280 = function(addr) {
       if (cb !== undefined) {
         cb({ "temperature": temp,
              "humidity": hum,
-             "pressure": press });
+             "pressure": press,
+             "altitude": calculateAltitude(press) });
       }
     });
   };
