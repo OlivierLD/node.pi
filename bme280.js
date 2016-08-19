@@ -215,6 +215,18 @@ var BME280 = function(addr) {
     altitude = 44330.0 * (1.0 - Math.pow(pressure / standardSeaLevelPressure, 0.1903));
     return altitude;
   };
+
+  this.readAllData = function(cb) {
+    this.readTemperature(function(temp) {
+      var hum = this.readHumidity();
+      var press = this.readPressure();
+      if (cb !== undefined) {
+        cb({ "temperature": temp,
+             "humidity": hum,
+             "pressure": press });
+      }
+    });
+  };
 };
 
 exports.BME280 = BME280; // Made public.
