@@ -20,6 +20,15 @@ of the project (the one containing `package.json`):
 ```
 This will install the required nodejs modules.
 
+### Simple GPIO interaction
+This can be used to drive an led, a relay, etc.
+See the source in `switch.js`.
+To run a test script:
+```
+ $> node testSwitch.js
+ 
+```
+
 ### MCP3008. Analog to Digital Converter with SPI interface.
 The source is in `mcp3008.js`.
 To run a test script:
@@ -190,6 +199,7 @@ Start the server:
 And load the URL displayed in the console in a WebSocket-enable browser.
 
 ### To come...
+ * PWM
  * FONA
  * Servo HAT
  * Sense HAT

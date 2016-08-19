@@ -39,7 +39,7 @@ exports.readADC = function(args, res, next) {
   }
 }
 ```
-As you can see, some sample deata have been generated.
+As you can see, some sample data have been generated.
 To hook up the real ones:
 ```
 exports.readADC = function(args, res, next) {
@@ -51,5 +51,12 @@ exports.readADC = function(args, res, next) {
 }
 ```
 
-After implementing the required methods, your server is ready for duty, and can be reached by any REST client (curl, PostMan, ... whatever!).
+After implementing the required methods, your server is ready for duty, and can be reached by any REST client (your application, curl, PostMan, ... whatever!).
  
+#### Hooking up the sensors
+To be able to read the sensor data, you need to hook p the code we've used so far.
+In `controllers.SensorsService.js`, add a line like this:
+```
+ var BME280 = require('../../../bme280.js').BME280;
+```
+and you are pretty much done, all the rest is downhill.
