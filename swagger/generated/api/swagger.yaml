@@ -1,0 +1,114 @@
+---
+swagger: "2.0"
+info:
+  description: "Sensor reader for NodeJS on the Raspberry PI"
+  version: "0.0.1"
+  title: "RPi Sensor Reader"
+host: "localhost:8765"
+basePath: "/v1"
+schemes:
+- "http"
+produces:
+- "application/json"
+paths:
+  /sensors:
+    get:
+      tags:
+      - "Sensors"
+      description: "The list of the supported sensors.\n"
+      operationId: "getSensors"
+      parameters: []
+      responses:
+        200:
+          description: "Successfully read sensors list."
+          schema:
+            $ref: "#/definitions/sensorList"
+      x-swagger-router-controller: "Sensors"
+  /sensors/adc:
+    get:
+      tags:
+      - "Sensors"
+      description: "Read data from an MCP3008.\n"
+      operationId: "readADC"
+      parameters: []
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/mcp3008Data"
+        404:
+          description: "Sensor not available"
+      x-swagger-router-controller: "Sensors"
+  /sensors/bme280:
+    get:
+      tags:
+      - "Sensors"
+      description: "Read data from a BME280.\n"
+      operationId: "readBme280"
+      parameters: []
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/bme280Data"
+        404:
+          description: "Sensor not available"
+      x-swagger-router-controller: "Sensors"
+  /sensors/gps:
+    get:
+      tags:
+      - "Sensors"
+      description: "Read data from a GPS.\n"
+      operationId: "readGPS"
+      parameters: []
+      responses:
+        200:
+          description: "Read successful"
+          schema:
+            $ref: "#/definitions/gpsData"
+        404:
+          description: "Sensor not available"
+      x-swagger-router-controller: "Sensors"
+definitions:
+  sensorList:
+    type: "array"
+    description: "The list of the availabel sensors"
+    items:
+      type: "string"
+      description: "Sensor Name or ID"
+  bme280Data:
+    type: "object"
+    properties:
+      temperature:
+        type: "number"
+        description: "temperature in Celcius"
+      pressure:
+        type: "number"
+        description: "atmospheric pressure in hPa"
+      humidity:
+        type: "number"
+        description: "relative humidity in %"
+      altitude:
+        type: "number"
+        description: "altitude above sea level in meters"
+    description: "Data returned by the BME280. `Pressure`, `Temperature`, `Humidity`,\
+      \ and `Altitude`."
+  gpsData:
+    type: "object"
+    properties:
+      latitude:
+        type: "number"
+        description: "Latitude in degrees"
+      longitude:
+        type: "number"
+        description: "Longitude in degrees"
+      speed:
+        type: "number"
+        description: "Speed in knots"
+      heading:
+        type: "integer"
+        description: "True heading in degrees"
+    description: "Parsed NMEA data, position, speed and heading."
+  mcp3008Data:
+    type: "integer"
+    description: "ADC value, between 0 and 1023"
