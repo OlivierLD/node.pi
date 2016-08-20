@@ -225,7 +225,7 @@ Start on the Raspberry PI:
 Then you can launch `iot.one.html` in your browser.
 Provide your Adafruit-IO key in the UI when prompted, and you can see the sensors data on the page.
 You can also turn the switch on and off from the same page.
-
+![Web App](./web.app.png "Web UI")
 You can also deal with the switch with a Pebble (a smart watch), as described [here](https://github.com/OlivierLD/pebble), in the `REST.app` directory.
 ![Pebble App](./switch.png "Pebble switch")
 
