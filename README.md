@@ -209,6 +209,26 @@ Start the server:
 ```
 And load the URL displayed in the console in a WebSocket-enable browser.
 
+#### IoT demo
+Requires an Adafruit-IO account.
+Will feed 4 feeds:
+- `onoff`, a switch
+- `atm-press`, a gauge
+- `air-temperature`, a gauge
+- `humidity`, a gauge
+
+Connect the BME280 on the Raspberry PI, and the led (switch demo) asabove.
+Start on the Raspberry PI:
+```
+ $> sudo node demo.iot.js <Your-Adafruit-IO-key>
+```
+Then you can launch `iot.one.html` in your browser.
+Provide your Adafruit-IO key in the UI when prompted, and you can see the sensors data on the page.
+You can also turn the switch on and off from the same page.
+
+You can also deal with the switch with a Pebble (a smart watch), as described [here](https://github.com/OlivierLD/pebble), in the `REST.app` directory.
+![Pebble App](./switch.png "Pebble switch")
+
 ### To come...
  * PWM
  * FONA
