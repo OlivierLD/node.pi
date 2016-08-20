@@ -1,5 +1,4 @@
 "use strict";
-
 /**
  * node-rest-client doc is at https://www.npmjs.com/package/node-rest-client
  *
@@ -39,35 +38,31 @@ var client = new Client();
 
 // Get data, through a callback
 var getSwitchState = function(cb) {
+  if (verbose) {
+    console.log("Getting switch state");
+  }
+  var url = PREFIX + ONOFF_FEED;
+  var args = {
+    headers: {"X-AIO-Key": key}
+  };
+  client.get(url, args, function (data, response) {
     if (verbose) {
-      console.log("Getting switch state");
+      console.log("Switch is " + data.last_value);
     }
-    var url = PREFIX + ONOFF_FEED;
-    var args = {
-        headers: {"X-AIO-Key": key}
-    };
-    client.get(url, args, function (data, response) {
-        // parsed response body as js object
-    //  console.log("Last Value of [%s] (%s) was %s.", data.name, data.description, data.last_value);
-        // raw response
-    //  console.log(response);
-        if (verbose) {
-          console.log("Switch is " + data.last_value);
-        }
-        cb(data.last_value);
-    });
+    cb(data.last_value);
+  });
 };
 
 var setFeedValue = function(feedName, valueObject) {
-    var args = {
-        data: valueObject,
-        headers: { "Content-Type": "application/json",
-                   "X-AIO-Key": key }
-    };
-    var url = PREFIX + feedName + "/data";
-    client.post(url, args, function (data, response) {
-      if (verbose) { console.log("From " + feedName + " " + response.headers.status); }
-    });
+  var args = {
+    data: valueObject,
+    headers: { "Content-Type": "application/json",
+               "X-AIO-Key": key }
+  };
+  var url = PREFIX + feedName + "/data";
+  client.post(url, args, function (data, response) {
+    if (verbose) { console.log("From " + feedName + " " + response.headers.status); }
+  });
 };
 
 var setSwitchState = function(state) {
@@ -93,17 +88,17 @@ var setHumidity = function(hum) {
 var previousState;
 var manageState = function(state) {
   if (verbose) {
-     console.log("Managing state:" + state);
+    console.log("Managing state:" + state);
   }
   if (state !== previousState) {
-      console.log("State is now:" + state);
-      // Do something with the hardware here
-      if (state === 'ON') {
-        relay.on();
-      } else {
-        relay.off();
-      }
-      previousState = state;
+    console.log("State is now:" + state);
+    // Do something with the hardware here
+    if (state === 'ON') {
+      relay.on();
+    } else {
+      relay.off();
+    }
+    previousState = state;
   }
 };
 
@@ -138,10 +133,9 @@ var iv = setInterval(function () {
 }, 5000);
 
 function exit() {
-    console.log("\nBye now!");
-    relay.shutdown();
-    process.exit();
+  console.log("\nBye now!");
+  relay.shutdown();
+  process.exit();
 };
 
 process.on('SIGINT', exit); // Ctrl C
-

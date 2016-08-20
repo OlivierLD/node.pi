@@ -221,9 +221,10 @@ var BME280 = function(addr) {
   };
 
   this.readAllData = function(cb) {
+    var instance = this;
     this.readTemperature(function(temp) {
-      var hum = this.readHumidity();
-      var press = this.readPressure();
+      var hum = instance.readHumidity();
+      var press = instance.readPressure();
       if (cb !== undefined) {
         cb({ "temperature": temp,
              "humidity": hum,

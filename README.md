@@ -26,7 +26,17 @@ See the source in `switch.js`.
 To run a test script:
 ```
  $> node testSwitch.js
- 
+ Ctrl+C to stop
+ Switch on pin: 7
+ Switching off
+ Switching on
+ Switching off
+ Switching on
+ Switching off
+ Switching on
+ Switching off
+ Switching on
+ ...
 ```
 This will turn the pin (#26, GPIO_07 in the `testSwitch.js` code) on and off, every second, for 100 seconds (one minute and forty seconds).
 

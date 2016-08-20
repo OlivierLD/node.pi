@@ -40,7 +40,8 @@ var connection;
       // it's a single message
       var value = parseInt(json.data) * (100 / 1023);
    // console.log('Setting value to ' + value);
-      displayValue.setValue(value);
+      displayValue.animate(value);
+   // displayValue.setValue(value);
     } else {
       displayMessage('Hmm..., I\'ve never seen JSON like this: ' + json);
     }

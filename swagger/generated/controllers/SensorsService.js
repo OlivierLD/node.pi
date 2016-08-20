@@ -13,7 +13,9 @@ var humidity    = 0;
 var altitude    = 0;
 
 var iv = setInterval(function () {
+//console.log('Reading BME280');
   bme280.readAllData(function(data) {
+    console.log("Data:", data);
     temperature = data.temperature;
     pressure = data.pressure;
     humidity = data.humidity;
@@ -36,7 +38,6 @@ exports.getSensors = function(args, res, next) {
     res.end(JSON.stringify(["MCP3008", "BME280", "GPS"], null, 2));
 //  res.end();
   }
-  
 }
 
 exports.readADC = function(args, res, next) {
@@ -71,6 +72,7 @@ exports.readBme280 = function(args, res, next) {
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
   }
   else {
+    console.log("requesting bme280");
     var data = {
       "temperature": temperature.toFixed(2),
       "pressure": (pressure / 100).toFixed(2),
