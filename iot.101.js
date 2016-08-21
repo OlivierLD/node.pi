@@ -8,6 +8,7 @@
  *
  * This code will push some data sensor, and read some feed(s).
  * Also see the WebUI at demos/iot.one.html (can run in standalone).
+ * From the WebUI you can change the state of the switch.
  *
  * Feeds keys we need here are:
  * - onoff

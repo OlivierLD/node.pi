@@ -87,7 +87,7 @@ _Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make 
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
 
 ### Read GPS data, through a Serial port
-See the code in `NMEAReader.js` and `NMEAParser.js`.
+See the code in `SerialReader.js` and `NMEAParser.js`.
 To run a test script:
 ```
  $> sudo node testGPS.js
@@ -226,7 +226,7 @@ Then you can launch `iot.one.html` in your browser.
 Provide your Adafruit-IO key in the UI when prompted, and you can see the sensors data on the page.
 You can also turn the switch on and off from the same page.
 ![Web App](./web.app.png "Web UI")
-You can also deal with the switch with a Pebble (a smart watch), as described [here](https://github.com/OlivierLD/pebble), in the `REST.app` directory.
+You can also deal with the switch from a Pebble (a smart watch), as described [here](https://github.com/OlivierLD/pebble), in the `REST.app` directory.
 ![Pebble App](./switch.png "Pebble switch")
 
 ### To come...

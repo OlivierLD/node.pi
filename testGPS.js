@@ -12,7 +12,7 @@ if (process.argv.length > 2) {
 }
 
 var util = require('util');
-var GPS = require('./NMEAReader.js').NMEA;
+var GPS = require('./SerialReader.js').NMEA;
 var gps = new GPS('/dev/ttyUSB0', 4800);
 // var gps = new GPS();
 

@@ -31,6 +31,15 @@ var lpad = function(str, len, pad) {
   return s;
 };
 
+var sleep = function(milliseconds) {
+  var start = new Date().getTime();
+  while (true) {
+    if ((new Date().getTime() - start) > milliseconds) {
+      break;
+    }
+  }
+};
+
 // Date formatting
 // Provide month names
 Date.prototype.getMonthName = function() {
@@ -218,3 +227,4 @@ exports.version = '0.0.1';     // Static member, made public
 exports.hexFmt  = toHexString; // Made public.
 exports.binFmt  = toBinString; // Made public.
 exports.getIPs  = getNetworkIPs; // Made public
+exports.sleep   = sleep; // Made public.

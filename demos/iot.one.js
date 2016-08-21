@@ -8,7 +8,19 @@ var HUM    = 2;
 var PRESS  = 3;
 var TEMP   = 4;
 
+var qsK;
 $(document).ready(function() {
+  if (document.location.search !== undefined && document.location.search !== null) {
+    var prms = document.location.search.substring(1);
+    var pa = prms.split('&');
+    for (var p in pa) {
+      var nv = pa[p].split('=');
+      if (nv[0] === 'key') {
+        qsK = nv[1];
+        break;
+      }
+    }
+  }
   // Start each feed, one second apart.
   setTimeout(function() {
     setInterval(function() {
@@ -47,7 +59,7 @@ var getData = function(urlStr) {
       TIMEOUT = 10000;
 
   xhr.open('GET', url, true);
-  var key = $("#a-key").val();
+  var key = qsK !== undefined ? qsK : $("#a-key").val();
   xhr.setRequestHeader("X-AIO-Key", key);
 
   xhr.send();
@@ -75,7 +87,7 @@ var setSwitch = function(onOff) {
       TIMEOUT = 10000;
 
   xhr.open('POST', url, true);
-  var key = $("#a-key").val();
+  var key = qsK !== undefined ? qsK : $("#a-key").val();
   xhr.setRequestHeader("X-AIO-Key", key);
   xhr.setRequestHeader('Content-Type', 'application/json');
 
@@ -101,9 +113,9 @@ var setSwitch = function(onOff) {
 
 
 var go = function(type) {
-  var k = $("#a-key").val();
+  var key = qsK !== undefined ? qsK : $("#a-key").val();
 
-  if (k.trim().length > 0) {
+  if (key.trim().length > 0) {
     $("#mess").text('');
     $("#data").css('display', 'inline');
 
