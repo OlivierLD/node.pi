@@ -2,7 +2,7 @@
 
 var utils = require('./utils/utils.js');
 var EndianReaders = require('./utils/endianreaders.js').EndianReaders;
-var i2c   = require('i2c-bus');
+var i2c = require('i2c-bus');
 
 // Registers/etc.
 var MODE1         = 0x00;
@@ -38,23 +38,23 @@ var PWM = function(addr) {
 
   this.init = function() {
     i2c1 = i2c.openSync(1); // Will require a closeSync
-    setAllPWM(0, 0);
+    this.setAllPWM(0, 0);
     if (verbose) {
-      console.log("01 - Writing 0x%02x to register 0x%02x\n", OUTDRV, MODE2);
+      console.log("01 - Writing %s to register %s", utils.hexFmt(OUTDRV), utils.hexFmt(MODE2));
     }
     i2c1.writeByteSync(addr, MODE2, OUTDRV);
     if (verbose) {
-      console.log("02 - Writing 0x%02x to register 0x%02x\n", ALLCALL, MODE1);
+      console.log("02 - Writing %s to register %s", utils.hexFmt(ALLCALL), utils.hexFmt(MODE1));
     }
     i2c1.writeByteSync(addr, MODE1, ALLCALL);
     setTimeout(function() {
       var mode1 = EndianReaders.readU8(i2c1, addr, MODE1);
       if (verbose) {
-        console.log("03 - Device 0x%02x returned 0x%02x from register 0x%02x\n", addr, mode1, MODE1);
+        console.log("03 - Device %s returned %s from register %s", utils.hexFmt(addr), utils.hexFmt(mode1), utils.hexFmt(MODE1));
       }
       mode1 = mode1 & ~SLEEP; // wake up (reset sleep)
       if (verbose) {
-        console.log("04 - Writing 0x%02x to register 0x%02x\n", mode1, MODE1);
+        console.log("04 - Writing %s to register %s", utils.hexFmt(mode1), utils.hexFmt(MODE1));
       }
       i2c1.writeByteSync(addr, MODE1, mode1);
       utils.sleep(5); // wait for oscillator
@@ -68,10 +68,10 @@ var PWM = function(addr) {
   this.setAllPWM = function(on, off) {
     // Sets a all PWM channels
     if (verbose) {
-      console.log("05 - Writing 0x%02x to register 0x%02x\n", (on & 0xFF), ALL_LED_ON_L);
-      console.log("06 - Writing 0x%02x to register 0x%02x\n", (on >> 8), ALL_LED_ON_H);
-      console.log("07 - Writing 0x%02x to register 0x%02x\n", (off & 0xFF), ALL_LED_OFF_L);
-      console.log("08 - Writing 0x%02x to register 0x%02x\n", (off >> 8), ALL_LED_OFF_H);
+      console.log("05 - Writing %s to register %s", utils.hexFmt(on & 0xFF), utils.hexFmt(ALL_LED_ON_L));
+      console.log("06 - Writing %s to register %s", utils.hexFmt(on >> 8), utils.hexFmt(ALL_LED_ON_H));
+      console.log("07 - Writing %s to register %s", utils.hexFmt(off & 0xFF), utils.hexFmt(ALL_LED_OFF_L));
+      console.log("08 - Writing %s to register %s", utils.hexFmt(off >> 8), utils.hexFmt(ALL_LED_OFF_H));
     }
     i2c1.writeByteSync(addr, ALL_LED_ON_L, (on & 0xFF));
     i2c1.writeByteSync(addr, ALL_LED_ON_H, (on >> 8));
@@ -82,11 +82,11 @@ var PWM = function(addr) {
   this.setPWM = function(channel, on, off) {
     // Sets a single PWM channel
     if (verbose) {
-      console.log("ON:0x%02x, OFF:0x%02x\n", on, off);
-      console.log("09 - Writing 0x%02x to register 0x%02x\n", (on & 0xFF), LED0_ON_L + 4 * channel);
-      console.log("10 - Writing 0x%02x to register 0x%02x\n", (on >> 8) & 0xFF, LED0_ON_H + 4 * channel);
-      console.log("11 - Writing 0x%02x to register 0x%02x\n", (off & 0xFF), LED0_OFF_L + 4 * channel);
-      console.log("12 - Writing 0x%02x to register 0x%02x\n", (off >> 8) & 0xFF, LED0_OFF_H + 4 * channel);
+      console.log("ON:%s, OFF:%s", on, off);
+      console.log("09 - Writing %s to register %s", utils.hexFmt(on & 0xFF), utils.hexFmt(LED0_ON_L + 4 * channel));
+      console.log("10 - Writing %s to register %s", utils.hexFmt(on >> 8) & 0xFF, utils.hexFmt(LED0_ON_H + 4 * channel));
+      console.log("11 - Writing %s to register %s", utils.hexFmt(off & 0xFF), utils.hexFmt(LED0_OFF_L + 4 * channel));
+      console.log("12 - Writing %s to register %s", utils.hexFmt(off >> 8) & 0xFF, utils.hexFmt(LED0_OFF_H + 4 * channel));
     }
     i2c1.writeByteSync(addr, LED0_ON_L + 4 * channel, (on & 0xFF));
     i2c1.writeByteSync(addr, LED0_ON_H + 4 * channel, ((on >> 8) & 0xFF));
@@ -104,23 +104,23 @@ var PWM = function(addr) {
       console.log("Setting PWM frequency to " + freq + " Hz");
       console.log("Estimated pre-scale:" + preScaleVal);
     }
-    preScale = Math.floor(preScaleVal + 0.5);
+    var preScale = Math.floor(preScaleVal + 0.5);
     if (verbose) {
-      System.out.println("Final pre-scale: " + preScale);
+      console.log("Final pre-scale: " + preScale);
     }
     var oldMode = EndianReaders.readU8(i2c1, addr, MODE1);
     var newMode = ((oldMode & 0x7F) | 0x10); // sleep
     if (verbose) {
-      console.log("13 - Writing 0x%02x to register 0x%02x\n", newMode, MODE1);
-      console.log("14 - Writing 0x%02x to register 0x%02x\n", (Math.floor(preScale)), PRESCALE);
-      console.log("15 - Writing 0x%02x to register 0x%02x\n", oldMode, MODE1);
+      console.log("13 - Writing %s to register %s", utils.hexFmt(newMode), utils.hexFmt(MODE1));
+      console.log("14 - Writing %s to register %s", utils.hexFmt(Math.floor(preScale)), utils.hexFmt(PRESCALE));
+      console.log("15 - Writing %s to register %s", utils.hexFmt(oldMode), utils.hexFmt(MODE1));
     }
     i2c1.writeByteSync(addr, MODE1, newMode); // go to sleep
     i2c1.writeByteSync(addr, PRESCALE, (Math.floor(preScale)));
     i2c1.writeByteSync(addr, MODE1, oldMode);
 
     if (verbose) {
-      console.log("16 - Writing 0x%02x to register 0x%02x\n", (oldMode | 0x80), MODE1);
+      console.log("16 - Writing %s to register %s", utils.hexFmt(oldMode | 0x80), utils.hexFmt(MODE1));
     }
     setTimeout(function() {
       i2c1.writeByteSync(addr, MODE1, (oldMode | 0x80));

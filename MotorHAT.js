@@ -1,6 +1,6 @@
 "use strict";
 
-var PWM = require('./PWM.js');
+var PWM = require('./PWM.js').PWM;
 var utils = require('./utils/utils.js');
 
 var Style = {
@@ -50,7 +50,7 @@ var MotorHAT = function(addr, freq) {
 
   this.AdafruitDCMotor = function(controller, motor) {
     var mh = controller;
-    var motorNum = motor;
+    this.motorNum = motor;
     var pwm = 0, in1 = 0, in2 = 0;
     var PWMpin = 0, IN1pin = 0, IN2pin =0;
 
@@ -90,14 +90,14 @@ var MotorHAT = function(addr, freq) {
         return;
       }
       if (command === ServoCommand.FORWARD) {
-        this.mh.setPin(this.IN2pin, 0);
-        this.mh.setPin(this.IN1pin, 1);
+        mh.setPin(this.IN2pin, 0);
+        mh.setPin(this.IN1pin, 1);
       } else if (command === ServoCommand.BACKWARD) {
-        this.mh.setPin(this.IN1pin, 0);
-        this.mh.setPin(this.IN2pin, 1);
+        mh.setPin(this.IN1pin, 0);
+        mh.setPin(this.IN2pin, 1);
       } else if (command === ServoCommand.RELEASE) {
-        this.mh.setPin(this.IN1pin, 0);
-        this.mh.setPin(this.IN2pin, 0);
+        mh.setPin(this.IN1pin, 0);
+        mh.setPin(this.IN2pin, 0);
       }
     };
 
@@ -108,7 +108,7 @@ var MotorHAT = function(addr, freq) {
       if (speed > 255) {
         speed = 255;
       }
-      this.mh.pwm.setPWM(this.PWMpin, 0, (speed*16));
+      mh.pwm.setPWM(this.PWMpin, 0, (speed*16));
     };
   };
 
@@ -311,11 +311,12 @@ var MotorHAT = function(addr, freq) {
   }
 
   for (var motor in Motor) {
-    motors.push(new AdafruitDCMotor(this, Motor[motor]));
+    motors.push(new this.AdafruitDCMotor(this, Motor[motor]));
   }
-  steppers.push(new AdafruitStepperMotor(this, 1));
-  steppers.push(new AdafruitStepperMotor(this, 2));
+  steppers.push(new this.AdafruitStepperMotor(this, 1));
+  steppers.push(new this.AdafruitStepperMotor(this, 2));
   var pwm = new PWM(addr);
+  pwm.init();
   try {
     pwm.setPWMFreq(freq);
   } catch (ioe) {
@@ -345,8 +346,12 @@ var MotorHAT = function(addr, freq) {
   };
 
   this.getMotor = function(mn) {
+    if (verbose) {
+      console.log("getMotor required:", mn);
+    }
     var motor = null;
     for (var m in motors) {
+      console.log(">>> Comparing ", motors[m].motorNum, " and ", mn);
       if (motors[m].motorNum === mn) {
         motor = motors[m];
         if (verbose) {
