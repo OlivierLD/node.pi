@@ -34,6 +34,10 @@ var verbose = true;
 var PWM = function(addr) {
   addr |= SERVO_ADDRESS;
 
+  if (verbose) {
+    console.log(">>> Creating PWM", utils.hexFmt(addr, 2));
+  }
+
   var i2c1;
 
   this.init = function() {

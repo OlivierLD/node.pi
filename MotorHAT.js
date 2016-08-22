@@ -26,10 +26,6 @@ var ServoCommand = {
 
 var HAT_ADDR     = 0x60;
 var DEFAULT_FREQ = 1600;
-var freq    = 1600;
-
-var motors = [];
-var steppers = [];
 
 var verbose = true;
 
@@ -52,7 +48,7 @@ var MotorHAT = function(addr, freq) {
     var mh = controller;
     this.motorNum = motor;
     var pwm = 0, in1 = 0, in2 = 0;
-    var PWMpin = 0, IN1pin = 0, IN2pin =0;
+    var PWMpin = 0, IN1pin = 0, IN2pin = 0;
 
     if (motor === Motor.M1) {
       pwm = 8;
@@ -279,8 +275,8 @@ var MotorHAT = function(addr, freq) {
     };
 
     this.step = function(steps, direction, stepStyle) {
-      sPerS = this.secPerStep;
-      latestStep = 0;
+      var sPerS = this.secPerStep;
+      var latestStep = 0;
 
       if (stepStyle === Style.INTERLEAVE) {
         sPerS = sPerS / 2.0;
@@ -315,6 +311,9 @@ var MotorHAT = function(addr, freq) {
   }
   steppers.push(new this.AdafruitStepperMotor(this, 1));
   steppers.push(new this.AdafruitStepperMotor(this, 2));
+  if (verbose) {
+    console.log("MotorHat: Creating PWM", utils.hexFmt(addr, 2));
+  }
   var pwm = new PWM(addr);
   pwm.init();
   try {
