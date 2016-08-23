@@ -24,6 +24,13 @@ like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samp
 
 ### First installation
 We assume you have already installed `nodejs` and `npm` on the Raspberry PI.
+```
+ $> node -v
+ v5.11.1
+ $> npm -v
+ 3.8.6
+ $>
+```
 After cloning this repository on the RaspberryPI, run the following command from the root directory 
 of the project (the one containing `package.json`):
 ```
