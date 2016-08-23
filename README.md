@@ -2,6 +2,17 @@
 # Sample scripts for nodejs on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
+---
+_Attention!_ :
+The `nodejs` modules used here seem to require the ARMv7 instruction set. To visualize that on your RPi, type at the command prompt 
+```
+ $> uname -a
+ Linux raspberrypi3 4.4.11-v7+ #888 SMP Mon May 23 20:10:33 BST 2016 armv7l GNU/Linux
+```
+I was not able to have that working on Raspberry PI A or Zero, unlike the Java counterpart of this project...
+
+---
+
 _Note_ : Demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
 
 This goal is to provide a JavaScript access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
