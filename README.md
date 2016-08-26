@@ -231,9 +231,9 @@ And load the URL displayed in the console in a WebSocket-enable browser.
 Requires an Adafruit-IO account.
 Will feed 4 feeds:
 - `onoff`, a switch
-- `atm-press`, a gauge
-- `air-temperature`, a gauge
-- `humidity`, a gauge
+- `atm-press`, a gauge (980 - 1050)
+- `air-temperature`, a gauge (-10 - 60)
+- `humidity`, a gauge (0 - 100)
 
 Connect the BME280 on the Raspberry PI, and the led (switch demo) asabove.
 Start on the Raspberry PI:
