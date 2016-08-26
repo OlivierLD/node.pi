@@ -57,6 +57,8 @@ To run a test script:
  ...
 ```
 This will turn the pin (#26, GPIO_07 in the `testSwitch.js` code) on and off, every second, for 100 seconds (one minute and forty seconds).
+The wiring corresponding to the code is done as follow:
+![Simple Switch](./SimpleSwitch.png "Wiring")
 
 ### MCP3008. Analog to Digital Converter with SPI interface.
 The source is in `mcp3008.js`.
