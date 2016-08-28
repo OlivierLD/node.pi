@@ -106,6 +106,10 @@ To run a test script:
 _Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
 
+All the I2C devices are wired the same, and can co-exist in the same circuit. Here is the way to wire both the BME280 and the L3GD20.
+![BMP280 and L3GD20 wiring](./l3gd20-bme280.png "Wiring")
+
+
 ### Read GPS data, through a Serial port
 See the code in `SerialReader.js` and `NMEAParser.js`.
 To run a test script:
