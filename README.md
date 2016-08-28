@@ -103,7 +103,7 @@ To run a test script:
  --------------------------------
  ...
 ```
-_Note_: The `BME280` provides `I2C` and `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
+_Note_: The `BME280` provides `I2C` _and_ `SPI` accesses. Here we use `I2C`. Make sure you connect the BME280's `SCK` to the Raspberry's `SCL` (like pin #5),
 and the BME280's `SDI` to the Raspberry's `SDA` (like pin #3).
 
 All the I2C devices are wired the same, and can co-exist in the same circuit. 
@@ -111,7 +111,7 @@ They all need a ground `GND`, a hot wire (`VIN` or `3V0`), a clock `CLK` and dat
 The distinction between the devices is made at the software level, with the `address` of the device on the I2C bus.
 
 
-Here is the way to wire both the BME280 and the L3GD20.
+Here is the way to wire both the `BME280` and the `L3GD20`.
 ![BMP280 and L3GD20 wiring](./l3gd20-bme280.png "Wiring")
 
 
