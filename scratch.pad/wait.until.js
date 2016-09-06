@@ -10,15 +10,16 @@ var checkFlag = function() {
   }
 };
 
-console.log("Will check flag for 5s.")
+console.log("Will check flag for 5s...")
 checkFlag();
 
 setTimeout(function() {
   flag = true;
-  console.log("Flag is set");
+  console.log("Flag is set!");
 },
 5000);
 
+// Careful, that one may be demanding...
 var sleep = function(milliseconds) {
   var start = new Date().getTime();
 //for (var i=0; i<1e7; i++) {

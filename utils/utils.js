@@ -31,6 +31,7 @@ var lpad = function(str, len, pad) {
   return s;
 };
 
+// Careful with this one, it could be demanding...
 var sleep = function(milliseconds) {
   var start = new Date().getTime();
   while (true) {
@@ -75,7 +76,7 @@ Date.prototype.getDayOfYear = function() {
   return Math.ceil((this - jan1st) / 86400000);
 };
 
-// Provide the day suffix (st,nd,rd,th). Note: 1st, 11th, 21st, 31st
+// Provide the day suffix (st, nd, rd, th). Note: 1st, 11th, 21st, 31st
 Date.prototype.getDaySuffix = function() {
   var sfx = ["th", "st", "nd", "rd"];
   var d = this.getDate();

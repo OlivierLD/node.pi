@@ -4,18 +4,18 @@ This project is gathering scripts based on several `nodejs` modules: [`serialpor
 
 ---
 _Attention!_ :
-The `nodejs` modules used here seem to require the ARMv7 instruction set. To visualize that on your RPi, type at the command prompt 
+The `nodejs` modules used here seem to require the ARMv7 instruction set. To visualize that, on your RPi, type at the command prompt: 
 ```
  $> uname -a
  Linux raspberrypi3 4.4.11-v7+ #888 SMP Mon May 23 20:10:33 BST 2016 armv7l GNU/Linux
 ```
-I was not able to have that working on Raspberry PI A or Zero, unlike the Java counterpart of this project...
+I was not able to have the projects featured here working properly on Raspberry PI A or Zero, unlike the Java counterpart of this project...
 
 ---
 
-_Note_ : Demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
+_Note_ : Some demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
 
-This goal is to provide a JavaScript access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
+The goal here is to provide a `JavaScript` access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
 like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
 
 | Note  |
