@@ -223,9 +223,11 @@ var getNetworkIPs = (function () {
   };
 })();
 
-// Exports
-exports.version = '0.0.1';     // Static member, made public
-exports.hexFmt  = toHexString; // Made public.
-exports.binFmt  = toBinString; // Made public.
-exports.getIPs  = getNetworkIPs; // Made public
-exports.sleep   = sleep; // Made public.
+// Exports. Publicly exposed
+//     external = internal
+// -------------=------------
+exports.version = '0.0.1';
+exports.hexFmt  = toHexString;
+exports.binFmt  = toBinString;
+exports.getIPs  = getNetworkIPs;
+exports.sleep   = sleep;

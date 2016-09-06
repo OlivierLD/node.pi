@@ -126,9 +126,11 @@ var PWM = function(addr) {
     if (verbose) {
       console.log("16 - Writing %s to register %s", utils.hexFmt(oldMode | 0x80), utils.hexFmt(MODE1));
     }
-    setTimeout(function() {
+    // SLEEP Here
+    utils.sleep(5);
+//  setTimeout(function() {
       i2c1.writeByteSync(addr, MODE1, (oldMode | 0x80));
-    }, 5);
+//  }, 5);
   };
 };
 
