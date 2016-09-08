@@ -263,7 +263,6 @@ You can also deal with the switch from a Pebble (a smart watch), as described [h
  * FONA
  * Servo HAT
  * Sense HAT
- * IoT with Swagger and Adafruit-IO
  * ... and more
 
 ### To debug a nodejs application:
