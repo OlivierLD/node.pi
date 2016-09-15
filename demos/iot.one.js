@@ -111,7 +111,6 @@ var setSwitch = function(onOff) {
   return deferred.promise();
 };
 
-
 var go = function(type) {
   var key = qsK !== undefined ? qsK : $("#a-key").val();
 
@@ -131,7 +130,7 @@ var go = function(type) {
         // Display it...
         var status = JSON.parse(value).last_value;
         $("#last-value").text(new Date() + ':  ' + status);
-        $("#switch-status").val(status);
+        $("#switch-status").val(status).change(); // .change() mandatory to update the widget!
         setTimeout(function() {
           $('body').css('cursor', 'auto');
         }, 1);
