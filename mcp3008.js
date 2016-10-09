@@ -77,7 +77,9 @@ var MCP3008 = function(clock, miso, mosi, cs) {
   SPI_CS.low();
 
   this.readAdc = function(ch) {
-  	ch |= this.channels.CHANNEL_0;
+    if (ch === undefined) {
+      ch = this.channels.CHANNEL_0;
+    }
 
     SPI_CS.high();
     SPI_CLK.low();

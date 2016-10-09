@@ -30,7 +30,9 @@ var DEFAULT_FREQ = 1600;
 var verbose = true;
 
 var MotorHAT = function(addr, freq) {
-  addr |= HAT_ADDR;
+  if (addr === undefined) {
+    addr = HAT_ADDR;
+  }
 
   var i2c1;
   var motors = [];
