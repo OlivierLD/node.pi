@@ -14,7 +14,9 @@ var NMEA = function(serial, br) {
   if (serial === undefined) {
     serial = '/dev/ttyUSB0';
   }
-  br |= 4800;
+  if (br === undefined) {
+    br = 4800;
+  }
 
   console.log("Serial", serial, "br", br);
 

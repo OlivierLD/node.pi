@@ -112,7 +112,9 @@ var maxZ  = 0.0;
 var minZ  = 0.0;
   
 var L3GD20 = function(addr) {
-  addr |= L3GD20_ADDRESS;
+  if (addr === undefined) {
+    addr = L3GD20_ADDRESS;
+  }
 
   var i2c1;
 

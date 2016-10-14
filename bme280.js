@@ -52,7 +52,9 @@ var BME280_REGISTER_TEMP_DATA     = 0xFA;
 var BME280_REGISTER_HUMIDITY_DATA = 0xFD;
 
 var BME280 = function(addr) {
-  addr |= BME280_I2CADDR;
+  if (addr === undefined) {
+    addr = BME280_I2CADDR;
+  }
 
   var i2c1;
   var mode = BME280_OSAMPLE_8;

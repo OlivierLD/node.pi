@@ -32,7 +32,9 @@ var SERVO_ADDRESS  = 0x40;
 var verbose = true;
 
 var PWM = function(addr) {
-  addr |= SERVO_ADDRESS;
+  if (addr === undefined) {
+    addr = SERVO_ADDRESS;
+  }
 
   if (verbose) {
     console.log(">>> Creating PWM", utils.hexFmt(addr, 2));

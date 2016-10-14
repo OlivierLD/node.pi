@@ -71,7 +71,7 @@ paths:
 definitions:
   sensorList:
     type: array
-    description: The list of the availabel sensors
+    description: The list of the available sensors
     items:
       type: string
       description: Sensor Name or ID
