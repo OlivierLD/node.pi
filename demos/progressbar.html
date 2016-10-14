@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Progress Bar demo</title>
+    <script type="text/javascript" src="widgets/AtomicProgressBar.js"></script>
+    <style>
+        * { font-family:tahoma; font-size:12px; padding:0px; margin:0px; }
+        p { line-height:18px; }
+    </style>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            var apg = new AtomicProgressBar('valueCanvas', 240, 50);
+            apg.startStop();
+            setTimeout(apg.startStop, 10000);
+        };
+    </script>
+
+</head>
+<body>
+  <h4>Progress Bar demo</h4>
+  <canvas id="valueCanvas" width="240" height="50" title="Progress Bar" style="margin: 10px;"></canvas>
+
+</body>
+</html>
