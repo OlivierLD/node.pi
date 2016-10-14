@@ -71,7 +71,7 @@ function AtomicProgressBar(cName, w, h) {
                 context.lineTo(x, instance.height);
             }
             context.lineWidth = 1;
-            context.strokeStyle = 'green';
+            context.strokeStyle = 'lightgreen';
             context.stroke();
             context.closePath();
         }

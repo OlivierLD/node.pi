@@ -10,17 +10,28 @@
     </style>
 
     <script type="text/javascript">
-        window.onload = function() {
-            var apg = new AtomicProgressBar('valueCanvas', 240, 50);
+        var apg;
+
+        var clickFunc = function() {
             apg.startStop();
-            setTimeout(apg.startStop, 10000);
+        };
+
+        window.onload = function() {
+            apg = new AtomicProgressBar('valueCanvas', 240, 30);
+//            apg.startStop();
+//            setTimeout(apg.startStop, 10000);
         };
     </script>
 
 </head>
 <body>
   <h4>Progress Bar demo</h4>
-  <canvas id="valueCanvas" width="240" height="50" title="Progress Bar" style="margin: 10px;"></canvas>
-
+  <div style="margin: 10px;">
+    <canvas id="valueCanvas" width="240" height="30" title="Progress Bar" style="margin: 10px;"></canvas>
+    <br>
+    <button onclick="clickFunc();">Start/Stop</button>
+  </div>
+  <hr>
+  <address>Oliv did it. AD 2016.</address>
 </body>
 </html>
