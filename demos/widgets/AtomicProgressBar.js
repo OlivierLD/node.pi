@@ -4,14 +4,21 @@
  */
 "use strict";
 
-function AtomicProgressBar(cName, w, h) {
+function AtomicProgressBar(cName, w, h, bg, fg) {
     this. width = w;
     this.height = h;
+    this.bg = bg;
+    this.fg = fg;
 
     if (this.width === undefined)
         this.width = 100;
     if (this.height === undefined)
         this.height = 20;
+    if (this.bg === undefined)
+        this.bg = 'black';
+    if (this.fg === undefined)
+        this.fg = 'lightgreen';
+
     var canvasName = cName;
 
     var running = false;
@@ -31,7 +38,7 @@ function AtomicProgressBar(cName, w, h) {
             this.animate();
         else {
             window.clearInterval(intervalID);
-            draw(canvasName);
+            draw(canvasName); // Reset
         }
     };
 
@@ -57,7 +64,7 @@ function AtomicProgressBar(cName, w, h) {
 
         // Cleanup
         //context.fillStyle = "#ffffff";
-        context.fillStyle = 'back';
+        context.fillStyle = instance.bg;
         //context.fillStyle = "transparent";
         context.fillRect(0, 0, canvas.width, canvas.height);
         //context.fillStyle = 'rgba(255, 255, 255, 0.0)';
@@ -71,7 +78,7 @@ function AtomicProgressBar(cName, w, h) {
                 context.lineTo(x, instance.height);
             }
             context.lineWidth = 1;
-            context.strokeStyle = 'lightgreen';
+            context.strokeStyle = instance.fg;
             context.stroke();
             context.closePath();
         }

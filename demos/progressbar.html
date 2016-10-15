@@ -11,23 +11,25 @@
 
     <script type="text/javascript">
         var apg;
+        var apg2;
 
         var clickFunc = function() {
             apg.startStop();
+            apg2.startStop();
         };
 
         window.onload = function() {
-            apg = new AtomicProgressBar('valueCanvas', 240, 30);
-//            apg.startStop();
-//            setTimeout(apg.startStop, 10000);
+            apg  = new AtomicProgressBar('valueCanvas', 400, 30);
+            apg2 = new AtomicProgressBar('valueCanvas2', 400, 30, 'white', 'red');
         };
     </script>
 
 </head>
 <body>
-  <h4>Progress Bar demo</h4>
+  <h3>Progress Bar demo</h3>
   <div style="margin: 10px;">
-    <canvas id="valueCanvas" width="240" height="30" title="Progress Bar" style="margin: 10px;"></canvas>
+    <canvas id="valueCanvas" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
+    <canvas id="valueCanvas2" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
     <br>
     <button onclick="clickFunc();">Start/Stop</button>
   </div>
