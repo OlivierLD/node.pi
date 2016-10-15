@@ -42,6 +42,16 @@ function AtomicProgressBar(cName, w, h, bg, fg) {
         }
     };
 
+    this.start = function() {
+      running = true;
+      this.animate();
+    };
+    this.stop = function() {
+      running = false;
+      try { window.clearInterval(intervalID); } catch (err) {}
+      draw(canvasName); // Reset
+    };
+
     this.animate = function () {
         intervalID = window.setInterval(function () {
             buzz();

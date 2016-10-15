@@ -141,12 +141,14 @@ var go = function(type) {
     }
 
     if (type === HUM) {
+      apb1.start();
       var fetchHumidity = getData('https://io.adafruit.com/api/feeds/' + HUMIDITY_FEED);
       fetchHumidity.done(function(value) {
     //  console.log("Done :" + value); // Raw data
         // Display it...
         var humidity = JSON.parse(value).last_value;
         setHumidity(parseFloat(humidity));
+        apb1.stop();
         setTimeout(function() {
           $('body').css('cursor', 'auto');
         }, 1);
@@ -157,12 +159,14 @@ var go = function(type) {
     }
 
     if (type === PRESS) {
+      apb2.start();
       var fetchPressure = getData('https://io.adafruit.com/api/feeds/' + PRESSURE_FEED);
       fetchPressure.done(function(value) {
     //  console.log("Done :" + value); // Raw data
         // Display it...
         var pressure = JSON.parse(value).last_value;
         setPressure(parseFloat(pressure));
+        apb2.stop();
         setTimeout(function() {
           $('body').css('cursor', 'auto');
         }, 1);
@@ -173,12 +177,14 @@ var go = function(type) {
     }
 
     if (type === TEMP) {
+      apb3.start();
       var fetchTemperature = getData('https://io.adafruit.com/api/feeds/' + TEMPERATURE_FEED);
       fetchTemperature.done(function(value) {
     //  console.log("Done :" + value); // Raw data
         // Display it...
         var temperature = JSON.parse(value).last_value;
         setTemperature(parseFloat(temperature));
+        apb3.stop();
         setTimeout(function() {
           $('body').css('cursor', 'auto');
         }, 1);
@@ -206,11 +212,16 @@ var setSwitchValue = function(onOff) {
 var displayScale = 0.75;
 
 var displayHum, displayPRMSL, displayTemp;
+var apb1, apb2, apb3;
 
 window.onload = function() {
   displayHum   = new AnalogDisplay('humCanvas',   100 * displayScale,  100, 10, 1, true, 40);
   displayPRMSL = new AnalogDisplay('prmslCanvas', 100 * displayScale, 1045, 10, 1, true, 50, 985, 0);
   displayTemp  = new Thermometer('tempCanvas', 200);
+
+  apb1  = new AtomicProgressBar('apbCanvas-01', 200, 20);
+  apb2  = new AtomicProgressBar('apbCanvas-02', 200, 20);
+  apb3  = new AtomicProgressBar('apbCanvas-03', 100, 20);
 };
 
 var ANIMATE = true;
