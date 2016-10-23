@@ -1,23 +1,27 @@
 /**
- *  An un-determinate progress bar
+ * An un-determinate progress bar
  * @author Olivier Le Diouris
  */
 "use strict";
 
 function AtomicProgressBar(cName, w, h, bg, fg) {
-    this. width = w;
+    this.width = w;
     this.height = h;
     this.bg = bg;
     this.fg = fg;
 
-    if (this.width === undefined)
+    if (this.width === undefined) {
         this.width = 100;
-    if (this.height === undefined)
+    }
+    if (this.height === undefined) {
         this.height = 20;
-    if (this.bg === undefined)
+    }
+    if (this.bg === undefined) {
         this.bg = 'black';
-    if (this.fg === undefined)
+    }
+    if (this.fg === undefined) {
         this.fg = 'lightgreen';
+    }
 
     var canvasName = cName;
 
@@ -72,13 +76,21 @@ function AtomicProgressBar(cName, w, h, bg, fg) {
         var canvas = document.getElementById(displayCanvasName);
         var context = canvas.getContext('2d');
 
-        // Cleanup
-        //context.fillStyle = "#ffffff";
-        context.fillStyle = instance.bg;
-        //context.fillStyle = "transparent";
+        // Background
+        if (instance.bg.gradientFrom !== undefined) {
+            var grd = context.createLinearGradient(0, 0, 0, canvas.height);
+            grd.addColorStop(0, instance.bg.gradientFrom);// 0  Beginning
+            grd.addColorStop(1, instance.bg.gradientTo);// 1  End
+            context.fillStyle = grd;
+        } else {
+            //context.fillStyle = "#ffffff";
+            context.fillStyle = instance.bg;
+            //context.fillStyle = "transparent";
+        }
         context.fillRect(0, 0, canvas.width, canvas.height);
         //context.fillStyle = 'rgba(255, 255, 255, 0.0)';
         //context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fill();
 
         if (bars !== undefined) {
             context.beginPath();

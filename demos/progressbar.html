@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Progress Bar demo</title>
     <script type="text/javascript" src="widgets/AtomicProgressBar.js"></script>
@@ -12,28 +12,35 @@
     <script type="text/javascript">
         var apg;
         var apg2;
+        var apg3;
+        var apg4;
 
         var clickFunc = function() {
             apg.startStop();
             apg2.startStop();
+            apg3.startStop();
+            apg4.startStop();
         };
 
         window.onload = function() {
             apg  = new AtomicProgressBar('valueCanvas', 400, 30);
             apg2 = new AtomicProgressBar('valueCanvas2', 400, 30, 'white', 'red');
+            apg3 = new AtomicProgressBar('valueCanvas3', 400, 30, { gradientFrom: 'lightgray', gradientTo: 'black' }, 'cyan');
+            apg4 = new AtomicProgressBar('valueCanvas4', 400, 30, { gradientFrom: 'black', gradientTo: 'lightgray' }, 'white');
         };
     </script>
-
-</head>
-<body>
-  <h3>Progress Bar demo</h3>
-  <div style="margin: 10px;">
-    <canvas id="valueCanvas" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
-    <canvas id="valueCanvas2" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
-    <br>
-    <button onclick="clickFunc();">Start/Stop</button>
-  </div>
-  <hr>
-  <address>Oliv did it. AD 2016.</address>
-</body>
+  </head>
+  <body>
+    <h3>Progress Bar demo</h3>
+    <div style="margin: 10px;">
+      <canvas id="valueCanvas" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
+      <canvas id="valueCanvas2" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
+      <canvas id="valueCanvas3" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
+      <canvas id="valueCanvas4" width="400" height="30" title="Progress Bar" style="padding:5px; background:#ddd; border-radius:5px; border:1px solid #CCC; margin-top:10px;"></canvas>
+      <br>
+      <button onclick="clickFunc();">Start/Stop</button>
+    </div>
+    <hr>
+    <address>Oliv did it. AD 2016.</address>
+  </body>
 </html>
