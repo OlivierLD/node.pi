@@ -118,7 +118,7 @@ var parseDBT = function(str) {
 };
 
 var parseGLL = function(str) {
-  /* Structure is
+  /* Structure isgit
    *         1       2 3       4 5         6
    *  $aaGLL,llll.ll,a,gggg.gg,a,hhmmss.ss,A*hh
    *         |       | |       | |         |
