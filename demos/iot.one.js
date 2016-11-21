@@ -219,9 +219,9 @@ window.onload = function() {
   displayPRMSL = new AnalogDisplay('prmslCanvas', 100 * displayScale, 1045, 10, 1, true, 50, 985, 0);
   displayTemp  = new Thermometer('tempCanvas', 200);
 
-  apb1  = new AtomicProgressBar('apbCanvas-01', 200, 20);
-  apb2  = new AtomicProgressBar('apbCanvas-02', 200, 20);
-  apb3  = new AtomicProgressBar('apbCanvas-03', 100, 20);
+  apb1  = new AtomicProgressBar('apbCanvas-01', 200, 20, { gradientFrom: 'lightgray', gradientTo: 'black' }, 'cyan');
+  apb2  = new AtomicProgressBar('apbCanvas-02', 200, 20, { gradientFrom: 'lightgray', gradientTo: 'black' }, 'cyan');
+  apb3  = new AtomicProgressBar('apbCanvas-03', 100, 20, { gradientFrom: 'lightgray', gradientTo: 'black' }, 'cyan');
 };
 
 var ANIMATE = true;
