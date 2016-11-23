@@ -129,7 +129,7 @@ var parseGLL = function(str) {
    *         |       Lat sign :N/S
    *         Latitude
    */
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "ParseGLL Not implemented" });
 };
 
 var parseGGA = function(str) {
@@ -152,7 +152,7 @@ var parseGGA = function(str) {
    *         |         Latitude
    *         UTC of position
    */
-  throw ({ exception: "Not implemented" });
+  throw { exception: "parseGGA Not implemented" };
 };
 
 var parseGSA = function(str) {
@@ -168,7 +168,7 @@ var parseGSA = function(str) {
    *        Mode: M=Manual, forced to operate in 2D or 3D
    *              A=Automatic, 3D/2D
    */
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseGSA Not implemented" });
 };
 
 var parseGSV = function(str) {
@@ -186,7 +186,7 @@ var parseGSV = function(str) {
    *        | Message Number
    *        Number of messages in this cycle
    */
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseGSV Not implemented" });
 };
 
 var parseHDG = function(str) {
@@ -201,31 +201,31 @@ var parseHDG = function(str) {
    *        |   Magnetic Deviation, degrees
    *        Magnetic Sensor heading in degrees
    */
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseHDG Not implemented" });
 };
 
 var parseHDM = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseHDM Not implemented" });
 };
 
 var parseMDA = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseMDA Not implemented" });
 };
 
 var parseMMB = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseMMB Not implemented" });
 };
 
 var parseMTA = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseMTA Not implemented" });
 };
 
 var parseMTW = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseMTW Not implemented" });
 };
 
 var parseMWV = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseMWV Not implemented" });
 };
 
 var parseRMB = function(str) {
@@ -246,19 +246,19 @@ var parseRMB = function(str) {
    *        | Crosstrack error in nm
    *        Data Status (Active or Void)
    */
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseRMB Not implemented" });
 };
 
 var parseVDR = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseVDR Not implemented" });
 };
 
 var parseVWH = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseVWH Not implemented" });
 };
 
 var parseVLW = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseVLW Not implemented" });
 };
 
 var parseVTG = function(str) {
@@ -270,15 +270,15 @@ var parseVWR = function(str) {
 };
 
 var parseVWT = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseVWR Not implemented" });
 };
 
 var parseXDR = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseXDR Not implemented" });
 };
 
 var parseZDA = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseZDA Not implemented" });
 };
 
 var sexToDec = function(deg, min) {
