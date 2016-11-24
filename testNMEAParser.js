@@ -3,6 +3,8 @@
 console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
 console.log("Usage: node " + __filename );
 
+var fs = require('fs'),
+    readline = require('readline');;
 var util = require('util');
 var parser = require('./NMEAParser.js');
 
@@ -51,6 +53,7 @@ var NMEA_ARRAY = [
 ];
 
 try {
+  console.log('== Sample strings ==');
   var str = "$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A";
   var parsed = parser.parseRMC(str);
   console.log("1 - RMC: ", parsed);
@@ -88,6 +91,8 @@ try {
     console.log(">> Error:", err);
   }
 
+  // From hard-coded sample data
+  console.log('== Sample data ==');
   for (var i=0; i<NMEA_ARRAY.length; i++) {
     try {
       str = NMEA_ARRAY[i];
@@ -97,6 +102,25 @@ try {
       console.log(">> Error:", err);
     }
   }
+  // From data file
+  console.log('== Sample data file ==');
+  var rd = readline.createInterface({
+    input: fs.createReadStream('nmea/headless.nmea'),
+//  output: process.stdout,
+    terminal: false
+  });
+
+  rd.on('line', function(line) {
+//  console.log("Line by line:" , line);
+    try {
+      auto = parser.autoparse(line);
+      console.log("Auto:", auto);
+    } catch (err) {
+      console.log(">> Error:", err);
+    }
+  });
+
+  console.log('== Test bottom ==');
 } catch (err) {
   console.log("=============");
   console.log(">> Error:", err);

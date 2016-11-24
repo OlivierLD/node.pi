@@ -125,7 +125,10 @@ var parseDBT = function(str) {
    *         Depth in feet
    */
   var data = getChunks(str);
-  return { type: "DBT", feet: parseFloat(data[1]), meters: parseFloat(data[3]), fathoms: parseFloat(data[5]) };
+  return { type: "DBT",
+    feet: parseFloat(data[1]),
+    meters: parseFloat(data[3]),
+    fathoms: parseFloat(data[5]) };
 };
 
 var parseGLL = function(str) {
@@ -250,15 +253,80 @@ var parseHDM = function(str) {
 };
 
 var parseMDA = function(str) {
-  throw ({ exception: "parseMDA Not implemented" });
+  /*                                             13    15    17    19
+   *        1   2 3   4 5   6 7   8 9   10  11  12    14    16    18    20
+   * $--MDA,x.x,I,x.x,B,x.x,C,x.x,C,x.x,x.x,x.x,C,x.x,T,x.x,M,x.x,N,x.x,M*hh
+   *        |     |     |     |     |   |   |     |     |     |     Wind speed, m/s
+   *        |     |     |     |     |   |   |     |     |     Wind speed, knots
+   *        |     |     |     |     |   |   |     |     Wind dir Mag
+   *        |     |     |     |     |   |   |     Wind dir, True
+   *        |     |     |     |     |   |   Dew Point C
+   *        |     |     |     |     |   Absolute hum %
+   *        |     |     |     |     Relative hum %
+   *        |     |     |     Water temp in Celcius
+   *        |     |     Air Temp in Celcius  |
+   *        |     Pressure in Bars
+   *        Pressure in inches
+   *
+   * Example: $WIMDA,29.4473,I,0.9972,B,17.2,C,,,,,,,,,,,,,,*3E
+   */
+  var data = getChunks(str);
+  return { type: "MDA",
+    pressure: {
+      inches: parseFloat(data[1]),
+      bars: parseFloat(data[3])
+    },
+    temperature: {
+      air: parseFloat(data[5]),
+      water: parseFloat(data[7])
+    },
+    humidity: {
+      relative: parseFloat(data[9]),
+      absolute: parseFloat(data[10]),
+      dewpoint: parseFloat(data[11])
+    },
+    wind: {
+      dir: {
+        true: parseFloat(data[13]),
+        magnetic: parseFloat(data[15])
+      },
+      speed: {
+        knots: parseFloat(data[17]),
+        ms: parseFloat(data[19])
+      }
+    }
+  };
 };
 
 var parseMMB = function(str) {
-  throw ({ exception: "parseMMB Not implemented" });
+  /*
+   * Structure is
+   *        1       2 3      4
+   * $IIMMB,29.9350,I,1.0136,B*7A
+   *        |       | |      |
+   *        |       | |      Bars
+   *        |       | Pressure in Bars
+   *        |       Inches of Hg
+   *        Pressure in inches of Hg
+   */
+  var data = getChunks(str);
+  return { type: "MMB", pressure: {
+    inches: parseFloat(data[1]),
+    bars: parseFloat(data[3])
+  }};
 };
 
 var parseMTA = function(str) {
-  throw ({ exception: "parseMTA Not implemented" });
+  /*
+   * Structure is
+   *        1   2
+   * $RPMTA,9.9,C*37
+   *        |   |
+   *        |   Celcius
+   *        Value
+   */
+  var data = getChunks(str);
+  return { type: "MTA", temp: parseFloat(data[1]), unit: data[2] };
 };
 
 var parseMTW = function(str) {
@@ -277,8 +345,8 @@ var parseMTW = function(str) {
 var parseMWV = function(str) {
   /*
    * Structure is:
-   *         1   2 3    4 5
-   *  $IIMWV,256,R,07.1,N,A*14
+   *         1    2 3    4 5
+   *  $IIMWV,256, R,07.1,N,A*14
    *  $aaMWV,xx.x,a,x.x,a,A*hh
    *         |    | |   | |
    *         |    | |   | status : A=data valid
@@ -291,11 +359,15 @@ var parseMWV = function(str) {
   if (data[5] !== 'A') {
     throw { err: "No data available for MWV" }
   } else {
-    return { type: "MWV",
-      windspeed: parseFloat(data[3]),
-      winddir: parseFloat(data[1]),
-      unit: data[4],
-      reference: (data[2] === 'R' ? 'relative' : 'true') };
+    return {
+      type: "MWV",
+      wind: {
+        speed: parseFloat(data[3]),
+        dir: parseFloat(data[1]),
+        unit: data[4],
+        reference: (data[2] === 'R' ? 'relative' : 'true')
+      }
+    };
   }
 };
 
@@ -324,8 +396,24 @@ var parseVDR = function(str) {
   throw ({ exception: "parseVDR Not implemented" });
 };
 
-var parseVWH = function(str) {
-  throw ({ exception: "parseVWH Not implemented" });
+var parseVHW = function(str) {
+  /* Structure is
+   *         1   2 3   4 5   6 7   8
+   *  $aaVHW,x.x,T,x.x,M,x.x,N,x.x,K*hh
+   *         |     |     |     |
+   *         |     |     |     Speed in km/h
+   *         |     |     Speed in knots
+   *         |     Heading in degrees, Magnetic
+   *         Heading in degrees, True
+   */
+  var data = getChunks(str);
+  return { heading: {
+    true: parseFloat(data[1]),
+    magnetic: parseFloat(data[3])},
+    speed: {
+      knots: parseFloat(data[5]),
+      kmh: parseFloat(data[7])
+    }}
 };
 
 var parseVLW = function(str) {
@@ -333,11 +421,11 @@ var parseVLW = function(str) {
 };
 
 var parseVTG = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parse VTG Not implemented" });
 };
 
 var parseVWR = function(str) {
-  throw ({ exception: "Not implemented" });
+  throw ({ exception: "parseVWR Not implemented" });
 };
 
 var parseVWT = function(str) {
@@ -378,12 +466,17 @@ var decToSex = function(val, ns_ew) {
   return s;
 };
 
+var matcher = {};
+matcher["RMC"] = parseRMC;
+matcher["DBT"] = parseDBT;
+matcher["GLL"] = parseGLL;
+
 var dispatcher = function(str) {
   try {
     var id = getSentenceID(str);
     switch (id) {
       case "RMC":
-        return parseRMC;
+        return matcher["RMC"];
       case "DBT":
         return parseDBT;
       case "GLL":
@@ -412,8 +505,8 @@ var dispatcher = function(str) {
         return parseRMB;
       case "VDR":
         return parseVDR;
-      case "VWH":
-        return parseVWH;
+      case "VHW":
+        return parseVHW;
       case "VTG":
         return parseVTG;
       case "VWR":
@@ -479,7 +572,7 @@ exports.parseMTW = parseMTW;
 exports.parseMWV = parseMWV;
 exports.parseRMB = parseRMB;
 exports.parseVDR = parseVDR;
-exports.parseVWH = parseVWH;
+exports.parseVHW = parseVHW;
 exports.parseVLW = parseVLW;
 exports.parseVTG = parseVTG;
 exports.parseVWR = parseVWR;
