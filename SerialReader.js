@@ -86,6 +86,14 @@ var NMEA = function(serial, br) {
                  //   console.log(">> Sentence: " + sentences[i] + " not managed yet");
                       break;
                   }
+                } else if (global.displayMode === 'auto') {
+                  try {
+                    var str = sentences[i];
+                    var auto = NMEAParser.autoparse(str);
+                    console.log("AutoParsed:", auto);
+                  } catch (err) {
+                    console.log(">> Error:", err);
+                  }
                 } else {
                   console.log(sentences[i]);
                 }

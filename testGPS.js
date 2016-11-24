@@ -1,19 +1,24 @@
 "use strict";
 
 console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
-console.log("Usage: node " + __filename + " [raw]|fmt");
+console.log("Usage: node " + __filename + " [raw]|fmt|auto");
 
 global.displayMode = "raw";
 
 if (process.argv.length > 2) {
   if (process.argv[2] === 'fmt') {
     global.displayMode = "fmt";
+  } else if (process.argv[2] === 'auto') {
+    global.displayMode = "auto";
   }
 }
 
 var util = require('util');
 var GPS = require('./SerialReader.js').NMEA;
-var gps = new GPS('/dev/ttyUSB0', 4800);
+
+var serialPort = '/dev/tty.usbserial'; // On Mac
+// var serialPort = '/dev/ttyUSB0'; // On Linux (including RAspberry)
+var gps = new GPS(serialPort, 4800);
 // var gps = new GPS();
 
 if (global.displayMode === 'fmt') {

@@ -76,19 +76,19 @@ try {
   console.log("4 - HDG: ", parsed);
 
   try {
+    str = "$GPGGA,014457,3739.853,N,12222.821,W,1,03,5.4,1.1,M,-28.2,M,,*7E";
+    parsed = parser.parseGGA(str);
+    console.log("5 - GGA: ", parsed);
+  } catch (err) {
+    console.log(">> Error for GGA:", err);
+  }
+
+  try {
     str = "$IIXXX,whatever";
     auto = parser.autoparse(str);
     console.log("Auto:", auto);
   } catch (err) {
-    console.log(">> Error:", err);
-  }
-
-  try {
-    str = "$GPGGA,014457,3739.853,N,12222.821,W,1,03,5.4,1.1,M,-28.2,M,,*7E";
-    parsed = parser.parseGGA(str);
-    console.log("X - GGA: ", parsed);
-  } catch (err) {
-    console.log(">> Error:", err);
+    console.log(">> Expected Error:", err);
   }
 
   // From hard-coded sample data
@@ -103,7 +103,7 @@ try {
     }
   }
   // From data file
-  console.log('== Sample data file ==');
+  console.log('== Sample data files ==');
   var rd = readline.createInterface({
     input: fs.createReadStream('nmea/headless.nmea'),
 //  output: process.stdout,
@@ -113,11 +113,39 @@ try {
   rd.on('line', function(line) {
 //  console.log("Line by line:" , line);
     try {
+      console.log("Parsing ", line);
+      if (line.startsWith("$RPSTD,")) {
+        console.log("... skipping.")
+      } else {
+        auto = parser.autoparse(line);
+        console.log("Auto:", auto);
+      }
+    } catch (err) {
+      console.log(">> Error in line ", line, err);
+    }
+  }).on('close', function() {
+    console.log("Data file exhausted");
+    console.log("Type 'quit'");
+  });
+
+  var rd2 = readline.createInterface({
+    input: fs.createReadStream('nmea/gps.nmea'),
+//  output: process.stdout,
+    terminal: false
+  });
+
+  rd2.on('line', function(line) {
+//  console.log("Line by line:" , line);
+    try {
+      console.log("Parsing ", line);
       auto = parser.autoparse(line);
       console.log("Auto:", auto);
     } catch (err) {
-      console.log(">> Error:", err);
+      console.log(">> Error in line ", line, err);
     }
+  }).on('close', function() {
+    console.log("Data file exhausted");
+    console.log("Type 'quit'");
   });
 
   console.log('== Test bottom ==');
