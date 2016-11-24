@@ -262,11 +262,41 @@ var parseMTA = function(str) {
 };
 
 var parseMTW = function(str) {
-  throw ({ exception: "parseMTW Not implemented" });
+  /*
+   * Structure is
+   *         1    2
+   * $IIMTW,+18.0,C*31
+   *         |    |
+   *         |    Celcius
+   *         Value
+   */
+  var data = getChunks(str);
+  return { type: "MTW", temp: parseFloat(data[1]), unit: data[2] };
 };
 
 var parseMWV = function(str) {
-  throw ({ exception: "parseMWV Not implemented" });
+  /*
+   * Structure is:
+   *         1   2 3    4 5
+   *  $IIMWV,256,R,07.1,N,A*14
+   *  $aaMWV,xx.x,a,x.x,a,A*hh
+   *         |    | |   | |
+   *         |    | |   | status : A=data valid
+   *         |    | |   Wind Speed unit (K/M/N)
+   *         |    | Wind Speed
+   *         |    reference R=relative, T=true
+   *         Wind angle 0 to 360 degrees
+   */
+  var data = getChunks(str);
+  if (data[5] !== 'A') {
+    throw { err: "No data available for MWV" }
+  } else {
+    return { type: "MWV",
+      windspeed: parseFloat(data[3]),
+      winddir: parseFloat(data[1]),
+      unit: data[4],
+      reference: (data[2] === 'R' ? 'relative' : 'true') };
+  }
 };
 
 var parseRMB = function(str) {
