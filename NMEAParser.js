@@ -37,13 +37,25 @@ var validate = function(str) {
 
 var getChunks = function(str) {
   var starIdx = str.indexOf('*');
-  if (starIdx === -1) {
-    throw({ desc: 'Missing checksum' });
+  try {
+    var valid = validate(str);
+  } catch (err) {
+    throw { validating: str,
+      error: err };
   }
-  var checksumStr = str.substring(starIdx + 1); // TODO Validate checksum ?
   var nmea = str.substring(1, starIdx);
   var chunks = nmea.split(",");
   return chunks;
+};
+
+var getSentenceID = function(str) {
+  if (str.charAt(0) !== '$') {
+    throw({ desc: 'Does not start with $' });
+  }
+  if (str.charAt(6) !== ',') {
+    throw({ desc: 'Invalid key length' });
+  }
+  return str.substring(3, 6);
 };
 
 var parseRMC = function(str) {
@@ -113,12 +125,11 @@ var parseDBT = function(str) {
    *         Depth in feet
    */
   var data = getChunks(str);
-  
   return { type: "DBT", feet: parseFloat(data[1]), meters: parseFloat(data[3]), fathoms: parseFloat(data[5]) };
 };
 
 var parseGLL = function(str) {
-  /* Structure isgit
+  /* Structure is
    *         1       2 3       4 5         6
    *  $aaGLL,llll.ll,a,gggg.gg,a,hhmmss.ss,A*hh
    *         |       | |       | |         |
@@ -129,7 +140,34 @@ var parseGLL = function(str) {
    *         |       Lat sign :N/S
    *         Latitude
    */
-  throw ({ exception: "ParseGLL Not implemented" });
+  var data = getChunks(str);
+  if ("A" !== data[6]) {
+    throw { err: "No data available" };
+  }
+  var latDeg = data[1].substring(0, 2);
+  var latMin = data[1].substring(2);
+  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin));
+  if (data[2] === 'S') {
+    lat = -lat;
+  }
+
+  var lonDeg = data[3].substring(0, 3);
+  var lonMin = data[3].substring(3);
+  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin));
+  if (data[4] === 'W') {
+    lon = -lon;
+  }
+
+  var hours   = parseInt(data[5].substring(0, 2));
+  var minutes = parseInt(data[5].substring(2, 4));
+  var seconds = parseInt(data[5].substring(4, 6));
+  var now = new Date();
+  var d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds, 0));
+
+  return { type: "GLL",
+    latitude: lat,
+    longitude: lon,
+    epoch: d.getTime() };
 };
 
 var parseGGA = function(str) {
@@ -201,7 +239,10 @@ var parseHDG = function(str) {
    *        |   Magnetic Deviation, degrees
    *        Magnetic Sensor heading in degrees
    */
-  throw ({ exception: "parseHDG Not implemented" });
+  var data = getChunks(str);
+  return { hdg: parseFloat(data[1]),
+    dev: ((data[3] === 'W' ? -1 : 1) * parseFloat(data[2])),
+    dec: ((data[5] === 'W' ? -1 : 1) * parseFloat(data[4])) };
 };
 
 var parseHDM = function(str) {
@@ -283,7 +324,7 @@ var parseZDA = function(str) {
 
 var sexToDec = function(deg, min) {
   return deg + ((min * 10 / 6) / 100);
-}
+};
 
 /**
  * Converts decimal degrees inot Deg Min.dd
@@ -305,7 +346,72 @@ var decToSex = function(val, ns_ew) {
     s += (ns_ew === 'NS' ? 'N' : 'E');
   }
   return s;
-}
+};
+
+var dispatcher = function(str) {
+  try {
+    var id = getSentenceID(str);
+    switch (id) {
+      case "RMC":
+        return parseRMC;
+      case "DBT":
+        return parseDBT;
+      case "GLL":
+        return parseGLL;
+      case "GGA":
+        return parseGGA;
+      case "GSA":
+        return parseGSA;
+      case "GSV":
+        return parseGSV;
+      case "HDG":
+        return parseHDG;
+      case "HDM":
+        return parseHDM;
+      case "MDA":
+        return parseMDA;
+      case "MMB":
+        return parseMMB;
+      case "MTA":
+        return parseMTA;
+      case "MTW":
+        return parseMTW;
+      case "MWV":
+        return parseMWV;
+      case "RMB":
+        return parseRMB;
+      case "VDR":
+        return parseVDR;
+      case "VWH":
+        return parseVWH;
+      case "VTG":
+        return parseVTG;
+      case "VWR":
+        return parseVWR;
+      case "VWT":
+        return parseVWT;
+      case "XDR":
+        return parseXDR;
+      case "ZDA":
+        return parseZDA;
+      case "VLW":
+        return parseVLW;
+      default:
+        return undefined;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+var autoparse = function(str) {
+  var parser = dispatcher(str);
+  if (parser !== undefined) {
+    return parser(str);
+  } else {
+    throw { err: "No parser found for sentence ID [" + getSentenceID(str) + "]" }
+  }
+};
 
 // Tests
 var tests = function() {
@@ -326,6 +432,7 @@ var tests = function() {
 
 // Made public.
 exports.validate = validate;
+exports.autoparse = autoparse;
 exports.toDegMin = decToSex;
 exports.parseRMC = parseRMC;
 exports.parseDBT = parseDBT;
