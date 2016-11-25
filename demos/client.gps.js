@@ -47,14 +47,18 @@ var connection;
   };
 
   var generateSatelliteData = function(sd) {
-    var html = "";
+    var html = "<table cellspacing='10'>";
+    html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
       for (var sat=0; sat<sd.length; sat++) {
-        html += "<font color='" + getSNRColor(sd[sat].snr) + "'>" +
-                sd[sat].prn + "=> El:" + sd[sat].elevation + "&deg;, Z:" + sd[sat].azimuth + "&deg;" +
-                "</font><br>";
+        html += "<tr>" +
+                "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + sd[sat].prn +
+            "</td><td align='right'>" + sd[sat].elevation +
+            "&deg;</td><td align='right'>" + sd[sat].azimuth +
+            "&deg;</td><td align='right'>" + sd[sat].snr + "</td></tr>";
       }
     }
+    html += "</table>";
     satData.innerHTML = html;
   };
 
