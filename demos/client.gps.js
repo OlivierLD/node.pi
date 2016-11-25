@@ -39,6 +39,7 @@ var connection;
 //    displayMessage("GPS Data: " + JSON.stringify(json.data));
 //    displayMessage(json.data.date + ", Satellites:" + json.data.nbSat);
       plotPositionOnChart({ lat: json.data.latitude, lng: json.data.longitude });
+      document.getElementById("fixdate").innerHTML = json.data.date;
       generateSatelliteData(json.data.satellites);
     } else {
       displayMessage('Hmm..., I\'ve never seen JSON like this: ' + json);
