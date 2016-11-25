@@ -7,6 +7,8 @@
 var SerialPort = require('serialport');
 var NMEAParser = require('./NMEAParser.js');
 
+var fullContext = {};
+
 var NMEA = function(serial, br) {
 
   var instance = this;
@@ -90,7 +92,32 @@ var NMEA = function(serial, br) {
                   try {
                     var str = sentences[i];
                     var auto = NMEAParser.autoparse(str);
-                    console.log("AutoParsed:", auto);
+                    try {
+                      if (auto.type !== undefined) {
+                        switch (auto.type) {
+                          case "GSV":
+                            if (auto.satData != undefined) {
+                              fullContext.nbSat = auto.satData.length;
+                            }
+                            break;
+                          case "RMC":
+                            fullContext.date = new Date(auto.epoch);
+                            fullContext.latitude = auto.pos.lat;
+                            fullContext.longitude = auto.pos.lon;
+                            break;
+                          case "GGA":
+                            fullContext.date = new Date(auto.epoch);
+                            fullContext.latitude = auto.position.latitude;
+                            fullContext.longitude = auto.position.longitude;
+                            fullContext.altitude = auto.antenna.altitude;
+                            break;
+                        }
+                        console.log("NMEA:", JSON.stringify(fullContext));
+                      }
+                    } catch (err) {
+                      console.log(err);
+                      console.log("AutoParsed:", auto);
+                    }
                   } catch (err) {
                     console.log(">> Error:", err);
                   }

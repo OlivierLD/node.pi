@@ -45,17 +45,8 @@ var getChunks = function(str) {
   }
   var nmea = str.substring(1, starIdx);
   var chunks = nmea.split(",");
-  return chunks;
-};
-
-var getSentenceID = function(str) {
-  if (str.charAt(0) !== '$') {
-    throw({ desc: 'Does not start with $' });
-  }
-  if (str.charAt(6) !== ',') {
-    throw({ desc: 'Invalid key length' });
-  }
-  return str.substring(3, 6);
+  return { valid: valid,
+    data: chunks };
 };
 
 var parseRMC = function(str) {
@@ -75,7 +66,7 @@ var parseRMC = function(str) {
      *         |      Active or Void
      *         UTC
      */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
 
   if (data[2] === 'V') {
     return;
@@ -124,7 +115,7 @@ var parseDBT = function(str) {
    *         |     f for feet
    *         Depth in feet
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "DBT",
     feet: parseFloat(data[1]),
     meters: parseFloat(data[3]),
@@ -143,7 +134,7 @@ var parseGLL = function(str) {
    *         |       Lat sign :N/S
    *         Latitude
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   if ("A" !== data[6]) {
     throw { err: "No data available" };
   }
@@ -194,7 +185,7 @@ var parseGGA = function(str) {
    *         |         Latitude
    *         UTC of position
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
 
   var hours   = parseInt(data[1].substring(0, 2));
   var minutes = parseInt(data[1].substring(2, 4));
@@ -249,7 +240,7 @@ var parseGSA = function(str) {
    *        Mode: M=Manual, forced to operate in 2D or 3D
    *              A=Automatic, 3D/2D
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   var satId = [];
   for (var i=3; i<=15; i++) {
     if (data[i].trim().length > 0) {
@@ -295,7 +286,7 @@ var parseGSV = function(str) {
    *  $GPGSV,3,3,12,08,34,273,11,11,27,310,14,01,13,315,,22,08,278,*70
    *  $GPGSV,3,3,12,08,34,273,11,11,27,310,14,01,13,315,,22,08,278,*70
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   var nbMess = parseInt(data[1]);
   var messNum = parseInt(data[2]);
   var numSat = parseInt(data[3]);
@@ -334,14 +325,24 @@ var parseHDG = function(str) {
    *        |   Magnetic Deviation, degrees
    *        Magnetic Sensor heading in degrees
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { hdg: parseFloat(data[1]),
     dev: ((data[3] === 'W' ? -1 : 1) * parseFloat(data[2])),
     dec: ((data[5] === 'W' ? -1 : 1) * parseFloat(data[4])) };
 };
 
 var parseHDM = function(str) {
-  throw ({ exception: "parseHDM Not implemented" });
+  /*
+   * Structure is
+   *        1   2
+   * $--HDM,x.x,M*hh
+   *        |   |
+   *        |   magnetic
+   *        Heading, magnetic, in degrees
+   */
+  var data = getChunks(str).data;
+  return { type: "HDM",
+    heading: parseFloat(data[1]) };
 };
 
 var parseMDA = function(str) {
@@ -362,7 +363,7 @@ var parseMDA = function(str) {
    *
    * Example: $WIMDA,29.4473,I,0.9972,B,17.2,C,,,,,,,,,,,,,,*3E
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "MDA",
     pressure: {
       inches: parseFloat(data[1]),
@@ -401,7 +402,7 @@ var parseMMB = function(str) {
    *        |       Inches of Hg
    *        Pressure in inches of Hg
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "MMB", pressure: {
     inches: parseFloat(data[1]),
     bars: parseFloat(data[3])
@@ -417,7 +418,7 @@ var parseMTA = function(str) {
    *        |   Celcius
    *        Value
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "MTA", temp: parseFloat(data[1]), unit: data[2] };
 };
 
@@ -430,7 +431,7 @@ var parseMTW = function(str) {
    *         |    Celcius
    *         Value
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "MTW", temp: parseFloat(data[1]), unit: data[2] };
 };
 
@@ -447,7 +448,7 @@ var parseMWV = function(str) {
    *         |    reference R=relative, T=true
    *         Wind angle 0 to 360 degrees
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   if (data[5] !== 'A') {
     throw { err: "No data available for MWV" }
   } else {
@@ -481,7 +482,7 @@ var parseRMB = function(str) {
    *        | Crosstrack error in nm
    *        Data Status (Active or Void)
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   if (data[1] === 'A') {
     var latDeg = data[6].substring(0, 2);
     var latMin = data[6].substring(2);
@@ -522,7 +523,29 @@ var parseRMB = function(str) {
 };
 
 var parseVDR = function(str) {
-  throw ({ exception: "parseVDR Not implemented" });
+  /*
+   * Structure is
+   *        1   2 3   4 5   6
+   * $--VDR,x.x,T,x.x,M,x.x,N*hh
+   *        |   | |   | |   |
+   *        |   | |   | |   Knots
+   *        |   | |   | Speed of current (in knots)
+   *        |   | |   Magnetic
+   *        |   | Degrees, magnetic
+   *        |   True
+   *        Degrees, true
+   */
+  var data = getChunks(str).data;
+  return { type: " VDR",
+    current: {
+      dir: {
+        true: parseFloat(data[1]),
+        magnetic: parseFloat(data[3])
+      },
+      speed: {
+        knots: parseFloat(data[5])
+      }
+    }};
 };
 
 var parseVHW = function(str) {
@@ -535,7 +558,7 @@ var parseVHW = function(str) {
    *         |     Heading in degrees, Magnetic
    *         Heading in degrees, True
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type: "VHW",
     heading: {
       true: parseFloat(data[1]),
@@ -557,14 +580,40 @@ var parseVLW = function(str) {
    *        |     Nautical miles
    *        Total cumulative distance
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type:"VLW",
     total: parseFloat(data[1]),
     sincereset: parseFloat(data[3]) };
 };
 
 var parseVTG = function(str) {
-  throw ({ exception: "parse VTG Not implemented" });
+  /*
+   * Structure is
+   *        1   2 3   4 5   6 7   8 9
+   * $--VTG,x.x,T,x.x,M,x.x,N,x.x,K,m,*hh
+   *        |   | |   | |   | |   | |
+   *        |   | |   | |   | |   | FFA mode indicator
+   *        |   | |   | |   | |   km/h
+   *        |   | |   | |   | Speed in km/h
+   *        |   | |   | |   knots
+   *        |   | |   | Speed in knots
+   *        |   | |   magnetic
+   *        |   | Track degrees
+   *        |   true
+   *        Track, degrees
+   */
+  var data = getChunks(str).data;
+  return {
+    type: "VTG",
+    cmg: {
+      true: parseFloat(data[1]),
+      magnetic: parseFloat(data[3])
+    },
+    speed: {
+      knots: parseFloat(data[5]),
+      kmh: parseFloat(data[7])
+    }
+  };
 };
 
 var parseVWR = function(str) {
@@ -579,7 +628,7 @@ var parseVWR = function(str) {
    *         |   L=port, R=starboard
    *         Wind angle 0 to 180 degrees
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return {
     type:" VWR",
     wind: {
@@ -608,7 +657,7 @@ var parseVWT = function(str) {
    *        |    Left or Right
    *        Wind angle
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return { type:" VWT",
            wind: {
              dir: parseFloat(data[1]) * (data[2] === 'L' ? -1 : 1),
@@ -635,7 +684,7 @@ var parseMWD = function(str) {
    *        |     True
    *        wind dir
    */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   return {
     type: "MWD",
     wind: {
@@ -699,7 +748,7 @@ var parseXDR = function(str) {
       switch or valve        S           none (null)            1 = ON/ CLOSED, 0 = OFF/ OPEN
       salinity               L           S = ppt                ppt = parts per thousand
     */
-  var data = getChunks(str);
+  var data = getChunks(str).data;
   var txIdx = 0;
   var moreData = true;
   var parsed = [];
@@ -769,10 +818,6 @@ var parseXDR = function(str) {
 };
 
 
-var parseZDA = function(str) {
-  throw ({ exception: "parseZDA Not implemented" });
-};
-
 var sexToDec = function(deg, min) {
   return deg + ((min * 10 / 6) / 100);
 };
@@ -800,33 +845,32 @@ var decToSex = function(val, ns_ew) {
 };
 
 var matcher = {};
-matcher["RMC"] = { parser: parseRMC, desc: "" };
-matcher["DBT"] = { parser: parseDBT, desc: "" };
-matcher["GLL"] = { parser: parseGLL, desc: "" };
-matcher["GGA"] = { parser: parseGGA, desc: "" };
-matcher["GSA"] = { parser: parseGSA, desc: "" };
-matcher["GSV"] = { parser: parseGSV, desc: "" };
-matcher["HDG"] = { parser: parseHDG, desc: "" };
-matcher["HDM"] = { parser: parseHDM, desc: "" };
-matcher["MDA"] = { parser: parseMDA, desc: "" };
-matcher["MMB"] = { parser: parseMMB, desc: "" };
-matcher["MTA"] = { parser: parseMTA, desc: "" };
-matcher["MTW"] = { parser: parseMTW, desc: "" };
-matcher["MWV"] = { parser: parseMWV, desc: "" };
-matcher["MWD"] = { parser: parseMWD, desc: "" };
-matcher["RMB"] = { parser: parseRMB, desc: "" };
-matcher["VDR"] = { parser: parseVDR, desc: "" };
-matcher["VHW"] = { parser: parseVHW, desc: "" };
-matcher["VTG"] = { parser: parseVTG, desc: "" };
-matcher["VWR"] = { parser: parseVWR, desc: "" };
-matcher["VWT"] = { parser: parseVWT, desc: "" };
-matcher["XDR"] = { parser: parseXDR, desc: "" };
-matcher["VLW"] = { parser: parseVLW, desc: "" };
-matcher["ZDA"] = { parser: parseZDA, desc: "" };
+matcher["RMC"] = { parser: parseRMC, desc: "Recommended Minimum Navigation Information" };
+matcher["DBT"] = { parser: parseDBT, desc: "Depth Below Transducer" };
+matcher["GLL"] = { parser: parseGLL, desc: "Geographic Position, Latitude / Longitude" };
+matcher["GGA"] = { parser: parseGGA, desc: "Global Positioning System Fix Data" };
+matcher["GSA"] = { parser: parseGSA, desc: "GPS DOP and active satellites" };
+matcher["GSV"] = { parser: parseGSV, desc: "Satellites in view" };
+matcher["HDG"] = { parser: parseHDG, desc: "Magnetic heading, deviation, variation" };
+matcher["HDM"] = { parser: parseHDM, desc: "Heading, Magnetic" };
+matcher["MDA"] = { parser: parseMDA, desc: "Meteorological Composite" };
+matcher["MMB"] = { parser: parseMMB, desc: "Humidity" };
+matcher["MTA"] = { parser: parseMTA, desc: "Air Temperature" };
+matcher["MTW"] = { parser: parseMTW, desc: "Mean Temperature of Water" };
+matcher["MWV"] = { parser: parseMWV, desc: "Wind Speed and Angle" };
+matcher["MWD"] = { parser: parseMWD, desc: "Wind Direction & Speed" };
+matcher["RMB"] = { parser: parseRMB, desc: "Recommended Minimum Navigation Information" };
+matcher["VDR"] = { parser: parseVDR, desc: "Set and Drift" };
+matcher["VHW"] = { parser: parseVHW, desc: "Water speed and heading" };
+matcher["VTG"] = { parser: parseVTG, desc: "Track Made Good and Ground Speed" };
+matcher["VWR"] = { parser: parseVWR, desc: "Relative Wind Speed and Angle" };
+matcher["VWT"] = { parser: parseVWT, desc: "True Windspeed and Angle" };
+matcher["XDR"] = { parser: parseXDR, desc: "Transducer Values" };
+matcher["VLW"] = { parser: parseVLW, desc: "Distance Traveled through Water" };
 
 var dispatcher = function(str) {
   try {
-    var id = getSentenceID(str);
+    var id = getChunks(str).valid.id;
     return matcher[id].parser;
   } catch (err) {
     throw err;
@@ -838,7 +882,7 @@ var autoparse = function(str) {
   if (parser !== undefined) {
     return parser(str);
   } else {
-    throw { err: "No parser found for sentence ID [" + getSentenceID(str) + "]" }
+    throw { err: "No parser found for sentence [" + str + "]" }
   }
 };
 
@@ -884,4 +928,3 @@ exports.parseVTG = parseVTG;
 exports.parseVWR = parseVWR;
 exports.parseVWT = parseVWT;
 exports.parseXDR = parseXDR;
-exports.parseZDA = parseZDA;
