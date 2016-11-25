@@ -93,7 +93,7 @@ var NMEA = function(serial, br) {
                     var str = sentences[i];
                     var auto = NMEAParser.autoparse(str);
                     try {
-                      if (auto.type !== undefined) {
+                      if (auto !== undefined && auto.type !== undefined) {
                         switch (auto.type) {
                           case "GSV":
                             if (auto.satData != undefined) {
