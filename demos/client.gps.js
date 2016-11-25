@@ -85,9 +85,10 @@ var connection;
    * something is wrong.
    */
   setInterval(function() {
-    if (connection.readyState !== 1) {
-      displayMessage('Unable to communicate with the WebSocket server. Try again.');
-    }
+    setConnectionStatus(connection.readyState === 1);
+    // if (connection.readyState !== 1) {
+    //   displayMessage('Unable to communicate with the WebSocket server. Try again.');
+    // }
   }, 3000); // Ping
 })();
 
@@ -100,4 +101,11 @@ var displayMessage = function(mess) {
 
 var resetStatus = function() {
   statusFld.innerHTML = "";
+};
+
+var setConnectionStatus = function(ok) {
+  var title = document.getElementById("title");
+  if (title !== undefined) {
+    title.style.color = (ok === true ? 'green' : 'red');
+  }
 };
