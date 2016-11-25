@@ -283,4 +283,4 @@ Debugger listening on port 5858
 ```
 
 Then open Chrome, and load the URL above.
-Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, and begin debugging!
+Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, and start debugging!
