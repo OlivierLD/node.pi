@@ -96,8 +96,9 @@ var NMEA = function(serial, br) {
                       if (auto !== undefined && auto.type !== undefined) {
                         switch (auto.type) {
                           case "GSV":
-                            if (auto.satData != undefined) {
+                            if (auto.satData !== undefined) {
                               fullContext.nbSat = auto.satData.length;
+                              fullContext.satellites = auto.satData;
                             }
                             break;
                           case "RMC":
@@ -112,7 +113,11 @@ var NMEA = function(serial, br) {
                             fullContext.altitude = auto.antenna.altitude;
                             break;
                         }
-                        console.log("NMEA:", JSON.stringify(fullContext));
+                        if (instance.onFullGPSData !== undefined) {
+                          instance.onFullGPSData(fullContext);
+                        } else {
+                          console.log("NMEA:", JSON.stringify(fullContext));
+                        }
                       }
                     } catch (err) {
                       console.log(err);
@@ -155,6 +160,7 @@ var NMEA = function(serial, br) {
   this.onTime;
   this.onCOG;
   this.onSOG;
+  this.onFullGPSData;
 };
 
 // Made public.

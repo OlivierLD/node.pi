@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--meta charset="windows-1252"></meta-->
+    <meta charset="iso-8859-1"></meta>
+    <title>GPS Demo</title>
+    <style>
+      * { font-family:tahoma; font-size:12px; padding:0px; margin:0px; }
+      p { line-height:18px; }
+    </style>
+    <script type="text/javascript" src="worldmap.js"></script>
+    <script type="text/javascript">
+      var statusFld;
+      var satData;
+
+      window.onload = function() {
+        statusFld = document.getElementById("status");
+        satData = document.getElementById("satData");
+
+        clear('mapCanvas');
+        drawWorldMap('mapCanvas');
+        addCanvasListener('mapCanvas');
+
+    //  plotPositionOnChart({ lat: 0, lng: 0 }); // Default
+      };
+
+      // Plot position on the chart
+      var plotPositionOnChart = function(val) {
+        var label = "GPS position";
+        // Plot the station on the map
+        var canvas = "mapCanvas";
+        plotPosToCanvas(canvas, val.lat, val.lng, label);
+      };
+    </script>
+  </head>
+  <body>
+    <table cellspacing="10">
+      <tr>
+        <td valign="top"><h2>GPS on WebSocket</h2></td>
+      </tr>
+      <tr>
+        <td><canvas id="mapCanvas" width="800" height="400"></canvas></td>
+        <td valign="top" bgcolor="black"><div id="satData"></div></td>
+      </tr>
+      <tr>
+        <td align="left" colspan="2">
+          <div id="status" style="padding:5px; background:#ddd; border-radius:5px; overflow-y: scroll; border:1px solid #CCC; margin-top:10px; height: 80px;"></div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right" colspan="2"><a href="" onclick="javascript:resetStatus(); return false;" title="Clear status board"><small>Reset Status</small></a></td>
+      </tr>
+    </table>
+    <hr>
+    <script src="./client.gps.js"></script>
+  </body>
+</html>
