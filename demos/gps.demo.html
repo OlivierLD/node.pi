@@ -14,12 +14,14 @@
     <script type="text/javascript">
       var statusFld;
       var satData;
+      var nmeaID;
       var rose;
       var displayBSP;
 
       window.onload = function() {
         statusFld = document.getElementById("status");
         satData = document.getElementById("satData");
+        nmeaID = document.getElementById("id");
 
         clear('mapCanvas');
         drawWorldMap('mapCanvas');
@@ -45,7 +47,10 @@
       <tr>
         <td valign="top" colspan="2"><h2><div id="title">GPS on WebSocket</div></h2></td>
       </tr>
-      <tr><td><div id="fixdate"></div></td></tr>
+      <tr>
+        <td><div id="fixdate"></div></td>
+        <td>Sentence <span id="id"></span></td>
+      </tr>
       <tr>
         <td><canvas id="mapCanvas" width="800" height="400" style="border-radius:10px;"></canvas></td>
         <td valign="top"><div id="satData"></div></td>

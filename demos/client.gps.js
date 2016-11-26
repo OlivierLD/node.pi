@@ -40,6 +40,7 @@ var connection;
 //    displayMessage(json.data.date + ", Satellites:" + json.data.nbSat);
       plotPositionOnChart({ lat: json.data.latitude, lng: json.data.longitude });
       document.getElementById("fixdate").innerHTML = json.data.date;
+      nmeaID.innerHTML = '<b>' + json.data.lastID + '</b>';
       generateSatelliteData(json.data.satellites);
       if (json.data.cog !== undefined) {
         rose.setValue(Math.round(json.data.cog));
