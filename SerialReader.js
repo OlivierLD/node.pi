@@ -94,6 +94,7 @@ var NMEA = function(serial, br) {
                     var auto = NMEAParser.autoparse(str);
                     try {
                       if (auto !== undefined && auto.type !== undefined) {
+                        console.log(">> Autoparsed:" + auto.type);
                         switch (auto.type) {
                           case "GSV":
                             if (auto.satData !== undefined) {
@@ -105,6 +106,8 @@ var NMEA = function(serial, br) {
                             fullContext.date = new Date(auto.epoch);
                             fullContext.latitude = auto.pos.lat;
                             fullContext.longitude = auto.pos.lon;
+                            fullContext.cog = auto.cog;
+                            fullContext.sog = auto.sog;
                             break;
                           case "GGA":
                             fullContext.date = new Date(auto.epoch);
@@ -114,9 +117,10 @@ var NMEA = function(serial, br) {
                             break;
                         }
                         if (instance.onFullGPSData !== undefined) {
+//                        console.log(">>> GPS Data sent to client:", fullContext);
                           instance.onFullGPSData(fullContext);
                         } else {
-                          console.log("NMEA:", JSON.stringify(fullContext));
+                          console.log(">>> NMEA:", JSON.stringify(fullContext));
                         }
                       }
                     } catch (err) {

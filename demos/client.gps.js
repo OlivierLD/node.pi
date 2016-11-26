@@ -41,6 +41,12 @@ var connection;
       plotPositionOnChart({ lat: json.data.latitude, lng: json.data.longitude });
       document.getElementById("fixdate").innerHTML = json.data.date;
       generateSatelliteData(json.data.satellites);
+      if (json.data.cog !== undefined) {
+        rose.setValue(Math.round(json.data.cog));
+      }
+      if (json.data.sog !== undefined) {
+        displayBSP.setValue(json.data.sog);
+      }
     } else {
       displayMessage('Hmm..., I\'ve never seen JSON like this: ' + json);
     }
