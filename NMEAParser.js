@@ -73,17 +73,11 @@ var parseRMC = function(str) {
   }
   var latDeg = data[3].substring(0, 2);
   var latMin = data[3].substring(2);
-  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin));
-  if (data[4] === 'S') {
-    lat = -lat;
-  }
+  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin)) * (data[4] === 'S' ? -1 : 1);
 
   var lonDeg = data[5].substring(0, 3);
   var lonMin = data[5].substring(3);
-  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin));
-  if (data[6] === 'W') {
-    lon = -lon;
-  }
+  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin)) * (data[6] === 'W' ? -1 : 1);
 
   var hours   = parseInt(data[1].substring(0, 2));
   var minutes = parseInt(data[1].substring(2, 4));
@@ -96,10 +90,7 @@ var parseRMC = function(str) {
 
   var sog = parseFloat(data[7]);
   var cog = parseFloat(data[8]);
-  var W = parseFloat(data[10]);
-  if (data[11] === 'W') {
-    W = -W;
-  }
+  var W = parseFloat(data[10]) * (data[11] === 'W' ? -1 : 1);
   return { type: "RMC", epoch: d.getTime(), sog: sog, cog: cog, variation: W, pos: {lat: lat, lon: lon} };
 };
 
@@ -140,23 +131,17 @@ var parseGLL = function(str) {
   }
   var latDeg = data[1].substring(0, 2);
   var latMin = data[1].substring(2);
-  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin));
-  if (data[2] === 'S') {
-    lat = -lat;
-  }
+  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin)) * (data[2] === 'S' ? -1 : 1);
 
   var lonDeg = data[3].substring(0, 3);
   var lonMin = data[3].substring(3);
-  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin));
-  if (data[4] === 'W') {
-    lon = -lon;
-  }
+  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin)) * (data[4] === 'W' ? -1 : 1);
 
   var hours   = parseInt(data[5].substring(0, 2));
   var minutes = parseInt(data[5].substring(2, 4));
   var seconds = parseInt(data[5].substring(4, 6));
   var now = new Date();
-  var d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds, 0));
+  var d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes, seconds, 0));
 
   return { type: "GLL",
     latitude: lat,
@@ -191,20 +176,15 @@ var parseGGA = function(str) {
   var minutes = parseInt(data[1].substring(2, 4));
   var seconds = parseInt(data[1].substring(4, 6));
   var now = new Date();
-  var d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds, 0));
+  var d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes, seconds, 0));
 
   var latDeg = data[2].substring(0, 2);
   var latMin = data[2].substring(2);
-  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin));
-  if (data[3] === 'S') {
-    lat = -lat;
-  }
+  var lat = sexToDec(parseInt(latDeg), parseFloat(latMin)) * (data[3] === 'S' ? -1 : 1);
   var lonDeg = data[4].substring(0, 3);
   var lonMin = data[4].substring(3);
-  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin));
-  if (data[5] === 'W') {
-    lon = -lon;
-  }
+  var lon = sexToDec(parseInt(lonDeg), parseFloat(lonMin)) * (data[5] === 'W' ? -1 : 1);
+
   return { type: "GGA",
     epoch: d.getTime(),
     position: {
@@ -290,7 +270,7 @@ var parseGSV = function(str) {
   var nbMess = parseInt(data[1]);
   var messNum = parseInt(data[2]);
   var numSat = parseInt(data[3]);
-  if (messNum === 1) {
+  if (messNum === 1) { // First message of the list
     gsvData = { type: "GSV", satData: [] };
     for (var s=0; s<numSat; s++) {
       gsvData.satData.push({});
@@ -306,7 +286,7 @@ var parseGSV = function(str) {
     };
     gsvData.satData[((messNum - 1) * 4) + i] = sat;
   }
-  if (messNum === nbMess) {
+  if (messNum === nbMess) { // Last message of the list
     return gsvData;
   } else {
     return { type: "GSV" };
