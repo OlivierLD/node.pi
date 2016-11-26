@@ -163,7 +163,7 @@ var util = require('util');
 var GPS = require('./SerialReader.js').NMEA;
 
 var serialPort = '/dev/tty.usbserial'; // On Mac
-// var serialPort = '/dev/ttyUSB0'; // On Linux (including RAspberry)
+// var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
 var gps = new GPS(serialPort, 4800);
 
 var processData = function(gps) {

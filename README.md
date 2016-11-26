@@ -224,6 +224,21 @@ To run a test script:
 ## Demos
 Some demos are available. As `nodejs` can also be used as an HTTP Server, they will display the sensors' data in a graphical Web UI.
 
+#### GPS demo
+Plug a GPS in one of the USB ports, and check its name (like `/dev/ttyUSB0`).
+If needed, modify in `gps.demo.js` the line that says
+```
+ var serialPort = '/dev/ttyUSB0'; 
+```
+Then start the server:
+```
+ $> sudo node demo.gps.js
+```
+And load the URL displayed in the console in a WebSocket-enable browser (like [http://localhost:9876/data/demos/gps.demo.html](http://localhost:9876/data/demos/gps.demo.html).
+_Note_: This one would run on any OS (Windows, Linux, Mac,...) as it does not require any GPIO pin. All you need is a USB port.
+
+![GPS Web UI](./GPS.demo.png "GPS Web UI")
+
 #### Gyroscope demo
 Start the server:
 ```
