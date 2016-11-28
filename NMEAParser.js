@@ -848,17 +848,9 @@ matcher["VWT"] = { parser: parseVWT, desc: "True Windspeed and Angle" };
 matcher["XDR"] = { parser: parseXDR, desc: "Transducer Values" };
 matcher["VLW"] = { parser: parseVLW, desc: "Distance Traveled through Water" };
 
-var dispatcher = function(str) {
-  try {
-    var id = getChunks(str).valid.id;
-    return matcher[id].parser;
-  } catch (err) {
-    throw err;
-  }
-};
-
 var autoparse = function(str) {
-  var parser = dispatcher(str);
+  var id = getChunks(str).valid.id;
+  var parser = matcher[id].parser;
   if (parser !== undefined) {
     return parser(str);
   } else {
