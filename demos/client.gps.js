@@ -57,6 +57,9 @@ var connection;
     var html = "<table cellspacing='10'>";
     html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
+      // Send to plotter here.
+      satellitesPlotter.setSatellites(sd);
+
       for (var sat=0; sat<sd.length; sat++) {
         html += "<tr>" +
                 "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + sd[sat].prn +

@@ -166,18 +166,18 @@ function SatellitesPlotter(cName,                     // Canvas Name
 
         // For dev & demo
         var demoSat = [
-            { prn: '29', el: 70, z: 104, snr: 33 },
-            { prn: '05', el: 21, z:  45, snr: 29 },
-            { prn: '20', el: 74, z:  70, snr: 28 },
-            { prn: '13', el: 22, z:  87, snr: 30 },
-            { prn: '15', el: 29, z: 122, snr: 22 },
-            { prn: '04', el: 17, z:  65, snr: 32 },
-            { prn: '18', el: 41, z: 213, snr: 39 },
-            { prn: '21', el: 57, z: 299, snr: null },
-            { prn: '26', el: 33, z: 295, snr: null },
-            { prn: '25', el: 22, z: 190, snr: null },
-            { prn: '16', el: 17, z: 320, snr: null },
-            { prn: '10', el:  7, z: 217, snr: null } ];
+            { prn: '29', elevation: 70, azimuth: 104, snr: 33 },
+            { prn: '05', elevation: 21, azimuth:  45, snr: 29 },
+            { prn: '20', elevation: 74, azimuth:  70, snr: 28 },
+            { prn: '13', elevation: 22, azimuth:  87, snr: 30 },
+            { prn: '15', elevation: 29, azimuth: 122, snr: 22 },
+            { prn: '04', elevation: 17, azimuth:  65, snr: 32 },
+            { prn: '18', elevation: 41, azimuth: 213, snr: 39 },
+            { prn: '21', elevation: 57, azimuth: 299, snr: null },
+            { prn: '26', elevation: 33, azimuth: 295, snr: null },
+            { prn: '25', elevation: 22, azimuth: 190, snr: null },
+            { prn: '16', elevation: 17, azimuth: 320, snr: null },
+            { prn: '10', elevation:  7, azimuth: 217, snr: null } ];
 
         satellites = demoSat;
 
@@ -189,9 +189,9 @@ function SatellitesPlotter(cName,                     // Canvas Name
 
                 context.fillStyle = getSNRColor(satellites[i].snr);
 //              var satCircleRadius = radius * (Math.cos(toRadians(demoSat[i].el)));
-                var satCircleRadius = radius * ((90 - satellites[i].el) / 90);
-                var centerSat = { x: center.x + (satCircleRadius * Math.sin(toRadians(satellites[i].z))),
-                    y: center.y  - (satCircleRadius * Math.cos(toRadians(satellites[i].z))) };
+                var satCircleRadius = radius * ((90 - satellites[i].elevation) / 90);
+                var centerSat = { x: center.x + (satCircleRadius * Math.sin(toRadians(satellites[i].azimuth))),
+                    y: center.y  - (satCircleRadius * Math.cos(toRadians(satellites[i].azimuth))) };
                 context.arc(centerSat.x, centerSat.y, SAT_RADIUS, 0, 2 * Math.PI, false);
 
                 var text = satellites[i].prn;
