@@ -235,6 +235,7 @@ Then start the server:
  $> sudo node demo.gps.js
 ```
 And load the URL displayed in the console in a WebSocket-enable browser (like [http://localhost:9876/data/demos/gps.demo.html](http://localhost:9876/data/demos/gps.demo.html).
+
 _Note_: This one would run on any OS (Windows, Linux, Mac,...) as it does not require any GPIO pin. All you need is a USB port.
 
 ![GPS Web UI](./GPS.demo.png "GPS Web UI")
