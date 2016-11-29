@@ -174,7 +174,7 @@ var processData = function(gps) {
 };
 
 gps.onFullGPSData = function(gps) {
-  console.log("GPS Data:", gps);
+//console.log("GPS Data:", gps);
   processData(gps);
 };
 

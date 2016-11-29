@@ -94,7 +94,7 @@ var NMEA = function(serial, br) {
                     var auto = NMEAParser.autoparse(str);
                     try {
                       if (auto !== undefined && auto.type !== undefined) {
-                        console.log(">> Autoparsed:" + auto.type);
+                    //  console.log(">> Autoparsed:" + auto.type);
                         fullContext.lastID = auto.type;
                         switch (auto.type) {
                           case "GSV":
