@@ -10,8 +10,8 @@
     </style>
     <script type="text/javascript" src="worldmap.js"></script>
     <script type="text/javascript" src="widgets/CompassRose.js"></script>
-    <script type="text/javascript" src="widgets/AnalogDisplay.js"></script>
     <script type="text/javascript" src="widgets/SatellitesPlotter.js"></script>
+    <script type="text/javascript" src="widgets/AnalogDisplay.js"></script>
     <script type="text/javascript">
       var statusFld;
       var satData;
@@ -26,8 +26,10 @@
         nmeaID = document.getElementById("id");
 
         clear('mapCanvas');
-        drawWorldMap('mapCanvas');
-        addCanvasListener('mapCanvas');
+        setTimeout(function() {
+          drawWorldMap('mapCanvas');
+          // addCanvasListener('mapCanvas');
+        }, 1);
 
         rose = new CompassRose('roseCanvas', 400, 50);
         displayBSP = new AnalogDisplay('bspCanvas', 100,   15,  5,  1);
@@ -56,7 +58,9 @@
       <tr>
         <td valign="top"><canvas id="mapCanvas" width="800" height="400" style="border-radius:10px;"></canvas></td>
         <td valign="top">
-          <canvas id="satCanvas" width="240" height="240" title="Satellites in sight"></canvas><br>
+          <canvas id="satCanvas" width="240" height="240" title="Satellites in sight"></canvas>
+        </td>
+        <td rowspan="3" valign="top">
           <div id="satData"></div>
         </td>
       </tr>

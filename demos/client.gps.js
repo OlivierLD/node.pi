@@ -58,7 +58,9 @@ var connection;
     html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
       // Send to plotter here.
-      satellitesPlotter.setSatellites(sd);
+      if (satellitesPlotter !== undefined) {
+        satellitesPlotter.setSatellites(sd);
+      }
 
       for (var sat=0; sat<sd.length; sat++) {
         html += "<tr>" +

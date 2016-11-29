@@ -1,12 +1,15 @@
 "use strict";
 
+process.title = 'node-tcp';
+
 /**
  * Quick sample, showing how to receive data from a TCP port
  */
 var net = require('net');
 
 var client = new net.Socket();
-client.connect(7001, '127.0.0.1', function() {
+var server = '192.168.1.1'; // 'localhost', '127.0.0.1'
+client.connect(7001, server, function() {
     console.log('Connected');
 });
 

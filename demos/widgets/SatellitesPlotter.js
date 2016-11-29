@@ -165,6 +165,7 @@ function SatellitesPlotter(cName,                     // Canvas Name
         context.setLineDash([0]); // 3px dash, 3px space
 
         // For dev & demo
+        /*
         var demoSat = [
             { prn: '29', elevation: 70, azimuth: 104, snr: 33 },
             { prn: '05', elevation: 21, azimuth:  45, snr: 29 },
@@ -180,11 +181,12 @@ function SatellitesPlotter(cName,                     // Canvas Name
             { prn: '10', elevation:  7, azimuth: 217, snr: null } ];
 
         satellites = demoSat;
+        */
 
         // Plot satellites.
         var SAT_RADIUS = 6;
         if (satellites !== undefined && satellites.length > 0) {
-            for (var i=0; i<demoSat.length; i++) {
+            for (var i=0; i<satellites.length; i++) {
                 context.beginPath();
 
                 context.fillStyle = getSNRColor(satellites[i].snr);
