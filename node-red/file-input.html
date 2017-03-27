@@ -1,0 +1,34 @@
+<script type="text/javascript">
+    RED.nodes.registerType('file-input',
+        {
+            category: 'input',
+            color: '#a6bbcf',
+            defaults: {
+                path: {value: ""},
+                freq: {value: 1}
+            },
+            inputs: 0,
+            outputs: 1,
+            icon: "file.png",
+            label: function () {
+                return this.name || "file-input";
+            }
+        });
+</script>
+
+<script type="text/x-red" data-template-name="file-input">
+    <div class="form-row">
+        <label for="node-input-path"><i class="icon-tag"></i> File path</label>
+        <input type="text" id="node-input-path" placeholder="Full path">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-freq"><i class="icon-tag"></i> Read frequency (in sec)</label>
+        <input type="text" id="node-input-freq" placeholder="1">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="file-input">
+    <p>A simple node that reads a file line by line</p>
+
+</script>

@@ -844,7 +844,7 @@ matcher["VDR"] = { parser: parseVDR, desc: "Set and Drift" };
 matcher["VHW"] = { parser: parseVHW, desc: "Water speed and heading" };
 matcher["VTG"] = { parser: parseVTG, desc: "Track Made Good and Ground Speed" };
 matcher["VWR"] = { parser: parseVWR, desc: "Relative Wind Speed and Angle" };
-matcher["VWT"] = { parser: parseVWT, desc: "True Windspeed and Angle" };
+matcher["VWT"] = { parser: parseVWT, desc: "True WindSpeed and Angle" };
 matcher["XDR"] = { parser: parseXDR, desc: "Transducer Values" };
 matcher["VLW"] = { parser: parseVLW, desc: "Distance Traveled through Water" };
 
@@ -860,7 +860,7 @@ var autoparse = function(str) {
 
 // Tests
 var tests = function() {
-  var val = sexToDec(333, 22.07);
+  var val = sexToDec(133, 22.07);
   console.log(val);
   var ret = decToSex(val, 'EW');
   console.log(ret);
@@ -870,7 +870,7 @@ var tests = function() {
   console.log(validate(rmc));
   var parsed = parseRMC(rmc);
   console.log(parsed);
-  console.log("Pos: " + decToSex(parsed.pos.lat, 'NS') + " " + decToSex(parsed.pos.lon, 'NS'));
+  console.log("Pos: " + decToSex(parsed.pos.lat, 'NS') + " " + decToSex(parsed.pos.lon, 'EW'));
   var date = new Date(parsed.epoch);
   console.log(date);
 };
@@ -879,6 +879,7 @@ var tests = function() {
 exports.validate = validate;
 exports.autoparse = autoparse;
 exports.toDegMin = decToSex;
+
 exports.parseRMC = parseRMC;
 exports.parseDBT = parseDBT;
 exports.parseGLL = parseGLL;
@@ -900,3 +901,5 @@ exports.parseVTG = parseVTG;
 exports.parseVWR = parseVWR;
 exports.parseVWT = parseVWT;
 exports.parseXDR = parseXDR;
+
+// tests();
