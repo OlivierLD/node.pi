@@ -40,3 +40,11 @@ functionGlobalContext: {
     }
 ```
 and the code of `NMEAParser.js` has to be present in this directory as well.
+
+#### `file-input` Node
+This node allows you to replay the data logged into a text file. In this case, NMEA Data.
+This is not as trivial is it sounds... Synchronous reads are always a bit tricky in JavaScript.
+
+This uses the `n-readlines` NodeJS library, installed as mentioned above.
+
+---
