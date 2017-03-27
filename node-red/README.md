@@ -39,4 +39,4 @@ functionGlobalContext: {
         NMEAParser:require('./NMEAParser.js')
     }
 ```
-and the code of `NMEAPaser.js` has to be present in this directory as well.
+and the code of `NMEAParser.js` has to be present in this directory as well.
