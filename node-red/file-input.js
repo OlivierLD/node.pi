@@ -9,8 +9,6 @@ module.exports = function (RED) {
         var fs = require('fs'),
             lineByLine = require('n-readlines');
 
-        var nbLines = 0;
-
         var reader = new lineByLine(filename);
 
         function readNext() {
