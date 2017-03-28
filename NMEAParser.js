@@ -850,11 +850,15 @@ matcher["VLW"] = { parser: parseVLW, desc: "Distance Traveled through Water" };
 
 var autoparse = function(str) {
   var id = getChunks(str).valid.id;
-  var parser = matcher[id].parser;
-  if (parser !== undefined) {
-    return parser(str);
+  if (matcher[id] !== undefined) {
+      var parser = matcher[id].parser;
+      if (parser !== undefined) {
+          return parser(str);
+      } else {
+          throw {err: "No parser found for sentence [" + str + "]"};
+      }
   } else {
-    throw { err: "No parser found for sentence [" + str + "]" }
+      throw {err: "No parser found for unknown sentence [" + str + "]"};
   }
 };
 
