@@ -6,13 +6,13 @@ A node definition is made out of 2 files, and `html` one for the parameters entr
 I dropped those in the directory `/usr/local/lib/node_modules/node-red/nodes/`.
 
 If a node requires an external library (like `n-readlines`), the `npm install` command
-needs to be run from `/usr/local/lib/node_modules/node-red`:
+needs to be run from `/usr/local/lib/node_modules/node-red` (or wherever node-red is installed, like `/usr/lib/node_modules/node-red` on the last (March 2017) Pixel image:
 ```bash
  $> [sudo] npm install n-readlines
 ```
 
 ### How to use your own libraries in a function
-In case you want to call your own code from a Node-Red function, like in
+In case you want to call your own code from a Node-RED function, like in
 ```javascript
  var parser = context.global.NMEAParser;
  if (parser !== undefined) {
@@ -39,9 +39,9 @@ functionGlobalContext: {
         NMEAParser:require('./NMEAParser.js')
     }
 ```
-and the code of `NMEAParser.js` has to be present in this directory as well.
+and the code of `NMEAParser.js` has to be present in the `$HOME/.node-red` directory as well.
 
-#### `file-input` Node
+#### `log-replay` Node
 This node allows you to replay the data logged into a text file. In this case, NMEA Data.
 This is not as trivial is it sounds... Synchronous reads are always a bit tricky in JavaScript.
 

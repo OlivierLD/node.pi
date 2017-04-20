@@ -1,5 +1,8 @@
 "use strict";
 
+/*
+ * Good NMEA Reference : http://catb.org/gpsd/NMEA.html
+ */
 var checksum = function(str) {
   var cs = 0;
   for (var i=0; i<str.length; i++) {
@@ -15,20 +18,34 @@ var checksum = function(str) {
 
 var validate = function(str) {
   if (str.charAt(0) !== '$') {
-    throw({ desc: 'Does not start with $' });
+    throw({
+        desc: 'Does not start with $',
+        nmea: str
+    });
   }
   if (str.charAt(6) !== ',') {
-    throw({ desc: 'Invalid key length' });
+    throw({
+        desc: 'Invalid key length' ,
+        nmea: str
+    });
   }
   var starIdx = str.indexOf('*');
   if (starIdx === -1) {
-    throw({ desc: 'Missing checksum' });
+    throw({
+        desc: 'Missing checksum',
+        nmea: str
+    });
   }
   var checksumStr = str.substring(starIdx + 1);
   var nmea = str.substring(1, starIdx);
   var cs = checksum(nmea);
   if (checksumStr !== cs) {
-    throw({ desc: 'Invalid checksum' });
+    throw({
+        desc: 'Invalid checksum',
+        nmea: str,
+        found: checksumStr,
+        shouldbe: cs
+    });
   }
   var talker = str.substring(1, 3);
   var sentenceId = str.substring(3, 6);
@@ -44,9 +61,15 @@ var getChunks = function(str) {
       error: err };
   }
   var nmea = str.substring(1, starIdx);
-  var chunks = nmea.split(",");
-  return { valid: valid,
-    data: chunks };
+  if (nmea !== undefined) {
+      var chunks = nmea.split(",");
+      return {
+          valid: valid,
+          data: chunks
+      };
+  } else {
+    return {};
+  }
 };
 
 var parseRMC = function(str) {
@@ -111,6 +134,20 @@ var parseDBT = function(str) {
     feet: parseFloat(data[1]),
     meters: parseFloat(data[3]),
     fathoms: parseFloat(data[5]) };
+};
+
+var parseDPT = function(str) {
+  /* Structure is
+   *         1     2
+   *  $aaDPT,001.3,+0.7,*42
+   *         |     |
+   *         |     Offset of transducer. + means from transducer to waterline, - means distance from transducer to keel.
+   *         Depth in meters
+   */
+    var data = getChunks(str).data;
+    return { type: "DPT",
+        meters: parseFloat(data[1]),
+        offset: parseFloat(data[2]) };
 };
 
 var parseGLL = function(str) {
@@ -797,6 +834,10 @@ var parseXDR = function(str) {
   return { type: "XDR", data: parsed };
 };
 
+// Use for unknown sentences, not to show an error message.
+var dummyParser = function(str) {
+  return {};
+};
 
 var sexToDec = function(deg, min) {
   return deg + ((min * 10 / 6) / 100);
@@ -827,6 +868,7 @@ var decToSex = function(val, ns_ew) {
 var matcher = {};
 matcher["RMC"] = { parser: parseRMC, desc: "Recommended Minimum Navigation Information" };
 matcher["DBT"] = { parser: parseDBT, desc: "Depth Below Transducer" };
+matcher["DPT"] = { parser: parseDPT, desc: "Depth of Water" };
 matcher["GLL"] = { parser: parseGLL, desc: "Geographic Position, Latitude / Longitude" };
 matcher["GGA"] = { parser: parseGGA, desc: "Global Positioning System Fix Data" };
 matcher["GSA"] = { parser: parseGSA, desc: "GPS DOP and active satellites" };
@@ -847,9 +889,17 @@ matcher["VWR"] = { parser: parseVWR, desc: "Relative Wind Speed and Angle" };
 matcher["VWT"] = { parser: parseVWT, desc: "True WindSpeed and Angle" };
 matcher["XDR"] = { parser: parseXDR, desc: "Transducer Values" };
 matcher["VLW"] = { parser: parseVLW, desc: "Distance Traveled through Water" };
+// Dummy ones
+matcher["GBS"] = { parser: dummyParser, desc: "RAIM GNSS Satellite Fault Detection"}
+matcher["RZD"] = { parser: dummyParser, desc: "RMS Error of Coordinates"}
 
 var autoparse = function(str) {
-  var id = getChunks(str).valid.id;
+  var id;
+  try {
+      id = getChunks(str).valid.id;
+  } catch (err) {
+    throw err;
+  }
   if (matcher[id] !== undefined) {
       var parser = matcher[id].parser;
       if (parser !== undefined) {
@@ -858,7 +908,7 @@ var autoparse = function(str) {
           throw {err: "No parser found for sentence [" + str + "]"};
       }
   } else {
-      throw {err: "No parser found for unknown sentence [" + str + "]"};
+      throw {err: "No parser found for unknown sentence [" + id + "] [" + str + "]"};
   }
 };
 
@@ -877,6 +927,24 @@ var tests = function() {
   console.log("Pos: " + decToSex(parsed.pos.lat, 'NS') + " " + decToSex(parsed.pos.lon, 'EW'));
   var date = new Date(parsed.epoch);
   console.log(date);
+
+  var dpt = "$IIDPT,078.9,+0.7,*46";
+  console.log(dpt);
+  try {
+      var parsed = autoparse(dpt);
+      console.log(parsed);
+  } catch (err) {
+    console.log(err);
+  }
+
+  dpt = "$IIDPT,098.7,-0.7,*40";
+  console.log(dpt);
+  try {
+      var parsed = autoparse(dpt);
+      console.log(parsed);
+  } catch (err) {
+      console.log(err);
+  }
 };
 
 // Made public.
@@ -886,6 +954,7 @@ exports.toDegMin = decToSex;
 
 exports.parseRMC = parseRMC;
 exports.parseDBT = parseDBT;
+exports.parseDPT = parseDPT;
 exports.parseGLL = parseGLL;
 exports.parseGGA = parseGGA;
 exports.parseGSA = parseGSA;
