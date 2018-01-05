@@ -1,4 +1,4 @@
-var BitOps = {
+const BitOps = {
   checkBit: function(value, position) {
     var mask = 1 << position;
     return ((value & mask) === mask);
@@ -25,8 +25,8 @@ var BitOps = {
     return value ^ mask;
   },
   setValueUnderMask: function(valueToSet, currentValue, mask) {
-    var currentValueCleared = this.clearBits(currentValue, mask);
-    var i = 0;
+    let currentValueCleared = this.clearBits(currentValue, mask);
+    let i = 0;
     while (mask % 2 === 0 && mask !== 0x00) {
       mask >>= 1;
       i++;
@@ -34,8 +34,8 @@ var BitOps = {
     return this.setBits(valueToSet << i, currentValueCleared);
   },
   getValueUnderMask: function(currentValue, mask) {
-    var currentValueCleared = this.clearBits(currentValue, ~mask); // clear bits not under mask
-    var i = 0;
+	  let currentValueCleared = this.clearBits(currentValue, ~mask); // clear bits not under mask
+	  let i = 0;
     while (mask % 2 === 0 && mask !== 0x00) {
       mask >>= 1;
       i++;

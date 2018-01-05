@@ -4,52 +4,52 @@
  * Doc is at https://www.npmjs.com/package/i2c-bus
  */
 
-var utils = require('./utils/utils.js');
-var EndianReaders = require('./utils/endianreaders.js').EndianReaders;
-var i2c   = require('i2c-bus');
+let utils = require('./utils/utils.js');
+let EndianReaders = require('./utils/endianreaders.js').EndianReaders;
+let i2c   = require('i2c-bus');
 
-var BME280_I2CADDR = 0x77;
+const BME280_I2CADDR = 0x77;
 
   // Operating Modes
-var BME280_OSAMPLE_1  = 1;
-var BME280_OSAMPLE_2  = 2;
-var BME280_OSAMPLE_4  = 3;
-var BME280_OSAMPLE_8  = 4;
-var BME280_OSAMPLE_16 = 5;
+const BME280_OSAMPLE_1  = 1;
+const BME280_OSAMPLE_2  = 2;
+const BME280_OSAMPLE_4  = 3;
+const BME280_OSAMPLE_8  = 4;
+const BME280_OSAMPLE_16 = 5;
 
   // BME280 Registers
-var BME280_REGISTER_DIG_T1 = 0x88;  // Trimming parameter registers
-var BME280_REGISTER_DIG_T2 = 0x8A;
-var BME280_REGISTER_DIG_T3 = 0x8C;
+const BME280_REGISTER_DIG_T1 = 0x88;  // Trimming parameter registers
+const BME280_REGISTER_DIG_T2 = 0x8A;
+const BME280_REGISTER_DIG_T3 = 0x8C;
 
-var BME280_REGISTER_DIG_P1 = 0x8E;
-var BME280_REGISTER_DIG_P2 = 0x90;
-var BME280_REGISTER_DIG_P3 = 0x92;
-var BME280_REGISTER_DIG_P4 = 0x94;
-var BME280_REGISTER_DIG_P5 = 0x96;
-var BME280_REGISTER_DIG_P6 = 0x98;
-var BME280_REGISTER_DIG_P7 = 0x9A;
-var BME280_REGISTER_DIG_P8 = 0x9C;
-var BME280_REGISTER_DIG_P9 = 0x9E;
+const BME280_REGISTER_DIG_P1 = 0x8E;
+const BME280_REGISTER_DIG_P2 = 0x90;
+const BME280_REGISTER_DIG_P3 = 0x92;
+const BME280_REGISTER_DIG_P4 = 0x94;
+const BME280_REGISTER_DIG_P5 = 0x96;
+const BME280_REGISTER_DIG_P6 = 0x98;
+const BME280_REGISTER_DIG_P7 = 0x9A;
+const BME280_REGISTER_DIG_P8 = 0x9C;
+const BME280_REGISTER_DIG_P9 = 0x9E;
 
-var BME280_REGISTER_DIG_H1 = 0xA1;
-var BME280_REGISTER_DIG_H2 = 0xE1;
-var BME280_REGISTER_DIG_H3 = 0xE3;
-var BME280_REGISTER_DIG_H4 = 0xE4;
-var BME280_REGISTER_DIG_H5 = 0xE5;
-var BME280_REGISTER_DIG_H6 = 0xE6;
-var BME280_REGISTER_DIG_H7 = 0xE7;
+const BME280_REGISTER_DIG_H1 = 0xA1;
+const BME280_REGISTER_DIG_H2 = 0xE1;
+const BME280_REGISTER_DIG_H3 = 0xE3;
+const BME280_REGISTER_DIG_H4 = 0xE4;
+const BME280_REGISTER_DIG_H5 = 0xE5;
+const BME280_REGISTER_DIG_H6 = 0xE6;
+const BME280_REGISTER_DIG_H7 = 0xE7;
 
-var BME280_REGISTER_CHIPID    = 0xD0;
-var BME280_REGISTER_VERSION   = 0xD1;
-var BME280_REGISTER_SOFTRESET = 0xE0;
+const BME280_REGISTER_CHIPID    = 0xD0;
+const BME280_REGISTER_VERSION   = 0xD1;
+const BME280_REGISTER_SOFTRESET = 0xE0;
 
-var BME280_REGISTER_CONTROL_HUM   = 0xF2;
-var BME280_REGISTER_CONTROL       = 0xF4;
-var BME280_REGISTER_CONFIG        = 0xF5;
-var BME280_REGISTER_PRESSURE_DATA = 0xF7;
-var BME280_REGISTER_TEMP_DATA     = 0xFA;
-var BME280_REGISTER_HUMIDITY_DATA = 0xFD;
+const BME280_REGISTER_CONTROL_HUM   = 0xF2;
+const BME280_REGISTER_CONTROL       = 0xF4;
+const BME280_REGISTER_CONFIG        = 0xF5;
+const BME280_REGISTER_PRESSURE_DATA = 0xF7;
+const BME280_REGISTER_TEMP_DATA     = 0xFA;
+const BME280_REGISTER_HUMIDITY_DATA = 0xFD;
 
 var BME280 = function(addr) {
   if (addr === undefined) {

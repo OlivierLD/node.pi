@@ -1,8 +1,8 @@
 "use strict";
 
 // Formatting Utilities
-var getMask = function(num) {
-  var maskDim = 2;
+function getMask(num) {
+  let maskDim = 2;
   for (var i=2; i<16; i+=2) {
     maskDim = i;
     if (Math.abs(num) < (Math.pow(16, i) - 1)) {
@@ -13,18 +13,18 @@ var getMask = function(num) {
   return Math.pow(16, maskDim) - 1;
 };
 
-var toHexString = function(num, len) {
-  var l = (len !== undefined ? len : 4);
+function toHexString(num, len) {
+  let l = (len !== undefined ? len : 4);
   return "0x" + lpad((num & getMask(num)).toString(16).trim().toUpperCase(), l, '0');
 };
 
-var toBinString = function(num, len) {
-  var l = (len !== undefined ? len : 16);
+function toBinString(num, len) {
+  let l = (len !== undefined ? len : 16);
   return "0&" + lpad((num & getMask(num)).toString(2).trim().toUpperCase(), l, '0');
 };
 
-var lpad = function(str, len, pad) {
-  var s = str;
+function lpad(str, len, pad) {
+  let s = str;
   while (s.length < len) {
     s = (pad !== undefined ? pad : " ") + s;
   }
@@ -32,8 +32,8 @@ var lpad = function(str, len, pad) {
 };
 
 // Careful with this one, it could be demanding...
-var sleep = function(milliseconds) {
-  var start = new Date().getTime();
+function sleep(milliseconds) {
+  let start = new Date().getTime();
   while (true) {
     if ((new Date().getTime() - start) > milliseconds) {
       break;
@@ -44,7 +44,7 @@ var sleep = function(milliseconds) {
 // Date formatting
 // Provide month names
 Date.prototype.getMonthName = function() {
-  var monthNames = [
+  const monthNames = [
     'January', 'February', 'March',     'April',   'May',      'June',
     'July',    'August',   'September', 'October', 'November', 'December' ];
   return monthNames[this.getMonth()];
@@ -52,7 +52,7 @@ Date.prototype.getMonthName = function() {
 
 // Provide month abbreviation
 Date.prototype.getMonthAbbr = function() {
-  var monthAbbrs = [
+  const monthAbbrs = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
   return monthAbbrs[this.getMonth()];
@@ -60,39 +60,39 @@ Date.prototype.getMonthAbbr = function() {
 
 // Provide full day of week name
 Date.prototype.getDayFull = function() {
-  var daysFull = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
+  const daysFull = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
   return daysFull[this.getDay()];
 };
 
 // Provide full day of week name
 Date.prototype.getDayAbbr = function() {
-  var daysAbbr = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat' ];
+  const daysAbbr = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat' ];
   return daysAbbr[this.getDay()];
 };
 
 // Provide the day of year 1-365
 Date.prototype.getDayOfYear = function() {
-  var jan1st = new Date(this.getFullYear(), 0, 1);
+  let jan1st = new Date(this.getFullYear(), 0, 1);
   return Math.ceil((this - jan1st) / 86400000);
 };
 
 // Provide the day suffix (st, nd, rd, th). Note: 1st, 11th, 21st, 31st
 Date.prototype.getDaySuffix = function() {
-  var sfx = ["th", "st", "nd", "rd"];
-  var d = this.getDate();
-  var val = d % 100;
+  const sfx = ["th", "st", "nd", "rd"];
+  let d = this.getDate();
+  let val = d % 100;
   return sfx[(val-20) % 10] || sfx[val] || sfx[0];
 };
 
 // Provide Week of Year
 Date.prototype.getWeekOfYear = function() {
-  var jan1st = new Date(this.getFullYear(), 0, 1);
+  let jan1st = new Date(this.getFullYear(), 0, 1);
   return Math.ceil((((this - jan1st) / 86400000) + jan1st.getDay() + 1) / 7);
 };
 
 // Provide if it is a leap year or not
 Date.prototype.isLeapYear = function() {
-  var yr = this.getFullYear();
+  let yr = this.getFullYear();
   if ((parseInt(yr) % 4) === 0) {
     if (parseInt(yr) % 100 === 0) {
       if (parseInt(yr) % 400 !== 0) {
@@ -113,7 +113,7 @@ Date.prototype.isLeapYear = function() {
 
 // Provide Number of Days in a given month
 Date.prototype.getMonthDayCount = function() {
-  var monthDayCounts = [
+  const monthDayCounts = [
     31, this.isLeapYear() ? 29 : 28, 31, 30, 31, 30,
     31, 31, 30, 31, 30, 31 ];
   return monthDayCounts[this.getMonth()];
@@ -124,7 +124,7 @@ Date.prototype.format = function(dateFormat) {
   // break apart format string into array of characters
   dateFormat = dateFormat.split("");
 
-  var date = this.getDate(),
+  let date = this.getDate(),
       month = this.getMonth(),
       hours = this.getHours(),
       minutes = this.getMinutes(),
@@ -133,7 +133,7 @@ Date.prototype.format = function(dateFormat) {
       tzOffset = -(this.getTimezoneOffset() / 60);
 
   // get all date properties ( based on PHP date object functionality )
-  var dateProps =  {
+  let dateProps =  {
     d: date < 10 ? '0' + date : date,
     D: this.getDayAbbr(),
     j: this.getDate(),
@@ -162,9 +162,9 @@ Date.prototype.format = function(dateFormat) {
     _: lpad(milli, 3, '0')  };
 
   // loop through format array of characters and add matching data else add the format character (:,/, etc.)
-  var dateString = "";
-  for (var i=0; i<dateFormat.length; i++) {
-    var f = dateFormat[i];
+  let dateString = "";
+  for (let i=0; i<dateFormat.length; i++) {
+    let f = dateFormat[i];
     if (f.match(/[a-zA-Z|_]/g)) {
       dateString += dateProps[f] ? dateProps[f] : '';
     } else  {

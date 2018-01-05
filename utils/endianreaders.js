@@ -1,18 +1,18 @@
 "use strict";
 
-var utils = require('./utils.js');
+let utils = require('./utils.js');
 
-var Endianness = {
+const Endianness = {
   LITTLE_ENDIAN: 1,
   BIG_ENDIAN: 2
 };
 
-var EndianReaders = {
+const EndianReaders = {
   /**
    * Read an unsigned byte from the I2C device
    */
   readU8: function(device, i2cAddr, reg) {
-    var result = 0;
+    let result = 0;
     try {
       result = device.readByteSync(i2cAddr, reg);
     } catch (ex) {
@@ -29,7 +29,7 @@ var EndianReaders = {
    * Read a signed byte from the I2C device
    */
   readS8: function(device, i2cAddr, reg) {
-    var result = 0;
+    let result = 0;
     try {
       result = device.readByteSync(i2cAddr, reg); // & 0x7F;
       if (result > 127) {
@@ -46,12 +46,12 @@ var EndianReaders = {
     return result; // & 0xFF;
   },
   readU16: function(device, i2cAddr, register, endianness) {
-    var hi = this.readU8(device, i2cAddr, register);
-    var lo = this.readU8(device, i2cAddr, register + 1);
+    let hi = this.readU8(device, i2cAddr, register);
+    let lo = this.readU8(device, i2cAddr, register + 1);
     return ((endianness === Endianness.BIG_ENDIAN) ? (hi << 8) + lo : (lo << 8) + hi); // & 0xFFFF;
   },
   readS16: function(device, i2cAddr, register, endianness) {
-    var hi = 0, lo = 0;
+    let hi = 0, lo = 0;
     if (endianness === Endianness.BIG_ENDIAN) {
       hi = this.readS8(device, i2cAddr, register);
       lo = this.readU8(device, i2cAddr, register + 1);
