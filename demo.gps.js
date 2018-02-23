@@ -13,13 +13,13 @@ var fs = require('fs');
 
 var verbose = false;
  
-if (typeof String.prototype.startsWith != 'function') {
+if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str) {
     return this.indexOf(str) == 0;
   };
 }
 
-if (typeof String.prototype.endsWith != 'function') {
+if (typeof String.prototype.endsWith !== 'function') {
   String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
@@ -75,7 +75,7 @@ function handler (req, res) {
                     res.end(data.toString().replace('$PORT$', port.toString())); // Replace $PORT$ with the actual port value.
                   }
                 });
-  } else if (req.url == "/") {
+  } else if (req.url === "/") {
     if (req.method === "POST") {
       var data = "";
       console.log("---- Headers ----");

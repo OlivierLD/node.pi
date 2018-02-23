@@ -67,7 +67,7 @@ var MCP3008 = function(clock, miso, mosi, cs) {
     CHANNEL_6: 6,
     CHANNEL_7: 7 };
 
-  var SPI_CLK  = new Gpio(clock, Direction.OUT),
+  let SPI_CLK  = new Gpio(clock, Direction.OUT),
       SPI_MISO = new Gpio(miso,  Direction.IN),
       SPI_MOSI = new Gpio(mosi,  Direction.OUT),
       SPI_CS   = new Gpio(cs,    Direction.OUT);

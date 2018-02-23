@@ -6,7 +6,7 @@
  * You can interact with the IoT server directly at https://io.adafruit.com/olivierld
  *
  * This code will push some data sensor, and read some feed(s).
- * Also see the WebUI at demos/iot.one.html (can run in standalone).
+ * Also see the WebUI at demos/iot.one.html (can run in standalone, just load it in a browser).
  *
  * Feeds keys we need here are:
  * - onoff

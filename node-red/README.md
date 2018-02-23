@@ -1,5 +1,7 @@
 ## Some nodes, for `Node-Red`.
 
+To install Node-Red, see [here](https://nodered.org/docs/getting-started/installation).
+
 ### How to install your nodes...
 A node definition is made out of 2 files, and `html` one for the parameters entry, and a `js` one for the actual code.
 

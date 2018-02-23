@@ -7,7 +7,7 @@
  * You can interact with the IoT server directly at https://io.adafruit.com/olivierld
  *
  * This code will push some data sensor, and read some feed(s).
- * Also see the WebUI at demos/iot.one.html (can run in standalone).
+ * Also see the WebUI at demos/iot.one.html (can run in standalone, just load it in a browser).
  * From the WebUI you can change the state of the switch.
  *
  * Feeds keys we need here are:
@@ -15,7 +15,7 @@
  */
 
 // Need the Adafruit-IO key as parameter
-var key;
+let key;
 if (process.argv.length > 2) {
   key = process.argv[2];
 }
@@ -24,17 +24,17 @@ if (key === undefined) {
   process.exit();
 }
 
-var ONOFF_FEED = "onoff";
-var PREFIX = 'https://io.adafruit.com/api/feeds/';
+const ONOFF_FEED = "onoff";
+const PREFIX = 'https://io.adafruit.com/api/feeds/';
 
-var Client = require('node-rest-client').Client;
+let Client = require('node-rest-client').Client;
 
-var client = new Client();
+let client = new Client();
 
 // Get data, through a callback
-var getSwitchState = function(cb) {
-    var url = PREFIX + ONOFF_FEED;
-    var args = {
+function getSwitchState(cb) {
+    let url = PREFIX + ONOFF_FEED;
+    let args = {
         headers: {"X-AIO-Key": key}
     };
     client.get(url, args, function (data, response) {
@@ -46,13 +46,13 @@ var getSwitchState = function(cb) {
     });
 };
 
-var setSwitchState = function(state) {
-    var args = {
+function setSwitchState(state) {
+    let args = {
         data: { "value": state },
         headers: { "Content-Type": "application/json",
                    "X-AIO-Key": key }
     };
-    var url = PREFIX + ONOFF_FEED + "/data";
+    let url = PREFIX + ONOFF_FEED + "/data";
     client.post(url, args, function (data, response) {
         // parsed response body as js object
     //  console.log(data);
@@ -61,8 +61,8 @@ var setSwitchState = function(state) {
     });
 };
 
-var previousState;
-var manageState = function(state) {
+let previousState;
+function manageState(state) {
   if (state !== previousState) {
       console.log("State is now:" + state);
       // Do something with the hardware here
@@ -70,7 +70,7 @@ var manageState = function(state) {
   }
 };
 
-var interv = setInterval(function() {
+let interv = setInterval(function() {
   getSwitchState(manageState);
 }, 1000);
 

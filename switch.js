@@ -6,7 +6,7 @@
  * For the onoff doc,
  * see https://github.com/fivdi/onoff
  */
-var State = {
+const State = {
   HIGH: 1,
   LOW: 0
 };
@@ -16,14 +16,14 @@ var Direction = {
   OUT: 'out'
 };
 
-var Event = {
+const Event = {
   NONE: 'none',
   RISING: 'rising',
   FAILING: 'failing',
   BOTH: 'both'
 };
 
-var Gpio = require('onoff').Gpio; // Constructor function for Gpio objects.
+const Gpio = require('onoff').Gpio; // Constructor function for Gpio objects.
 
 Gpio.prototype.high = function() {
   this.writeSync(State.HIGH);
@@ -35,14 +35,14 @@ Gpio.prototype.isHigh = function() {
   return this.readSync() === State.HIGH;
 };
 
-var defaultPin = 18; // GPIO_18, Wiring/PI4J 1
+const defaultPin = 18; // GPIO_18, Wiring/PI4J 1
 
 var Switch = function(pin) {
   if (pin === undefined) {
     pin = defaultPin;
   }
   console.log("Switch on pin:", pin);
-  var PIN  = new Gpio(pin, Direction.OUT);
+  let PIN  = new Gpio(pin, Direction.OUT);
 
   this.on = function() {
     PIN.high();
