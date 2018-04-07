@@ -1,7 +1,7 @@
 {
   "name": "node-on-pi",
   "version": "0.0.1",
-  "description": "Samples scripts for nodejs on the Raspberry PI, using onoff.js",
+  "description": "Samples scripts for nodejs on the Raspberry PI, using onoff.js and other libs",
   "keywords": [
     "RaspberryPI",
     "onoff",
@@ -23,7 +23,8 @@
   "main": "test_mcp3008.js",
   "devDependencies": {},
   "scripts": {
-    "test": "test_mcp3008.js"
+    "test": "test_mcp3008.js",
+    "start": "node demo.gps.js"
   },
   "repository": {
     "type": "git",
