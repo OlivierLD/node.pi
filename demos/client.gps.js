@@ -128,5 +128,6 @@ var setConnectionStatus = function(ok) {
   var title = document.getElementById("title");
   if (title !== undefined) {
     title.style.color = (ok === true ? 'green' : 'red');
+    title.title = (ok === true ? 'Connection OK' : 'Connection not established');
   }
 };
