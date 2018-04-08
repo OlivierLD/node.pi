@@ -11,7 +11,7 @@ var webSocketServer = require('websocket').server;
 var http = require('http');
 var fs = require('fs');
 
-var verbose = false;
+var verbose = true;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str) {
@@ -27,6 +27,7 @@ if (typeof String.prototype.endsWith !== 'function') {
 
 function handler (req, res) {
   var respContent = "";
+  console.log("Verbose is:", verbose);
   if (verbose) {
     console.log("Speaking HTTP from " + __dirname);
     console.log("Server received an HTTP Request:\n" + req.method + "\n" + req.url + "\n-------------");
@@ -42,27 +43,29 @@ function handler (req, res) {
     console.log('Loading static ' + req.url + " (" + resource + ")");
     fs.readFile(__dirname + '/' + resource,
                 function (err, data) {
-                  if (err) {
-                    res.writeHead(500);
-                    return res.end('Error loading ' + resource);
-                  }
-                  if (verbose)
-                    console.log("Read resource content:\n---------------\n" + data + "\n--------------");
-                  var contentType = "text/html";
-                  if (resource.endsWith(".css"))
-                    contentType = "text/css";
-                  else if (resource.endsWith(".html"))
-                    contentType = "text/html";
-                  else if (resource.endsWith(".xml"))
-                    contentType = "text/xml";
-                  else if (resource.endsWith(".js"))
-                    contentType = "text/javascript";
-                  else if (resource.endsWith(".jpg"))
-                    contentType = "image/jpg";
-                  else if (resource.endsWith(".gif"))
-                    contentType = "image/gif";
-                  else if (resource.endsWith(".png"))
-                    contentType = "image/png";
+	                if (err) {
+		                res.writeHead(500);
+		                return res.end('Error loading ' + resource);
+	                }
+	                if (verbose) {
+		                console.log("Read resource content:\n---------------\n" + data + "\n--------------");
+	                }
+	                var contentType = "text/html";
+	                if (resource.endsWith(".css")) {
+		                contentType = "text/css";
+	                } else if (resource.endsWith(".html")) {
+		                contentType = "text/html";
+	                } else if (resource.endsWith(".xml")) {
+		                contentType = "text/xml";
+	                } else if (resource.endsWith(".js")) {
+		                contentType = "text/javascript";
+                  } else if (resource.endsWith(".jpg")) {
+		                contentType = "image/jpg";
+	                } else if (resource.endsWith(".gif")) {
+		                contentType = "image/gif";
+	                } else if (resource.endsWith(".png")) {
+		                contentType = "image/png";
+	                }
 
                   res.writeHead(200, {'Content-Type': contentType});
               //  console.log('Data is ' + typeof(data));
@@ -79,8 +82,9 @@ function handler (req, res) {
     if (req.method === "POST") {
       var data = "";
       console.log("---- Headers ----");
-      for(var item in req.headers)
-        console.log(item + ": " + req.headers[item]);
+      for(var item in req.headers) {
+	      console.log(item + ": " + req.headers[item]);
+      }
       console.log("-----------------");
 
       req.on("data", function(chunk) {
@@ -111,6 +115,7 @@ var server = http.createServer(handler);
 server.listen(port, function() {
   console.log((new Date()) + " Server is listening on port " + port);
   console.log("Connect to [http://localhost:9876/data/demos/gps.demo.html]");
+  console.log('Verbose is ', verbose);
 });
 
 /**
@@ -154,7 +159,7 @@ wsServer.on('request', function(request) {
 
 // GPS part
 
-console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
+console.log('>>> To stop: Ctrl-C, or enter "quit" + [return] here in the console <<<');
 console.log("Usage: node " + __filename + " [raw]|fmt|auto");
 
 global.displayMode = "auto";
@@ -162,8 +167,8 @@ global.displayMode = "auto";
 var util = require('util');
 var GPS = require('./SerialReader.js').NMEA;
 
-// var serialPort = '/dev/tty.usbserial'; // On Mac
-var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
+var serialPort = '/dev/tty.usbserial'; // On Mac
+// var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
 var gps = new GPS(serialPort, 4800);
 
 var processData = function(gps) {
