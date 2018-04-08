@@ -27,7 +27,7 @@ var connection;
   // most important part - incoming messages
   connection.onmessage = function (message) {
  // console.log('onmessage:' + message);
-    // try to parse JSON message. 
+    // try to parse JSON message.
     try {
       var json = JSON.parse(message.data);
     } catch (e) {
@@ -110,10 +110,14 @@ var connection;
 })();
 
 var displayMessage = function(mess) {
-  var messList = statusFld.innerHTML;
-  messList = (((messList !== undefined && messList.length) > 0 ? messList + '<br>' : '') + mess);
-  statusFld.innerHTML = messList;
-  statusFld.scrollTop = statusFld.scrollHeight; // Scroll down
+  if (statusFld !== undefined) {
+	  var messList = statusFld.innerHTML;
+	  messList = (((messList !== undefined && messList.length) > 0 ? messList + '<br>' : '') + mess);
+	  statusFld.innerHTML = messList;
+	  statusFld.scrollTop = statusFld.scrollHeight; // Scroll down
+  } else {
+  	alert(mess);
+  }
 };
 
 var resetStatus = function() {
