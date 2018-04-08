@@ -2,17 +2,17 @@
 "use strict";
 
 process.title = 'node-gps'; // Optional. You will see this name in eg. 'ps' or 'top' command
- 
+
 // Port where we'll run the websocket server
 var port = 9876;
- 
+
 // websocket and http servers
 var webSocketServer = require('websocket').server;
 var http = require('http');
 var fs = require('fs');
 
 var verbose = false;
- 
+
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str) {
     return this.indexOf(str) == 0;
@@ -31,7 +31,7 @@ function handler (req, res) {
     console.log("Speaking HTTP from " + __dirname);
     console.log("Server received an HTTP Request:\n" + req.method + "\n" + req.url + "\n-------------");
     console.log("ReqHeaders:" + JSON.stringify(req.headers, null, '\t'));
-    console.log('Request:' + req.url);    
+    console.log('Request:' + req.url);
     var prms = require('url').parse(req.url, true);
     console.log(prms);
     console.log("Search: [" + prms.search + "]");
@@ -66,7 +66,7 @@ function handler (req, res) {
 
                   res.writeHead(200, {'Content-Type': contentType});
               //  console.log('Data is ' + typeof(data));
-                  if (resource.endsWith(".jpg") || 
+                  if (resource.endsWith(".jpg") ||
                       resource.endsWith(".gif") ||
                       resource.endsWith(".png")) {
                 //  res.writeHead(200, {'Content-Type': 'image/gif' });
@@ -79,7 +79,7 @@ function handler (req, res) {
     if (req.method === "POST") {
       var data = "";
       console.log("---- Headers ----");
-      for(var item in req.headers) 
+      for(var item in req.headers)
         console.log(item + ": " + req.headers[item]);
       console.log("-----------------");
 
@@ -103,7 +103,7 @@ function handler (req, res) {
 } // HTTP Handler
 
 var clients = []; // list of currently connected clients (users)
- 
+
 /**
  * HTTP server
  */
@@ -112,7 +112,7 @@ server.listen(port, function() {
   console.log((new Date()) + " Server is listening on port " + port);
   console.log("Connect to [http://localhost:9876/data/demos/gps.demo.html]");
 });
- 
+
 /**
  * WebSocket server
  */
@@ -121,7 +121,7 @@ var wsServer = new webSocketServer({
   // an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
   httpServer: server
 });
- 
+
 // This callback function is called every time someone
 // tries to connect to the WebSocket server
 wsServer.on('request', function(request) {
@@ -129,7 +129,7 @@ wsServer.on('request', function(request) {
   var connection = request.accept(null, request.origin);
   clients.push(connection);
   console.log((new Date()) + ' Connection accepted.');
- 
+
   // user sent some message
   connection.on('message', function(message) {
     if (message.type === 'utf8') { // accept only text
@@ -162,8 +162,8 @@ global.displayMode = "auto";
 var util = require('util');
 var GPS = require('./SerialReader.js').NMEA;
 
-var serialPort = '/dev/tty.usbserial'; // On Mac
-// var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
+// var serialPort = '/dev/tty.usbserial'; // On Mac
+var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
 var gps = new GPS(serialPort, 4800);
 
 var processData = function(gps) {
