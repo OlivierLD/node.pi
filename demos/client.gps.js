@@ -57,27 +57,35 @@ var connection;
     var html = "<table cellspacing='10'>";
     html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
-      // Send to plotter here.
-      if (satellitesPlotter !== undefined) {
-        satellitesPlotter.setSatellites(sd);
-      }
-      if (globe !== undefined) {
-				if (gpsSatelliteData !== undefined) {
-					gpsSatelliteData = sd;
-					globe.repaint();
-				}
-      }
+	    try {
+		    // Send to plotter here.
+		    if (satellitesPlotter !== undefined) {
+			    satellitesPlotter.setSatellites(sd);
+		    }
+	    } catch (oops) {
+	    }
+	    try {
+		    if (globe !== undefined) {
+			    if (gpsSatelliteData !== undefined) {
+				    gpsSatelliteData = sd;
+				    globe.repaint();
+			    }
+		    }
+	    } catch (oops) {
+	    }
 
-      for (var sat=0; sat<sd.length; sat++) {
-        html += "<tr>" +
-                "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + sd[sat].prn +
-            "</td><td align='right'>" + sd[sat].elevation +
-            "&deg;</td><td align='right'>" + sd[sat].azimuth +
-            "&deg;</td><td align='right'>" + sd[sat].snr + "</td></tr>";
-      }
+	    if (satData !== undefined) {
+		    for (var sat = 0; sat < sd.length; sat++) {
+			    html += "<tr>" +
+					    "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + sd[sat].prn +
+					    "</td><td align='right'>" + sd[sat].elevation +
+					    "&deg;</td><td align='right'>" + sd[sat].azimuth +
+					    "&deg;</td><td align='right'>" + sd[sat].snr + "</td></tr>";
+		    }
+	    }
+	    html += "</table>";
+	    satData.innerHTML = html;
     }
-    html += "</table>";
-    satData.innerHTML = html;
   };
 
   var getSNRColor = function(snr) {
