@@ -11,7 +11,7 @@ var webSocketServer = require('websocket').server;
 var http = require('http');
 var fs = require('fs');
 
-var verbose = true;
+var verbose = false;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str) {
