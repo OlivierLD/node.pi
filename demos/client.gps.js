@@ -43,10 +43,14 @@ var connection;
       nmeaID.innerHTML = '<b>' + json.data.lastID + '</b>';
       generateSatelliteData(json.data.satellites);
       if (json.data.cog !== undefined && rose !== undefined) {
-        rose.setValue(Math.round(json.data.cog));
+      	try {
+		      rose.setValue(Math.round(json.data.cog));
+	      } catch (err) {}
       }
       if (json.data.sog !== undefined && displayBSP !== undefined) {
-        displayBSP.setValue(json.data.sog);
+      	try {
+		      displayBSP.setValue(json.data.sog);
+	      } catch (err) {}
       }
     } else {
       displayMessage('Hmm..., I\'ve never seen JSON like this: ' + json);
