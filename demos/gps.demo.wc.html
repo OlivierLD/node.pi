@@ -15,10 +15,16 @@
       var satData;
       var nmeaID;
 
+      var globe;
+
       window.onload = function() {
         statusFld = document.getElementById("status");
         satData = document.getElementById("satData");
         nmeaID = document.getElementById("id");
+        globe = document.getElementById("world-map-01");
+        if (globe !== undefined) {
+	        callAfter("world-map-01");
+				}
       };
 
       // Plot position on the chart
@@ -44,6 +50,82 @@
       function setProjection(id, radio) {
 	      document.getElementById(id).projection = radio.value;
 	      document.getElementById(id).repaint();
+      }
+
+      function plotSatellite(context, worldMap, userPos, satColor, name, satellite) {
+	      let sat = worldMap.getPanelPoint(satellite.lat, satellite.lng);
+	      let thisPointIsBehind = worldMap.isBehind(worldMap.toRadians(satellite.lat), worldMap.toRadians(satellite.lng - worldMap.globeViewLngOffset));
+	      if (!thisPointIsBehind || worldMap.transparentGlobe) {
+		      // Draw Satellite
+		      worldMap.plot(context, sat, satColor);
+		      context.fillStyle = satColor;
+		      context.fillText(name, Math.round(sat.x) + 3, Math.round(sat.y) - 3);
+		      // Arrow, to the satellite
+		      context.setLineDash([2]);
+		      context.strokeStyle = satColor;
+		      context.beginPath();
+		      context.moveTo(userPos.x, userPos.y);
+		      context.lineTo(sat.x, sat.y);
+		      context.stroke();
+		      context.closePath();
+		      context.setLineDash([0]); // Reset
+		      context.strokeStyle = satColor;
+		      let deltaX = sat.x - userPos.x;
+		      let deltaY = sat.y - userPos.y;
+		      context.beginPath();
+		      context.moveTo(sat.x, sat.y);
+		      context.lineTo(sat.x + deltaX, sat.y + deltaY);
+		      context.stroke();
+		      context.closePath();
+		      worldMap.fillCircle(context, {x: sat.x + deltaX, y: sat.y + deltaY}, 6, satColor);
+	      }
+      }
+
+      function getSNRColor(snr) {
+	      var c = 'lightGray';
+	      if (snr !== undefined && snr !== null) {
+		      if (snr > 0) {
+			      c = 'red';
+		      }
+		      if (snr > 10) {
+			      c = 'orange';
+		      }
+		      if (snr > 20) {
+			      c = 'yellow';
+		      }
+		      if (snr > 30) {
+			      c = 'lightGreen';
+		      }
+		      if (snr > 40) {
+			      c = 'green';
+		      }
+	      }
+	      return c;
+      }
+
+      let gpsSatelliteData = {};
+
+
+      // Example of callback on WorldMap
+      function callAfter(id) {
+	      document.getElementById(id).setDoAfter(function(worldMap, context) {
+		      if (Object.keys(worldMap.userPosition).length > 0) {
+			      let userPos = worldMap.getPanelPoint(worldMap.userPosition.latitude, worldMap.userPosition.longitude);
+			      // GPS Satellites in view
+			      for (var sat in gpsSatelliteData) {
+				      let satellite = gpsSatelliteData[sat];
+				      let satellitePosition = worldMap.deadReckoning({
+					      lat: worldMap.toRadians(worldMap.userPosition.latitude),
+					      lng: worldMap.toRadians(worldMap.userPosition.longitude)
+				      }, (90 - satellite.elevation) * 60, satellite.azimuth);
+				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), sat, {
+					      lat: worldMap.toDegrees(satellitePosition.lat),
+					      lng: worldMap.toDegrees(satellitePosition.lng)
+				      });
+			      }
+		      }
+	      });
+//      document.getElementById(id).repaint();
       }
 
 		</script>

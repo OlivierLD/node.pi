@@ -42,10 +42,10 @@ var connection;
       document.getElementById("fixdate").innerHTML = json.data.date;
       nmeaID.innerHTML = '<b>' + json.data.lastID + '</b>';
       generateSatelliteData(json.data.satellites);
-      if (json.data.cog !== undefined) {
+      if (json.data.cog !== undefined && rose !== undefined) {
         rose.setValue(Math.round(json.data.cog));
       }
-      if (json.data.sog !== undefined) {
+      if (json.data.sog !== undefined && displayBSP !== undefined) {
         displayBSP.setValue(json.data.sog);
       }
     } else {
@@ -60,6 +60,12 @@ var connection;
       // Send to plotter here.
       if (satellitesPlotter !== undefined) {
         satellitesPlotter.setSatellites(sd);
+      }
+      if (globe !== undefined) {
+				if (gpsSatelliteData !== undefined) {
+					gpsSatelliteData = sd;
+					globe.repaint();
+				}
       }
 
       for (var sat=0; sat<sd.length; sat++) {
