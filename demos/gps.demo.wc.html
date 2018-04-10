@@ -118,7 +118,7 @@
 					      lat: worldMap.toRadians(worldMap.userPosition.latitude),
 					      lng: worldMap.toRadians(worldMap.userPosition.longitude)
 				      }, (90 - satellite.elevation) * 60, satellite.azimuth);
-				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), sat, {
+				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), satellite.prn, {
 					      lat: worldMap.toDegrees(satellitePosition.lat),
 					      lng: worldMap.toDegrees(satellitePosition.lng)
 				      });
