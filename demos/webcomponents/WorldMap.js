@@ -1827,7 +1827,7 @@ class WorldMap extends HTMLElement {
 				this.worldmapColorConfig = this.getColorConfig(currentStyle);
 			} catch (err) {
 				// Absorb?
-				// console.log(err);
+				console.log(err);
 			}
 			this._previousClassName = currentStyle;
 		}
