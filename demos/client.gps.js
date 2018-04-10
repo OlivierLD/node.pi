@@ -60,7 +60,88 @@ var connection;
     }
   };
 
-  var generateSatelliteData = function(sd) {
+	const fakeGpsSatelliteData = {
+		"1":{
+			"svID":1,
+			"elevation":26,
+			"azimuth":316,
+			"snr":0
+		},
+		"3":{
+			"svID":3,
+			"elevation":4,
+			"azimuth":284,
+			"snr":0
+		},
+		"8":{
+			"svID":8,
+			"elevation":27,
+			"azimuth":251,
+			"snr":6
+		},
+		"10":{
+			"svID":10,
+			"elevation":43,
+			"azimuth":75,
+			"snr":0
+		},
+		"11":{
+			"svID":11,
+			"elevation":32,
+			"azimuth":303,
+			"snr":0
+		},
+		"14":{
+			"svID":14,
+			"elevation":84,
+			"azimuth":250,
+			"snr":0
+		},
+		"18":{
+			"svID":18,
+			"elevation":16,
+			"azimuth":92,
+			"snr":0
+		},
+		"22":{
+			"svID":22,
+			"elevation":22,
+			"azimuth":291,
+			"snr":0
+		},
+		"24":{
+			"svID":24,
+			"elevation":1,
+			"azimuth":33,
+			"snr":0
+		},
+		"27":{
+			"svID":27,
+			"elevation":16,
+			"azimuth":212,
+			"snr":6
+		},
+		"31":{
+			"svID":31,
+			"elevation":31,
+			"azimuth":157,
+			"snr":0
+		},
+		"32":{
+			"svID":32,
+			"elevation":69,
+			"azimuth":37,
+			"snr":0
+		}
+	};
+
+	var generateSatelliteData = function(sd) {
+
+  	// For tests
+  	if (sd === undefined) {
+  		sd = fakeGpsSatelliteData;
+	  }
+
     var html = "<table cellspacing='10'>";
     html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
@@ -80,7 +161,7 @@ var connection;
 		    }
 	    } catch (Oops) {
 	    }
-
+			satData = document.getElementById("satData");
 	    if (satData !== undefined) {
 		    for (var sat = 0; sat < sd.length; sat++) {
 			    html += "<tr>" +
@@ -92,7 +173,7 @@ var connection;
 	    }
     }
 	  html += "</table>";
-	  satData.innerHTML = html;
+		satData.innerHTML = html;
   };
 
   var getSNRColor = function(snr) {
