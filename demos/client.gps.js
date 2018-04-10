@@ -68,7 +68,7 @@ var connection;
 		    if (satellitesPlotter !== undefined) {
 			    satellitesPlotter.setSatellites(sd);
 		    }
-	    } catch (oops) {
+	    } catch (Oops) {
 	    }
 	    try {
 		    if (globe !== undefined) {
@@ -77,7 +77,7 @@ var connection;
 				    globe.repaint();
 			    }
 		    }
-	    } catch (oops) {
+	    } catch (Oops) {
 	    }
 
 	    if (satData !== undefined) {
