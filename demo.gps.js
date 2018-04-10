@@ -158,17 +158,48 @@ wsServer.on('request', function(request) {
 });
 
 // GPS part
-
-console.log('>>> To stop: Ctrl-C, or enter "quit" + [return] here in the console <<<');
-console.log("Usage: node " + __filename + " [raw]|fmt|auto");
+console.log("+-----------------------------------------------------------------+")
+console.log('| To stop: Ctrl-C, or enter "quit" + [return] here in the console |');
+console.log("+-----------------------------------------------------------------+")
+console.log("Usage: node " + __filename + " [raw]|fmt|auto"); // TODO Manage those parameters
+console.log("Usage: node " + __filename + " --verbose:true|false --port:/dev/ttyXXXX");
 
 global.displayMode = "auto";
 
 var util = require('util');
 var GPS = require('./SerialReader.js').NMEA;
 
-var serialPort = '/dev/tty.usbserial'; // On Mac
-// var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
+// var serialPort = '/dev/tty.usbserial'; // On Mac
+var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
+
+for (var i=0; i<process.argv.length; i++) {
+	console.log("arg #%d: %s", i, process.argv[i]);
+}
+
+if (process.argv.length > 2) {
+	for (var argc=2; argc<process.argv.length; argc++) {
+		if (process.argv[argc].startsWith("--verbose:")) {
+			var value = process.argv[argc].substring("--verbose:".length);
+			if (value !== 'true' && value !== 'false') {
+				console.log("Invalid verbose value [%s]. Only 'true' and 'false' are supported.", value);
+				process.exit(1);
+			}
+			verbose = (value === 'true');
+		} else if (process.argv[argc].startsWith("--port:")) {
+			var value = process.argv[argc].substring("--port:".length);
+			try {
+				serialPort = value;
+				console.log("Using serial port ", serialPort);
+			} catch (err) {
+				console.log("Invalid integer for port value %s.", value);
+				process.exit(1);
+			}
+		} else {
+			console.log("Unsupported parameter %s, ignored.", process.argv[argc]);
+		}
+	}
+}
+
 var gps = new GPS(serialPort, 4800);
 
 var processData = function(gps) {

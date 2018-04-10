@@ -26,7 +26,7 @@ var connection;
 
   // most important part - incoming messages
   connection.onmessage = function (message) {
- // console.log('onmessage:' + message);
+    console.log('onmessage:', message);
     // try to parse JSON message.
     try {
       var json = JSON.parse(message.data);
@@ -40,7 +40,8 @@ var connection;
 //    displayMessage(json.data.date + ", Satellites:" + json.data.nbSat);
       plotPositionOnChart({ lat: json.data.latitude, lng: json.data.longitude });
       document.getElementById("fixdate").innerHTML = json.data.date;
-      nmeaID.innerHTML = '<b>' + json.data.lastID + '</b>';
+   // nmeaID.innerHTML = '<b>' + json.data.lastID + '</b>';
+	    document.getElementById("nmea-id").innerHTML = '<b>' + json.data.lastID + '</b>';
       generateSatelliteData(json.data.satellites);
 	    try {
 		    if (json.data.cog !== undefined && rose !== undefined) {
@@ -89,9 +90,9 @@ var connection;
 					    "&deg;</td><td align='right'>" + sd[sat].snr + "</td></tr>";
 		    }
 	    }
-	    html += "</table>";
-	    satData.innerHTML = html;
     }
+	  html += "</table>";
+	  satData.innerHTML = html;
   };
 
   var getSNRColor = function(snr) {
@@ -130,6 +131,7 @@ var connection;
 })();
 
 var displayMessage = function(mess) {
+	statusFld = document.getElementById("status");
   if (statusFld !== undefined) {
 	  var messList = statusFld.innerHTML;
 	  messList = (((messList !== undefined && messList.length) > 0 ? messList + '<br>' : '') + mess);

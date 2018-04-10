@@ -9,8 +9,9 @@
       p { line-height:18px; }
     </style>
     <link rel="icon" type="image/png" href="../docker.png">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<link rel="stylesheet" href="css/web-components.css">
     <script type="module" src="webcomponents/WorldMap.js"></script>
-		<script src="./client.gps.js"></script>
     <script type="text/javascript">
       var statusFld;
       var satData;
@@ -18,26 +19,14 @@
 
       var globe;
 
-      window.onload = function() {
-      	setTimeout(function() {
-		      statusFld = document.getElementById("status");
-		      satData = document.getElementById("satData");
-		      nmeaID = document.getElementById("id");
-		      globe = document.getElementById("world-map-01");
-		      if (globe !== undefined) {
-			      callAfter("world-map-01");
-		      }
-	      }, 500);
-      };
-
       // Plot position on the chart
       var plotPositionOnChart = function(val) {
         var label = "GPS position";
         // Plot the position on the map
-				try {
-					document.getElementById("world-map-01").setUserPosition({latitude: val.lat, longitude: val.lng});
-					document.getElementById("world-map-01").positionLabel = label;
-				} catch (err) {}
+				if (globe !== undefined) {
+					globe.setUserPosition({latitude: val.lat, longitude: val.lng});
+					globe.positionLabel = label;
+				}
       };
 
       function setTransparency(wcId, cb) {
@@ -110,6 +99,7 @@
 
       let gpsSatelliteData = {};
 
+
       // Example of callback on WorldMap
       function callAfter(id) {
 	      document.getElementById(id).setDoAfter(function(worldMap, context) {
@@ -122,7 +112,7 @@
 					      lat: worldMap.toRadians(worldMap.userPosition.latitude),
 					      lng: worldMap.toRadians(worldMap.userPosition.longitude)
 				      }, (90 - satellite.elevation) * 60, satellite.azimuth);
-				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), satellite.prn, {
+				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), sat, {
 					      lat: worldMap.toDegrees(satellitePosition.lat),
 					      lng: worldMap.toDegrees(satellitePosition.lng)
 				      });
@@ -141,7 +131,7 @@
       </tr>
       <tr>
         <td><div id="fixdate"></div></td>
-        <td>Sentence <span id="id"></span></td>
+        <td>Sentence <span id="nmea-id"></span></td>
       </tr>
       <tr>
         <td valign="top">
@@ -179,4 +169,19 @@
     <hr>
     <address>&copy; Oliv did it.</address>
   </body>
+	<script src="./client.gps.js"></script>
+	<script type="text/javascript">
+
+	  window.onload = function() {
+		  statusFld = document.getElementById("status");
+		  satData = document.getElementById("satData");
+		  nmeaID = document.getElementById("nmea-id");
+		  globe = document.getElementById("world-map-01");
+		  if (globe !== undefined) {
+			  callAfter("world-map-01");
+		  }
+		  globe.repaint();
+	  };
+
+	</script>
 </html>

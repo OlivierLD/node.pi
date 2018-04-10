@@ -1,4 +1,4 @@
-1830 worldMapVerbose = false;
+const worldMapVerbose = false;
 const WORLD_MAP_TAG_NAME = 'world-map';
 
 const mapProjections = {
@@ -1827,7 +1827,7 @@ class WorldMap extends HTMLElement {
 				this.worldmapColorConfig = this.getColorConfig(currentStyle);
 			} catch (err) {
 				// Absorb?
-				console.log(err);
+				// console.log(err);
 			}
 			this._previousClassName = currentStyle;
 		}
