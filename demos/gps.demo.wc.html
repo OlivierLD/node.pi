@@ -56,7 +56,7 @@
 	      let sat = worldMap.getPanelPoint(satellite.lat, satellite.lng);
 	      let thisPointIsBehind = worldMap.isBehind(worldMap.toRadians(satellite.lat), worldMap.toRadians(satellite.lng - worldMap.globeViewLngOffset));
 	      if (!thisPointIsBehind || worldMap.transparentGlobe) {
-		      // Draw Satellite
+		      // Draw Satellite GP
 		      worldMap.plot(context, sat, satColor);
 		      context.fillStyle = satColor;
 		      context.fillText(name, Math.round(sat.x) + 3, Math.round(sat.y) - 3);
@@ -64,9 +64,9 @@
 		      context.setLineDash([2]);
 		      context.strokeStyle = satColor;
 		      context.beginPath();
-		      context.moveTo(userPos.x, userPos.y);
-		      context.lineTo(sat.x, sat.y);
-		      context.stroke();
+//	      context.moveTo(userPos.x, userPos.y);
+//	      context.lineTo(sat.x, sat.y);
+//	      context.stroke();
 		      context.closePath();
 		      context.setLineDash([0]); // Reset
 		      context.strokeStyle = satColor;
