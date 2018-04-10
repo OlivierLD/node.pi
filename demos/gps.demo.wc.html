@@ -31,8 +31,10 @@
       var plotPositionOnChart = function(val) {
         var label = "GPS position";
         // Plot the position on the map
-	      document.getElementById("world-map-01").setUserPosition({latitude: val.lat, longitude: val.lng });
-	      document.getElementById("world-map-01").positionLabel = label;
+				try {
+					document.getElementById("world-map-01").setUserPosition({latitude: val.lat, longitude: val.lng});
+					document.getElementById("world-map-01").positionLabel = label;
+				} catch (err) {}
       };
 
       function setTransparency(wcId, cb) {
