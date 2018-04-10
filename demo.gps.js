@@ -115,6 +115,7 @@ var server = http.createServer(handler);
 server.listen(port, function() {
   console.log((new Date()) + " Server is listening on port " + port);
   console.log("Connect to [http://localhost:9876/data/demos/gps.demo.html]");
+	console.log("Connect to [http://localhost:9876/data/demos/gps.demo.wc.html] (for WebComponents)");
   console.log('Verbose is ', verbose);
 });
 
@@ -210,7 +211,9 @@ var processData = function(gps) {
 };
 
 gps.onFullGPSData = function(gps) {
-//console.log("GPS Data:", gps);
+	if (verbose) {
+		console.log("GPS Data:", gps);
+	}
   processData(gps);
 };
 

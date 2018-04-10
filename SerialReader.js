@@ -20,7 +20,7 @@ var NMEA = function(serial, br) {
     br = 4800;
   }
 
-  console.log("Serial", serial, "br", br);
+  console.log(">>> Reading Serial", serial, "br", br);
 
   var port = new SerialPort(serial, {
     baudRate: br,
