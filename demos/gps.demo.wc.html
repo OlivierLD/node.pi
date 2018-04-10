@@ -19,13 +19,15 @@
       var globe;
 
       window.onload = function() {
-        statusFld = document.getElementById("status");
-        satData = document.getElementById("satData");
-        nmeaID = document.getElementById("id");
-        globe = document.getElementById("world-map-01");
-        if (globe !== undefined) {
-	        callAfter("world-map-01");
-				}
+      	setTimeout(function() {
+		      statusFld = document.getElementById("status");
+		      satData = document.getElementById("satData");
+		      nmeaID = document.getElementById("id");
+		      globe = document.getElementById("world-map-01");
+		      if (globe !== undefined) {
+			      callAfter("world-map-01");
+		      }
+	      }, 500);
       };
 
       // Plot position on the chart
@@ -107,7 +109,6 @@
       }
 
       let gpsSatelliteData = {};
-
 
       // Example of callback on WorldMap
       function callAfter(id) {
