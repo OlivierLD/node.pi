@@ -24,7 +24,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "test_mcp3008.js",
-    "start": "node demo.gps.js --port:/dev/tty.usbserial"
+    "start": "node demo.gps.js"
   },
   "repository": {
     "type": "git",
