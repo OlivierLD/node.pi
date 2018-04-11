@@ -53,7 +53,8 @@
 		      // Draw Satellite GP
 		      worldMap.plot(context, sat, satColor);
 		      context.fillStyle = satColor;
-		      context.fillText(name, Math.round(sat.x) + 3, Math.round(sat.y) - 3);
+		      let label = name.toString();
+		      context.fillText(label, Math.round(sat.x) + 3, Math.round(sat.y) - 3);
 		      // Arrow, to the satellite
 		      context.setLineDash([2]);
 		      context.strokeStyle = satColor;
@@ -71,7 +72,10 @@
 		      context.lineTo(sat.x + deltaX, sat.y + deltaY);
 		      context.stroke();
 		      context.closePath();
-		      worldMap.fillCircle(context, {x: sat.x + deltaX, y: sat.y + deltaY}, 6, satColor);
+		      worldMap.fillCircle(context, {x: sat.x + deltaX, y: sat.y + deltaY}, 10, satColor);
+		      context.fillStyle = 'red';
+		      let len = context.measureText(label).width;
+		      context.fillText(label, Math.round(sat.x + deltaX) - (len / 2), Math.round(sat.y + deltaY) + 3);
 	      }
       }
 
@@ -91,13 +95,13 @@
 			      c = 'lightGreen';
 		      }
 		      if (snr > 40) {
-			      c = 'green';
+			      c = 'white';
 		      }
 	      }
 	      return c;
       }
 
-      let gpsSatelliteData = {};
+      let gpsSatelliteData = [];
 
 
       // Example of callback on WorldMap
@@ -106,13 +110,13 @@
 		      if (Object.keys(worldMap.userPosition).length > 0) {
 			      let userPos = worldMap.getPanelPoint(worldMap.userPosition.latitude, worldMap.userPosition.longitude);
 			      // GPS Satellites in view
-			      for (var sat in gpsSatelliteData) {
+			      for (var sat in gpsSatelliteData) { // sat is the index in the array
 				      let satellite = gpsSatelliteData[sat];
 				      let satellitePosition = worldMap.deadReckoning({
 					      lat: worldMap.toRadians(worldMap.userPosition.latitude),
 					      lng: worldMap.toRadians(worldMap.userPosition.longitude)
 				      }, (90 - satellite.elevation) * 60, satellite.azimuth);
-				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), sat, {
+				      plotSatellite(context, worldMap, userPos, getSNRColor(satellite.snr), (satellite.prn ===null ? "-" : satellite.prn), {
 					      lat: worldMap.toDegrees(satellitePosition.lat),
 					      lng: worldMap.toDegrees(satellitePosition.lng)
 				      });

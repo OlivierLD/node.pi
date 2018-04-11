@@ -60,80 +60,67 @@ var connection;
     }
   };
 
-	const fakeGpsSatelliteData = {
-		"1":{
+	const fakeGpsSatelliteData = [{
 			"svID":1,
 			"elevation":26,
 			"azimuth":316,
 			"snr":0
-		},
-		"3":{
+		}, {
 			"svID":3,
 			"elevation":4,
 			"azimuth":284,
 			"snr":0
-		},
-		"8":{
+		}, {
 			"svID":8,
 			"elevation":27,
 			"azimuth":251,
 			"snr":6
-		},
-		"10":{
+		}, {
 			"svID":10,
 			"elevation":43,
 			"azimuth":75,
 			"snr":0
-		},
-		"11":{
+		}, {
 			"svID":11,
 			"elevation":32,
 			"azimuth":303,
 			"snr":0
-		},
-		"14":{
+		}, {
 			"svID":14,
 			"elevation":84,
 			"azimuth":250,
 			"snr":0
-		},
-		"18":{
+		}, {
 			"svID":18,
 			"elevation":16,
 			"azimuth":92,
 			"snr":0
-		},
-		"22":{
+		}, {
 			"svID":22,
 			"elevation":22,
 			"azimuth":291,
 			"snr":0
-		},
-		"24":{
+		}, {
 			"svID":24,
 			"elevation":1,
 			"azimuth":33,
 			"snr":0
-		},
-		"27":{
+		}, {
 			"svID":27,
 			"elevation":16,
 			"azimuth":212,
 			"snr":6
-		},
-		"31":{
+		}, {
 			"svID":31,
 			"elevation":31,
 			"azimuth":157,
 			"snr":0
-		},
-		"32":{
+		}, {
 			"svID":32,
 			"elevation":69,
 			"azimuth":37,
 			"snr":0
-		}
-	};
+		}];
 
 	var generateSatelliteData = function(sd) {
 
@@ -164,11 +151,13 @@ var connection;
 			satData = document.getElementById("satData");
 	    if (satData !== undefined) {
 		    for (var sat = 0; sat < sd.length; sat++) {
-			    html += "<tr>" +
-					    "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + sd[sat].prn +
-					    "</td><td align='right'>" + sd[sat].elevation +
-					    "&deg;</td><td align='right'>" + sd[sat].azimuth +
-					    "&deg;</td><td align='right'>" + sd[sat].snr + "</td></tr>";
+		    	if (sd[sat].prn !== null && sd[sat].elevation !== null && sd[sat].azimuth !== null && sd[sat].snr !== null) {
+				    html += "<tr>" +
+						    "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + (sd[sat].prn === null ? "-" : sd[sat].prn)  +
+						    "</td><td align='right'>" + (sd[sat].elevation === null ? "-" : sd[sat].elevation) +
+						    "&deg;</td><td align='right'>" + (sd[sat].azimuth === null ? "-" : sd[sat].azimuth) +
+						    "&deg;</td><td align='right'>" + (sd[sat].snr === null ? "-" : sd[sat].snr) + "</td></tr>";
+			    }
 		    }
 	    }
     }
@@ -192,7 +181,7 @@ var connection;
         c = 'lightGreen';
       }
       if (snr > 40) {
-        c = 'green';
+        c = 'white';
       }
     }
     return c;
