@@ -73,7 +73,7 @@
 		      context.stroke();
 		      context.closePath();
 		      worldMap.fillCircle(context, {x: sat.x + deltaX, y: sat.y + deltaY}, 10, satColor);
-		      context.fillStyle = 'red';
+		      context.fillStyle = 'black';
 		      let len = context.measureText(label).width;
 		      context.fillText(label, Math.round(sat.x + deltaX) - (len / 2), Math.round(sat.y + deltaY) + 3);
 	      }
