@@ -163,9 +163,9 @@ console.log("+-----------------------------------------------------------------+
 console.log('| To stop: Ctrl-C, or enter "quit" + [return] here in the console |');
 console.log("+-----------------------------------------------------------------+")
 console.log("Usage: node " + __filename + " --verbose:true|false --port:/dev/ttyXXXX --format:raw|fmt|[auto]");
-console.log("-  Default verbose is false");
-console.log("-  Default port is /dev/ttyUSB0");
-console.log("-  Default format is auto");
+console.log(" - Default verbose is false");
+console.log(" - Default port is /dev/ttyUSB0");
+console.log(" - Default format is auto");
 
 global.displayMode = "auto";
 
