@@ -162,8 +162,10 @@ wsServer.on('request', function(request) {
 console.log("+-----------------------------------------------------------------+")
 console.log('| To stop: Ctrl-C, or enter "quit" + [return] here in the console |');
 console.log("+-----------------------------------------------------------------+")
-console.log("Usage: node " + __filename + " [raw]|fmt|auto"); // TODO Manage those parameters
-console.log("Usage: node " + __filename + " --verbose:true|false --port:/dev/ttyXXXX");
+console.log("Usage: node " + __filename + " --verbose:true|false --port:/dev/ttyXXXX --format:raw|fmt|[auto]");
+console.log("-  Default verbose is false");
+console.log("-  Default port is /dev/ttyUSB0");
+console.log("-  Default format is auto");
 
 global.displayMode = "auto";
 
@@ -188,13 +190,16 @@ if (process.argv.length > 2) {
 			verbose = (value === 'true');
 		} else if (process.argv[argc].startsWith("--port:")) {
 			var value = process.argv[argc].substring("--port:".length);
-			try {
-				serialPort = value;
-				console.log("Using serial port ", serialPort);
-			} catch (err) {
-				console.log("Invalid integer for port value %s.", value);
+			serialPort = value;
+			console.log("Using serial port ", serialPort);
+		} else if (process.argv[argc].startsWith("--format:")) {
+			var value = process.argv[argc].substring("--format:".length);
+			if (value !== "raw" && value !== "auto" && value !== "fmt" ) {
+				console.log("Invalid format value %s. Only 'raw', 'auto', or 'fmt'.", value);
 				process.exit(1);
 			}
+			global.displayMode = value;
+			console.log("Using serial format ", value);
 		} else {
 			console.log("Unsupported parameter %s, ignored.", process.argv[argc]);
 		}
