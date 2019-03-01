@@ -14,10 +14,10 @@
  * - atm-press
  * - air-temperature
  */
-var verbose = false;
+let verbose = false;
 
 // Need the Adafruit-IO key as parameter
-var key;
+let key;
 if (process.argv.length > 2) {
   key = process.argv[2];
 }
@@ -26,23 +26,23 @@ if (key === undefined) {
   process.exit();
 }
 
-var ONOFF_FEED    = "onoff";
-var AIRTEMP_FEED  = "air-temperature";
-var PRESSURE_FEED = "atm-press";
-var HUMIDITY_FEED = "humidity";
-var PREFIX = 'https://io.adafruit.com/api/feeds/';
+const ONOFF_FEED    = "onoff";
+const AIRTEMP_FEED  = "air-temperature";
+const PRESSURE_FEED = "atm-press";
+const HUMIDITY_FEED = "humidity";
+const PREFIX = 'https://io.adafruit.com/api/feeds/';
 
-var Client = require('node-rest-client').Client;
+let Client = require('node-rest-client').Client;
 
-var client = new Client();
+let client = new Client();
 
 // Get data, through a callback
-var getSwitchState = function(cb) {
+function getSwitchState(cb) {
   if (verbose) {
     console.log("Getting switch state");
   }
-  var url = PREFIX + ONOFF_FEED;
-  var args = {
+  let url = PREFIX + ONOFF_FEED;
+  let args = {
     headers: {"X-AIO-Key": key}
   };
   client.get(url, args, function (data, response) {
@@ -51,42 +51,42 @@ var getSwitchState = function(cb) {
     }
     cb(data.last_value);
   });
-};
+}
 
-var setFeedValue = function(feedName, valueObject) {
-  var args = {
+function setFeedValue(feedName, valueObject) {
+  let args = {
     data: valueObject,
     headers: { "Content-Type": "application/json",
                "X-AIO-Key": key }
   };
-  var url = PREFIX + feedName + "/data";
+  let url = PREFIX + feedName + "/data";
   client.post(url, args, function (data, response) {
     if (verbose) { console.log("From " + feedName + " " + response.headers.status); }
   });
-};
+}
 
-var setSwitchState = function(state) {
-  var data = { "value": state };
+function setSwitchState(state) {
+  let data = { "value": state };
   setFeedValue(ONOFF_FEED, data);
-};
+}
 
-var setAirTemp = function(tmp) {
-  var data = { "value": tmp };
+function setAirTemp(tmp) {
+  let data = { "value": tmp };
   setFeedValue(AIRTEMP_FEED, data);
-};
+}
 
-var setAirPress = function(prs) {
-  var data = { "value": prs };
+function setAirPress(prs) {
+  let data = { "value": prs };
   setFeedValue(PRESSURE_FEED, data);
-};
+}
 
-var setHumidity = function(hum) {
-  var data = { "value": hum };
+function setHumidity(hum) {
+  let data = { "value": hum };
   setFeedValue(HUMIDITY_FEED, data);
-};
+}
 
-var previousState;
-var manageState = function(state) {
+let previousState;
+function manageState(state) {
   if (verbose) {
     console.log("Managing state:" + state);
   }
@@ -100,25 +100,25 @@ var manageState = function(state) {
     }
     previousState = state;
   }
-};
+}
 
-var interv = setInterval(function() {
+let interv = setInterval(function() {
   if (verbose) { console.log(">>> Reading switch state..."); }
   getSwitchState(manageState);
 }, 1000);
 
-var BME280 = require('./bme280.js').BME280;
-var Switch = require('./switch.js').Switch;
+let BME280 = require('./bme280.js').BME280;
+let Switch = require('./switch.js').Switch;
 
-var relay = new Switch(7); // GPIO_07, pin #26, Wiring/PI4J 11
+let relay = new Switch(7); // GPIO_07, pin #26, Wiring/PI4J 11
 relay.off(); // Off by default
 
-var bme280 = new BME280();
+let bme280 = new BME280();
 
-console.log("Init...")
+console.log("Init...");
 bme280.init();
 
-var iv = setInterval(function () {
+let iv = setInterval(function () {
   bme280.readTemperature(function(temp) {
     if (verbose) {
       console.log("Temperature : " + temp.toFixed(2) + "°C");
@@ -136,6 +136,6 @@ function exit() {
   console.log("\nBye now!");
   relay.shutdown();
   process.exit();
-};
+}
 
 process.on('SIGINT', exit); // Ctrl C

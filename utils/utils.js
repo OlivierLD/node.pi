@@ -3,7 +3,7 @@
 // Formatting Utilities
 function getMask(num) {
   let maskDim = 2;
-  for (var i=2; i<16; i+=2) {
+  for (let i=2; i<16; i+=2) {
     maskDim = i;
     if (Math.abs(num) < (Math.pow(16, i) - 1)) {
 //    console.log("i=" + i + ", " + Math.abs(num) + " < " + (Math.pow(16, i) - 1));
@@ -11,17 +11,17 @@ function getMask(num) {
     }
   }
   return Math.pow(16, maskDim) - 1;
-};
+}
 
 function toHexString(num, len) {
   let l = (len !== undefined ? len : 4);
   return "0x" + lpad((num & getMask(num)).toString(16).trim().toUpperCase(), l, '0');
-};
+}
 
 function toBinString(num, len) {
   let l = (len !== undefined ? len : 16);
   return "0&" + lpad((num & getMask(num)).toString(2).trim().toUpperCase(), l, '0');
-};
+}
 
 function lpad(str, len, pad) {
   let s = str;
@@ -29,7 +29,7 @@ function lpad(str, len, pad) {
     s = (pad !== undefined ? pad : " ") + s;
   }
   return s;
-};
+}
 
 // Careful with this one, it could be demanding...
 function sleep(milliseconds) {
@@ -174,13 +174,13 @@ Date.prototype.format = function(dateFormat) {
   return dateString;
 };
 
-var getNetworkIPs = (function () {
-  var ignoreRE = /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i;
+let getNetworkIPs = (function () {
+  let ignoreRE = /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i;
 
-  var exec = require('child_process').exec;
-  var cached;
-  var command;
-  var filterRE;
+  let exec = require('child_process').exec;
+  let cached;
+  let command;
+  let filterRE;
 
   switch (process.platform) {
     case 'win32':
@@ -208,10 +208,10 @@ var getNetworkIPs = (function () {
     // system call
     exec(command, function (error, stdout, sterr) {
       cached = [];
-      var ip;
-      var matches = stdout.match(filterRE) || [];
+      let ip;
+      let matches = stdout.match(filterRE) || [];
       //if (!error) {
-      for (var i = 0; i < matches.length; i++) {
+      for (let i = 0; i < matches.length; i++) {
         ip = matches[i].replace(filterRE, '$1')
         if (!ignoreRE.test(ip)) {
           cached.push(ip);
