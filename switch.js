@@ -11,7 +11,7 @@ const State = {
   LOW: 0
 };
 
-var Direction = {
+const Direction = {
   IN: 'in',
   OUT: 'out'
 };

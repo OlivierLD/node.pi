@@ -1,42 +1,42 @@
 "use strict";
 
-var PWM = require('./PWM.js').PWM;
-var utils = require('./utils/utils.js');
+let PWM = require('./PWM.js').PWM;
+let utils = require('./utils/utils.js');
 
-var Style = {
+let Style = {
   SINGLE: 1,
   DOUBLE: 2,
   INTERLEAVE: 3,
   MICROSTEP: 4
 };
 
-var Motor = {
+let Motor = {
   M1: 1,
   M2: 2,
   M3: 3,
   M4: 4
 };
 
-var ServoCommand = {
+let ServoCommand = {
   FORWARD: 1,
   BACKWARD: 2,
   BRAKE: 3,
   RELEASE: 4
 };
 
-var HAT_ADDR     = 0x60;
-var DEFAULT_FREQ = 1600;
+const HAT_ADDR     = 0x60;
+const DEFAULT_FREQ = 1600;
 
-var verbose = true;
+let verbose = true;
 
-var MotorHAT = function(addr, freq) {
+function MotorHAT(addr, freq) {
   if (addr === undefined) {
     addr = HAT_ADDR;
   }
 
   var i2c1;
-  var motors = [];
-  var steppers = [];
+  let motors = [];
+  let steppers = [];
 
   this.init = function() {
     i2c1 = i2c.openSync(1); // Will require a closeSync
@@ -47,10 +47,10 @@ var MotorHAT = function(addr, freq) {
   };
 
   this.AdafruitDCMotor = function(controller, motor) {
-    var mh = controller;
+    let mh = controller;
     this.motorNum = motor;
-    var pwm = 0, in1 = 0, in2 = 0;
-    var PWMpin = 0, IN1pin = 0, IN2pin = 0;
+    let pwm = 0, in1 = 0, in2 = 0;
+    let PWMpin = 0, IN1pin = 0, IN2pin = 0;
 
     if (motor === Motor.M1) {
       pwm = 8;
@@ -111,27 +111,27 @@ var MotorHAT = function(addr, freq) {
   };
 
   this.AdafruitStepperMotor = function(controller, num, steps) {
-    var PORT_M1_M2 = 1; // Port #1
-    var PORT_M3_M4 = 2; // Port #2
+    const PORT_M1_M2 = 1; // Port #1
+    const PORT_M3_M4 = 2; // Port #2
 
     var mc;
-    var MICROSTEPS = 8;
-    var MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255];
+    const MICROSTEPS = 8;
+    const MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255];
 
-    var DEFAULT_NB_STEPS = 200; // between 35 & 200
+    const DEFAULT_NB_STEPS = 200; // between 35 & 200
 
-    var PWMA = 8;
-    var AIN2 = 9;
-    var AIN1 = 10;
-    var PWMB = 13;
-    var BIN2 = 12;
-    var BIN1 = 11;
+    let PWMA = 8;
+    let AIN2 = 9;
+    let AIN1 = 10;
+    let PWMB = 13;
+    let BIN2 = 12;
+    let BIN1 = 11;
 
     var revSteps;
     var motorNum;
-    var secPerStep = 0.1;
-    var steppingCounter = 0;
-    var currentStep = 0;
+    let secPerStep = 0.1;
+    let steppingCounter = 0;
+    let currentStep = 0;
 
     // MICROSTEPS = 16
     // a sinusoidal curve NOT LINEAR!
@@ -168,12 +168,12 @@ var MotorHAT = function(addr, freq) {
     };
 
     this.oneStep = function(dir, style) {
-      var pwmA = 255,
+      let pwmA = 255,
           pwmB = 255;
 
       // first determine what sort of stepping procedure we're up to
       if (style === Style.SINGLE) {
-        if ((this.currentStep /(this.MICROSTEPS/2)) % 2 === 1) {
+        if ((this.currentStep /(this.MICROSTEPS / 2)) % 2 === 1) {
           // we're at an odd step, weird
           if (dir === ServoCommand.FORWARD) {
             this.currentStep += this.MICROSTEPS / 2;
@@ -190,35 +190,39 @@ var MotorHAT = function(addr, freq) {
         }
       }
       if (style === Style.DOUBLE) {
-        if (this.currentStep /(this.MICROSTEPS/2) % 2 == 0) {
+        if (this.currentStep /(this.MICROSTEPS / 2) % 2 == 0) {
           // we're at an even step, weird
-          if (dir == ServoCommand.FORWARD)
-            this.currentStep += this.MICROSTEPS/2;
-          else
-            this.currentStep -= this.MICROSTEPS/2;
+          if (dir == ServoCommand.FORWARD) {
+            this.currentStep += (this.MICROSTEPS / 2);
+          } else {
+            this.currentStep -= (this.MICROSTEPS / 2);
+          }
         } else {
           // go to next odd step
-          if (dir == ServoCommand.FORWARD)
+          if (dir == ServoCommand.FORWARD) {
             this.currentStep += this.MICROSTEPS;
-          else
+          } else {
             this.currentStep -= this.MICROSTEPS;
+          }
         }
       }
       if (style === Style.INTERLEAVE) {
-        if (dir == ServoCommand.FORWARD)
-          this.currentStep += this.MICROSTEPS/2;
-        else
-          this.currentStep -= this.MICROSTEPS/2;
+        if (dir == ServoCommand.FORWARD) {
+          this.currentStep += (this.MICROSTEPS / 2);
+        } else {
+          this.currentStep -= (this.MICROSTEPS / 2);
+        }
       }
       if (style === Style.MICROSTEP) {
-        if (dir == ServoCommand.FORWARD)
+        if (dir == ServoCommand.FORWARD) {
           this.currentStep += 1;
-        else
+        } else {
           this.currentStep -= 1;
+        }
       }
       // go to next 'step' and wrap around
-      this.currentStep += this.MICROSTEPS * 4;
-      this.currentStep %= this.MICROSTEPS * 4;
+      this.currentStep += (this.MICROSTEPS * 4);
+      this.currentStep %= (this.MICROSTEPS * 4);
 
       pwmA = 0;
       pwmB = 0;
@@ -237,27 +241,28 @@ var MotorHAT = function(addr, freq) {
       }
 
       // go to next 'step' and wrap around
-      this.currentStep += this.MICROSTEPS * 4;
-      this.currentStep %= this.MICROSTEPS * 4;
+      this.currentStep += (this.MICROSTEPS * 4);
+      this.currentStep %= (this.MICROSTEPS * 4);
 
       // only really used for microstepping, otherwise always on!
       this.mc.pwm.setPWM(this.PWMA, 0, (pwmA*16));
       this.mc.pwm.setPWM(this.PWMB, 0, (pwmB*16));
 
       // set up coil energizing!
-      var coils = [0, 0, 0, 0];
+      let coils = [0, 0, 0, 0];
 
       if (style === Style.MICROSTEP) {
-        if (this.currentStep >= 0 && this.currentStep < this.MICROSTEPS)
+        if (this.currentStep >= 0 && this.currentStep < this.MICROSTEPS) {
           coils = [1, 1, 0, 0];
-        else if (this.currentStep >= this.MICROSTEPS && this.currentStep < this.MICROSTEPS*2)
+        } else if (this.currentStep >= this.MICROSTEPS && this.currentStep < this.MICROSTEPS*2) {
           coils = [0, 1, 1, 0];
-        else if (this.currentStep >= this.MICROSTEPS*2 && this.currentStep < this.MICROSTEPS*3)
+        } else if (this.currentStep >= (this.MICROSTEPS*2) && this.currentStep < (this.MICROSTEPS*3)) {
           coils = [0, 0, 1, 1];
-        else if (this.currentStep >= this.MICROSTEPS*3 && this.currentStep < this.MICROSTEPS*4)
+        } else if (this.currentStep >= (this.MICROSTEPS*3) && this.currentStep < (this.MICROSTEPS*4)) {
           coils = [1, 0, 0, 1];
+        }
       } else {
-        var step2coils = [[1, 0, 0, 0],
+        let step2coils = [[1, 0, 0, 0],
                           [1, 1, 0, 0],
                           [0, 1, 0, 0],
                           [0, 1, 1, 0],
@@ -277,8 +282,8 @@ var MotorHAT = function(addr, freq) {
     };
 
     this.step = function(steps, direction, stepStyle) {
-      var sPerS = this.secPerStep;
-      var latestStep = 0;
+      let sPerS = this.secPerStep;
+      let latestStep = 0;
 
       if (stepStyle === Style.INTERLEAVE) {
         sPerS = sPerS / 2.0;
@@ -289,7 +294,7 @@ var MotorHAT = function(addr, freq) {
       }
       console.log(sPerS + " sec per step");
 
-      for (var s=0; s<steps; s++) {
+      for (let s=0; s<steps; s++) {
         latestStep = this.oneStep(direction, stepStyle);
         utils.sleep((sPerS * 1000));
       }
@@ -316,7 +321,7 @@ var MotorHAT = function(addr, freq) {
   if (verbose) {
     console.log("MotorHat: Creating PWM", utils.hexFmt(addr, 2));
   }
-  var pwm = new PWM(addr);
+  let pwm = new PWM(addr);
   pwm.init();
   try {
     pwm.setPWMFreq(freq);
@@ -350,7 +355,7 @@ var MotorHAT = function(addr, freq) {
     if (verbose) {
       console.log("getMotor required:", mn);
     }
-    var motor = null;
+    let motor = null;
     for (var m in motors) {
       console.log(">>> Comparing ", motors[m].motorNum, " and ", mn);
       if (motors[m].motorNum === mn) {

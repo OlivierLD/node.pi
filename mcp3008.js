@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * For the onoff doc, 
+ * For the onoff doc,
  * see https://github.com/fivdi/onoff
  */
 
@@ -27,10 +27,10 @@ let Gpio = require('onoff').Gpio; // Constructor function for Gpio objects.
 
 Gpio.prototype.high = function() {
   this.writeSync(State.HIGH);
-};    
+};
 Gpio.prototype.low = function() {
   this.writeSync(State.LOW);
-};    
+};
 Gpio.prototype.isHigh = function() {
   return this.readSync() === State.HIGH;
 };
@@ -44,7 +44,7 @@ let defaultMiso  = 23; // GPIO_23, Wiring/PI4J 4
 let defaultMosi  = 24; // GPIO_24, Wiring/PI4J 5
 let defaultCs    = 25; // GPIO_25, Wiring/PI4J 6
 
-var MCP3008 = function(clock, miso, mosi, cs) {
+let MCP3008 = function(clock, miso, mosi, cs) {
 
   if (clock === undefined) { clock = defaultClock; }
   if (miso === undefined)  { miso  = defaultMiso; }
@@ -84,7 +84,7 @@ var MCP3008 = function(clock, miso, mosi, cs) {
     SPI_CS.high();
     SPI_CLK.low();
     SPI_CS.low();
-    
+
     let adcCommand = ch;
     if (debug) {
       console.log(">> 1 -       ADCCOMMAND", utils.hexFmt(adcCommand, 4), utils.binFmt(adcCommand, 16));

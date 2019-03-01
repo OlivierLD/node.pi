@@ -4,14 +4,14 @@
  * Doc at https://www.npmjs.com/package/serialport
  */
 
-var SerialPort = require('serialport');
-var NMEAParser = require('./NMEAParser.js');
+let SerialPort = require('serialport');
+let NMEAParser = require('./NMEAParser.js');
 
-var fullContext = {};
+let fullContext = {};
 
-var NMEA = function(serial, br) {
+function NMEA(serial, br) {
 
-  var instance = this;
+  let instance = this;
 
   if (serial === undefined) {
     serial = '/dev/ttyUSB0'; // Linux
@@ -22,7 +22,7 @@ var NMEA = function(serial, br) {
 
   console.log(">>> Reading Serial", serial, "br", br);
 
-  var port = new SerialPort(serial, {
+  let port = new SerialPort(serial, {
     baudRate: br,
     parser: SerialPort.parsers.raw
   });
@@ -31,35 +31,35 @@ var NMEA = function(serial, br) {
     console.log('Port open');
   });
 
-  var dataBuffer = Buffer.from("");
+  let dataBuffer = Buffer.from("");
 
-  var EOS = "\r\n";
+  let EOS = "\r\n";
 
-  var isSentenceCompleted = function(str) {
-    var ok = false;
+  function isSentenceCompleted(str) {
+    let ok = false;
     if (str.charAt(0) === '$') {
       if (str.charAt(str.length - 3) === '*') {
         ok = true;
       }
     }
     return ok;
-  };
+  }
 
   port.on('data', function (data) {
     try {
       dataBuffer = Buffer.concat([dataBuffer, data]);
-      var stringBuffer = dataBuffer.toString();
-      var sentences = stringBuffer.split(EOS);
-      for (var i=0; i<sentences.length; i++) {
+      let stringBuffer = dataBuffer.toString();
+      let sentences = stringBuffer.split(EOS);
+      for (let i=0; i<sentences.length; i++) {
         if (sentences[i].charAt(0) === '$') {
           if (isSentenceCompleted(sentences[i])) {
             try {
-              var id = NMEAParser.validate(sentences[i]); // Validation!
+              let id = NMEAParser.validate(sentences[i]); // Validation!
               if (id !== undefined) {
                 if (global.displayMode === 'fmt') {
                   switch (id.id) {
                     case 'RMC':
-                      var rmc = NMEAParser.parseRMC(sentences[i]);
+                      let rmc = NMEAParser.parseRMC(sentences[i]);
                       if (rmc !== undefined) {
                   //    console.log("RMC:", rmc);
                         if (instance.onPosition !== undefined) {
@@ -90,8 +90,8 @@ var NMEA = function(serial, br) {
                   }
                 } else if (global.displayMode === 'auto') {
                   try {
-                    var str = sentences[i];
-                    var auto = NMEAParser.autoparse(str);
+                    let str = sentences[i];
+                    let auto = NMEAParser.autoparse(str);
                     try {
                       if (auto !== undefined && auto.type !== undefined) {
                     //  console.log(">> Autoparsed:" + auto.type);
@@ -166,7 +166,7 @@ var NMEA = function(serial, br) {
   this.onCOG;
   this.onSOG;
   this.onFullGPSData;
-};
+}
 
 // Made public.
 exports.NMEA = NMEA;

@@ -51,13 +51,13 @@ const BME280_REGISTER_PRESSURE_DATA = 0xF7;
 const BME280_REGISTER_TEMP_DATA     = 0xFA;
 const BME280_REGISTER_HUMIDITY_DATA = 0xFD;
 
-var BME280 = function(addr) {
+function BME280(addr) {
   if (addr === undefined) {
     addr = BME280_I2CADDR;
   }
 
-  var i2c1;
-  var mode = BME280_OSAMPLE_8;
+  let i2c1;
+  let mode = BME280_OSAMPLE_8;
 
   this.init = function() {
     i2c1 = i2c.openSync(1); // Will require a closeSync
@@ -67,30 +67,30 @@ var BME280 = function(addr) {
     i2c1.closeSync();
   };
 
-  var dig_T1 = 0;
-  var dig_T2 = 0;
-  var dig_T3 = 0;
+  let dig_T1 = 0;
+  let dig_T2 = 0;
+  let dig_T3 = 0;
 
-  var dig_P1 = 0;
-  var dig_P2 = 0;
-  var dig_P3 = 0;
-  var dig_P4 = 0;
-  var dig_P5 = 0;
-  var dig_P6 = 0;
-  var dig_P7 = 0;
-  var dig_P8 = 0;
-  var dig_P9 = 0;
+  let dig_P1 = 0;
+  let dig_P2 = 0;
+  let dig_P3 = 0;
+  let dig_P4 = 0;
+  let dig_P5 = 0;
+  let dig_P6 = 0;
+  let dig_P7 = 0;
+  let dig_P8 = 0;
+  let dig_P9 = 0;
 
-  var dig_H1 = 0;
-  var dig_H2 = 0;
-  var dig_H3 = 0;
-  var dig_H4 = 0;
-  var dig_H5 = 0;
-  var dig_H6 = 0;
+  let dig_H1 = 0;
+  let dig_H2 = 0;
+  let dig_H3 = 0;
+  let dig_H4 = 0;
+  let dig_H5 = 0;
+  let dig_H6 = 0;
 
-  var tFine = 0.0;
+  let tFine = 0.0;
 
-  var readCalibrationData = function() {
+  function readCalibrationData() {
     // Reads the calibration data from the IC
     dig_T1 = EndianReaders.readU16LE(i2c1, addr, BME280_REGISTER_DIG_T1);
     dig_T2 = EndianReaders.readS16LE(i2c1, addr, BME280_REGISTER_DIG_T2);
@@ -118,52 +118,52 @@ var BME280 = function(addr) {
     var h5 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H6);
     h5 = (h5 << 24) >> 20;
     dig_H5 = h5 | (EndianReaders.readU8(i2c1, addr, BME280_REGISTER_DIG_H5) >> 4 & 0x0F);
-  };
+  }
 
-  var readRawTemp = function(cb) {
+  function readRawTemp(cb) {
     // Reads the raw (uncompensated) temperature from the sensor
-    var meas = mode;
+    let meas = mode;
     i2c1.writeByteSync(addr, BME280_REGISTER_CONTROL_HUM, meas); // HUM ?
     meas = mode << 5 | mode << 2 | 1;
     i2c1.writeByteSync(addr, BME280_REGISTER_CONTROL, meas);
 
-    var sleepTime = 0.00125 + 0.0023 * (1 << mode);
+    let sleepTime = 0.00125 + 0.0023 * (1 << mode);
     sleepTime = sleepTime + 0.0023 * (1 << mode) + 0.000575;
     sleepTime = sleepTime + 0.0023 * (1 << mode) + 0.000575;
 
     setTimeout(function() {
-      var msb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA);
-      var lsb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA + 1);
-      var xlsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA + 2);
-      var raw  = ((msb << 16) | (lsb << 8) | xlsb) >> 4;
+      let msb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA);
+      let lsb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA + 1);
+      let xlsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_TEMP_DATA + 2);
+      let raw  = ((msb << 16) | (lsb << 8) | xlsb) >> 4;
       cb(raw);
     }, sleepTime * 1000);
-  };
+  }
 
-  var readRawPressure = function() {
+  function readRawPressure() {
     // Reads the raw (uncompensated) pressure level from the sensor
-    var msb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA);
-    var lsb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA + 1);
-    var xlsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA + 2);
-    var raw = ((msb << 16) | (lsb << 8) | xlsb) >> 4;
+    let msb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA);
+    let lsb  = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA + 1);
+    let xlsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA + 2);
+    let raw = ((msb << 16) | (lsb << 8) | xlsb) >> 4;
     return raw;
   };
 
-  var readRawHumidity = function() {
-    var msb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA);
-    var lsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA + 1);
-    var raw = (msb << 8) | lsb;
+  function readRawHumidity() {
+    let msb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA);
+    let lsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA + 1);
+    let raw = (msb << 8) | lsb;
     return raw;
   };
 
   this.readTemperature = function(cb) {
     // Gets the compensated temperature in degrees celcius
     readRawTemp(function(val) {
-      var UT = val;
+      let UT = val;
    // console.log("RawTemp:", val);
-      var var1 = 0;
-      var var2 = 0;
-      var temp = 0.0;
+      let var1 = 0;
+      let var2 = 0;
+      let temp = 0.0;
 
       // Read raw temp before aligning it with the calibration values
       var1 = (UT / 16384.0 - dig_T1 / 1024.0) * dig_T2;
@@ -176,9 +176,9 @@ var BME280 = function(addr) {
 
   this.readPressure = function() {
     // Gets the compensated pressure in pascal
-    var adc = readRawPressure();
-    var var1 = (tFine / 2.0) - 64000.0;
-    var var2 = var1 * var1 * (dig_P6 / 32768.0);
+    let adc = readRawPressure();
+    let var1 = (tFine / 2.0) - 64000.0;
+    let var2 = var1 * var1 * (dig_P6 / 32768.0);
     var2 = var2 + var1 * dig_P5 * 2.0;
     var2 = (var2 / 4.0) + (dig_P4 * 65536);
     var1 = (dig_P3 * var1 * var1 / 524288.0 + dig_P2 * var1) / 524288.0;
@@ -186,7 +186,7 @@ var BME280 = function(addr) {
     if (var1 === 0) {
       return 0;
     }
-    var p = 1048576.0 - adc;
+    let p = 1048576.0 - adc;
     p = ((p - var2 / 4096.0) * 6250.0) / var1;
     var1 = dig_P9 * p * p / 2147483648.0;
     var2 = p * dig_P8 / 32768.0;
@@ -195,8 +195,8 @@ var BME280 = function(addr) {
   };
 
   this.readHumidity = function() {
-    var adc = readRawHumidity();
-    var h = tFine - 76800.0;
+    let adc = readRawHumidity();
+    let h = tFine - 76800.0;
     h = (adc - (dig_H4 * 64.0 + dig_H5 / 16384.0 * h)) *
                (dig_H2 / 65536.0 * (1.0 + dig_H6 / 67108864.0 * h * (1.0 + dig_H3 / 67108864.0 * h)));
     h = h * (1.0 - dig_H1 * h / 524288.0);
@@ -208,25 +208,25 @@ var BME280 = function(addr) {
     return h;
   };
 
-  var standardSeaLevelPressure = 101325;
+  let standardSeaLevelPressure = 101325;
   this.setPRMSL = function(press) {
     standardSeaLevelPressure = press;
   }
 
-  var calculateAltitude = function(press) {
+  function calculateAltitude(press) {
     // Calculates the altitude in meters
     return 44330.0 * (1.0 - Math.pow(press / standardSeaLevelPressure, 0.1903));
-  };
+  }
 
   this.readAltitude = function() {
     return calculateAltitude(readPressure());
   };
 
   this.readAllData = function(cb) {
-    var instance = this;
+    let instance = this;
     this.readTemperature(function(temp) {
-      var hum = instance.readHumidity();
-      var press = instance.readPressure();
+      let hum = instance.readHumidity();
+      let press = instance.readPressure();
       if (cb !== undefined) {
         cb({ "temperature": temp,
              "humidity": hum,
