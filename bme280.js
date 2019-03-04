@@ -111,11 +111,11 @@ function BME280(addr) {
     dig_H3 = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_DIG_H3);
     dig_H6 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H7);
 
-    var h4 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H4);
+    let h4 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H4);
     h4 = (h4 << 24) >> 20;
     dig_H4 = h4 | (EndianReaders.readU8(i2c1, addr, BME280_REGISTER_DIG_H5) & 0x0F);
 
-    var h5 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H6);
+    let h5 = EndianReaders.readS8(i2c1, addr, BME280_REGISTER_DIG_H6);
     h5 = (h5 << 24) >> 20;
     dig_H5 = h5 | (EndianReaders.readU8(i2c1, addr, BME280_REGISTER_DIG_H5) >> 4 & 0x0F);
   }
@@ -147,29 +147,25 @@ function BME280(addr) {
     let xlsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_PRESSURE_DATA + 2);
     let raw = ((msb << 16) | (lsb << 8) | xlsb) >> 4;
     return raw;
-  };
+  }
 
   function readRawHumidity() {
     let msb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA);
     let lsb = EndianReaders.readU8(i2c1, addr, BME280_REGISTER_HUMIDITY_DATA + 1);
     let raw = (msb << 8) | lsb;
     return raw;
-  };
+  }
 
   this.readTemperature = function(cb) {
-    // Gets the compensated temperature in degrees celcius
+    // Gets the compensated temperature in degrees Celcius
     readRawTemp(function(val) {
       let UT = val;
    // console.log("RawTemp:", val);
-      let var1 = 0;
-      let var2 = 0;
-      let temp = 0.0;
-
       // Read raw temp before aligning it with the calibration values
-      var1 = (UT / 16384.0 - dig_T1 / 1024.0) * dig_T2;
-      var2 = ((UT / 131072.0 - dig_T1 / 8192.0) * (UT / 131072.0 - dig_T1 / 8192.0)) * dig_T3;
+      let var1 = (UT / 16384.0 - dig_T1 / 1024.0) * dig_T2;
+      let var2 = ((UT / 131072.0 - dig_T1 / 8192.0) * (UT / 131072.0 - dig_T1 / 8192.0)) * dig_T3;
       tFine = (var1 + var2);
-      temp = (var1 + var2) / 5120.0;
+      let temp = (var1 + var2) / 5120.0;
       cb(temp);
     });
   };
@@ -211,7 +207,7 @@ function BME280(addr) {
   let standardSeaLevelPressure = 101325;
   this.setPRMSL = function(press) {
     standardSeaLevelPressure = press;
-  }
+  };
 
   function calculateAltitude(press) {
     // Calculates the altitude in meters

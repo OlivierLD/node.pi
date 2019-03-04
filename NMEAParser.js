@@ -54,8 +54,9 @@ function validate(str) {
 
 function getChunks(str) {
   let starIdx = str.indexOf('*');
+  let valid;
   try {
-    let valid = validate(str);
+    valid = validate(str);
   } catch (err) {
     throw { validating: str,
       error: err };
@@ -974,4 +975,13 @@ exports.parseVWR = parseVWR;
 exports.parseVWT = parseVWT;
 exports.parseXDR = parseXDR;
 
-// tests();
+// console.log("We have " + process.argv.length + " args");
+// To run the tests, do
+// $ node NMEAParser.js --test
+if (process.argv.length > 2) {
+  for (var argc = 2; argc < process.argv.length; argc++) {
+    if (process.argv[argc].startsWith("--test")) {
+      tests();
+    }
+  }
+}
