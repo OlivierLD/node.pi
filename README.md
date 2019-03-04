@@ -1,6 +1,6 @@
 <img src="http://code-maven.com/img/node.png" width="70" height="62" alt="NodeJS server"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShXziEYSrwRD_qhgn29_PZsGBBTcrqty5O3dTViH1OpylgCpiQBg"  width="51" height="62" alt="Raspberry PI"> 
-# PI.js
-## Sample scripts for nodejs on the Raspberry PI
+# Node-PI, PI.js
+## Sample scripts for NodeJS on the Raspberry PI
 This project is gathering scripts based on several `nodejs` modules: [`serialport`](https://www.npmjs.com/package/serialport), [`onoff`](https://www.npmjs.com/package/onoff) and [`i2c-bus`](https://www.npmjs.com/package/i2c-bus)
 
 ---
@@ -14,7 +14,7 @@ I was not able to have the projects featured here working properly on Raspberry 
 
 ---
 
-_Note_ : Some demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
+> _Note_ : Some demos are using the [`websocket`](https://www.npmjs.com/package/websocket) module, installed as well during the `npm install` mentioned below.  This is only for the demos to work, this  module is not mandatory for the interaction with the sensors and other devices.
 
 The goal here is to provide a `JavaScript` access to sensors, PCBs and other devices hooked up on a Raspberry PI, 
 like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samples/) is doing for Java and other JVM-aware languages.
@@ -24,7 +24,13 @@ like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samp
 |  The Internet Of Things (IoT) is extensively using services (REST services are among the most popular). NodeJS provides all kind of modules, many of them will allow you to talk REST fluently. Bridging sensor data with an IoT server becomes a piece of cake. See the `Swagger` directory of this project for more details. |
 
 ### First installation
-We assume you have already installed `nodejs` and `npm` on the Raspberry PI.
+We assume you have already installed `NodeJS` and its `npm` companion on the Raspberry PI.
+> Note: To upgrade your existing installation:
+```
+ $ npm install -g npm 
+ $ npm install nodejs-latest
+```
+
 ```
  $> node -v
  v5.11.1
