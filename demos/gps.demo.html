@@ -14,20 +14,20 @@
     <script type="text/javascript" src="widgets/SatellitesPlotter.js"></script>
     <script type="text/javascript" src="widgets/AnalogDisplay.js"></script>
     <script type="text/javascript">
-      var statusFld;
-      var satData;
-      var nmeaID;
-      var rose;
-      var displayBSP;
-      var satellitesPlotter;
+      let statusFld;
+      let satData;
+      let nmeaID;
+      let rose;
+      let displayBSP;
+      let satellitesPlotter;
 
-      window.onload = function() {
+      window.onload = () => {
         statusFld = document.getElementById("status");
         satData = document.getElementById("satData");
         nmeaID = document.getElementById("id");
 
         clear('mapCanvas');
-        setTimeout(function() {
+        setTimeout(() => {
           drawWorldMap('mapCanvas');
           // addCanvasListener('mapCanvas');
         }, 1);
@@ -39,12 +39,12 @@
       };
 
       // Plot position on the chart
-      var plotPositionOnChart = function(val) {
-        var label = "GPS position";
+      function plotPositionOnChart(val) {
+        let label = "GPS position";
         // Plot the station on the map
-        var canvas = "mapCanvas";
+        let canvas = "mapCanvas";
         plotPosToCanvas(canvas, val.lat, val.lng, label);
-      };
+      }
     </script>
   </head>
   <body>

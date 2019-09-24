@@ -4,14 +4,14 @@
 process.title = 'node-gps'; // Optional. You will see this name in eg. 'ps' or 'top' command
 
 // Port where we'll run the websocket server
-var port = 9876;
+let port = 9876;
 
 // websocket and http servers
-var webSocketServer = require('websocket').server;
-var http = require('http');
-var fs = require('fs');
+let webSocketServer = require('websocket').server;
+let http = require('http');
+let fs = require('fs');
 
-var verbose = false;
+let verbose = false;
 
 if (typeof String.prototype.startsWith !== 'function') {
   String.prototype.startsWith = function (str) {
@@ -26,20 +26,20 @@ if (typeof String.prototype.endsWith !== 'function') {
 }
 
 function handler (req, res) {
-  var respContent = "";
+  let respContent = "";
   console.log("Verbose is:", verbose);
   if (verbose) {
     console.log("Speaking HTTP from " + __dirname);
     console.log("Server received an HTTP Request:\n" + req.method + "\n" + req.url + "\n-------------");
     console.log("ReqHeaders:" + JSON.stringify(req.headers, null, '\t'));
     console.log('Request:' + req.url);
-    var prms = require('url').parse(req.url, true);
+    let prms = require('url').parse(req.url, true);
     console.log(prms);
     console.log("Search: [" + prms.search + "]");
     console.log("-------------------------------");
   }
   if (req.url.startsWith("/data/")) { // Static resource
-    var resource = req.url.substring("/data/".length);
+    let resource = req.url.substring("/data/".length);
     console.log('Loading static ' + req.url + " (" + resource + ")");
     fs.readFile(__dirname + '/' + resource,
                 function (err, data) {
@@ -50,7 +50,7 @@ function handler (req, res) {
 	                if (verbose) {
 		                console.log("Read resource content:\n---------------\n" + data + "\n--------------");
 	                }
-	                var contentType = "text/html";
+	                let contentType = "text/html";
 	                if (resource.endsWith(".css")) {
 		                contentType = "text/css";
 	                } else if (resource.endsWith(".html")) {
@@ -80,9 +80,9 @@ function handler (req, res) {
                 });
   } else if (req.url === "/") {
     if (req.method === "POST") {
-      var data = "";
+      let data = "";
       console.log("---- Headers ----");
-      for(var item in req.headers) {
+      for (let item in req.headers) {
 	      console.log(item + ": " + req.headers[item]);
       }
       console.log("-----------------");
@@ -94,7 +94,7 @@ function handler (req, res) {
       req.on("end", function() {
         console.log("POST request: [" + data + "]");
         res.writeHead(200, {'Content-Type': 'application/json'});
-        var status = {'status':'OK'};
+        let status = {'status':'OK'};
         res.end(JSON.stringify(status));
       });
     }
@@ -106,13 +106,13 @@ function handler (req, res) {
   }
 } // HTTP Handler
 
-var clients = []; // list of currently connected clients (users)
+let clients = []; // list of currently connected clients (users)
 
 /**
  * HTTP server
  */
-var server = http.createServer(handler);
-server.listen(port, function() {
+let server = http.createServer(handler);
+server.listen(port, () => {
   console.log((new Date()) + " Server is listening on port " + port);
   console.log("Connect to [http://localhost:9876/data/demos/gps.demo.html]");
 	console.log("Connect to [http://localhost:9876/data/demos/gps.demo.wc.html] (for WebComponents)");
@@ -122,7 +122,7 @@ server.listen(port, function() {
 /**
  * WebSocket server
  */
-var wsServer = new webSocketServer({
+let wsServer = new webSocketServer({
   // WebSocket server is tied to a HTTP server. WebSocket request is just
   // an enhanced HTTP request. For more info http://tools.ietf.org/html/rfc6455#page-6
   httpServer: server
@@ -130,30 +130,30 @@ var wsServer = new webSocketServer({
 
 // This callback function is called every time someone
 // tries to connect to the WebSocket server
-wsServer.on('request', function(request) {
+wsServer.on('request', (request) => {
   console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-  var connection = request.accept(null, request.origin);
+  let connection = request.accept(null, request.origin);
   clients.push(connection);
   console.log((new Date()) + ' Connection accepted.');
 
   // user sent some message
-  connection.on('message', function(message) {
+  connection.on('message', (message) => {
     if (message.type === 'utf8') { // accept only text
       console.log((new Date()) + ' Received Message: ' + message.utf8Data);
 
-      var obj = {
+      let obj = {
         time: (new Date()).getTime(),
         text: message.utf8Data
       };
       // broadcast message to all connected clients. That's what this app is doing.
-      var json = JSON.stringify({ type:'message', data: obj });
-      for (var i=0; i < clients.length; i++) {
+      let json = JSON.stringify({ type:'message', data: obj });
+      for (let i=0; i < clients.length; i++) {
         clients[i].sendUTF(json);
       }
     }
   });
   // user disconnected
-  connection.on('close', function(connection) {
+  connection.on('close', (connection) => {
     // Close
   });
 });
@@ -169,31 +169,31 @@ console.log(" - Default format is auto");
 
 global.displayMode = "auto";
 
-var util = require('util');
-var GPS = require('./SerialReader.js').NMEA;
+let util = require('util');
+let GPS = require('./SerialReader.js').NMEA;
 
-// var serialPort = '/dev/tty.usbserial'; // On Mac
-var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
+// let serialPort = '/dev/tty.usbserial'; // On Mac
+let serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
 
-for (var i=0; i<process.argv.length; i++) {
+for (let i=0; i<process.argv.length; i++) {
 	console.log("arg #%d: %s", i, process.argv[i]);
 }
 
 if (process.argv.length > 2) {
-	for (var argc=2; argc<process.argv.length; argc++) {
+	for (let argc=2; argc<process.argv.length; argc++) {
 		if (process.argv[argc].startsWith("--verbose:")) {
-			var value = process.argv[argc].substring("--verbose:".length);
+			let value = process.argv[argc].substring("--verbose:".length);
 			if (value !== 'true' && value !== 'false') {
 				console.log("Invalid verbose value [%s]. Only 'true' and 'false' are supported.", value);
 				process.exit(1);
 			}
 			verbose = (value === 'true');
 		} else if (process.argv[argc].startsWith("--port:")) {
-			var value = process.argv[argc].substring("--port:".length);
+			let value = process.argv[argc].substring("--port:".length);
 			serialPort = value;
 			console.log("Using serial port ", serialPort);
 		} else if (process.argv[argc].startsWith("--format:")) {
-			var value = process.argv[argc].substring("--format:".length);
+			let value = process.argv[argc].substring("--format:".length);
 			if (value !== "raw" && value !== "auto" && value !== "fmt" ) {
 				console.log("Invalid format value %s. Only 'raw', 'auto', or 'fmt'.", value);
 				process.exit(1);
@@ -206,23 +206,23 @@ if (process.argv.length > 2) {
 	}
 }
 
-var gps = new GPS(serialPort, 4800);
+let gps = new GPS(serialPort, 4800);
 
-var processData = function(gps) {
-  var json = JSON.stringify({ type:'message', data: gps });
-  for (var i=0; i < clients.length; i++) {
+let processData = (gps) => {
+  let json = JSON.stringify({ type:'message', data: gps });
+  for (let i=0; i < clients.length; i++) {
     clients[i].sendUTF(json);
   }
 };
 
-gps.onFullGPSData = function(gps) {
+gps.onFullGPSData = (gps) => {
 	if (verbose) {
 		console.log("GPS Data:", gps);
 	}
   processData(gps);
 };
 
-var exit = function() {
+let exit = () => {
   gps.exit();
   process.stdin.pause();
 };
@@ -242,4 +242,4 @@ function done() {
   console.log("Bye now!");
   exit();
   process.exit();
-};
+}

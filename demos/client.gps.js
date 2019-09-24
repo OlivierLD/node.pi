@@ -1,35 +1,35 @@
 "use strict";
 
-var connection;
+let connection;
 
-(function () {
-  var ws = window.WebSocket || window.MozWebSocket;
+(() => {
+  let ws = window.WebSocket || window.MozWebSocket;
   if (!ws) {
     displayMessage('Sorry, but your browser does not support WebSockets.');
     return;
   }
 
   // open connection
-  var rootUri = "ws://" + (document.location.hostname === "" ? "localhost" : document.location.hostname) + ":" +
+  let rootUri = "ws://" + (document.location.hostname === "" ? "localhost" : document.location.hostname) + ":" +
                           (document.location.port === "" ? "8080" : document.location.port);
   console.log(rootUri);
   connection = new WebSocket(rootUri); // 'ws://localhost:9876');
 
-  connection.onopen = function () {
+  connection.onopen = () => {
     displayMessage('Connected.')
   };
 
-  connection.onerror = function (error) {
+  connection.onerror = (error) => {
     // just in there were some problems with connection...
     displayMessage('Sorry, but there is some problem with your connection or the server is down.');
   };
 
   // most important part - incoming messages
-  connection.onmessage = function (message) {
+  connection.onmessage = (message) => {
     console.log('onmessage:', message);
     // try to parse JSON message.
     try {
-      var json = JSON.parse(message.data);
+      let json = JSON.parse(message.data);
     } catch (e) {
       displayMessage('This doesn\'t look like a valid JSON: ' + message.data);
       return;
@@ -122,14 +122,14 @@ var connection;
 			"snr":0
 		}];
 
-	var generateSatelliteData = function(sd) {
+	function generateSatelliteData(sd) {
 
   	// For tests
   	if (sd === undefined) {
   		sd = fakeGpsSatelliteData;
 	  }
 
-    var html = "<table cellspacing='10'>";
+    let html = "<table cellspacing='10'>";
     html += "<tr><th>PRN</th><th>Alt.</th><th>Z</th><th>snr</th></tr>";
     if (sd !== undefined) {
 	    try {
@@ -150,7 +150,7 @@ var connection;
 	    }
 			satData = document.getElementById("satData");
 	    if (satData !== undefined) {
-		    for (var sat = 0; sat < sd.length; sat++) {
+		    for (let sat = 0; sat < sd.length; sat++) {
 		    	if (sd[sat].prn !== null && sd[sat].elevation !== null && sd[sat].azimuth !== null && sd[sat].snr !== null) {
 				    html += "<tr>" +
 						    "<td align='center' bgcolor='black' style='color: " + getSNRColor(sd[sat].snr) + ";'>" + (sd[sat].prn === null ? "-" : sd[sat].prn)  +
@@ -163,10 +163,10 @@ var connection;
     }
 	  html += "</table>";
 		satData.innerHTML = html;
-  };
+  }
 
-  var getSNRColor = function(snr) {
-    var c = 'lightGray';
+  function getSNRColor(snr) {
+    let c = 'lightGray';
     if (snr !== undefined && snr !== null) {
       if (snr > 0) {
         c = 'red';
@@ -185,14 +185,14 @@ var connection;
       }
     }
     return c;
-  };
+  }
 
   /**
    * This method is optional. If the server wasn't able to respond to the
    * in 3 seconds then show some error message to notify the user that
    * something is wrong.
    */
-  setInterval(function() {
+  setInterval(() => {
     setConnectionStatus(connection.readyState === 1);
     // if (connection.readyState !== 1) {
     //   displayMessage('Unable to communicate with the WebSocket server. Try again.');
@@ -200,26 +200,26 @@ var connection;
   }, 3000); // Ping
 })();
 
-var displayMessage = function(mess) {
+function displayMessage(mess) {
 	statusFld = document.getElementById("status");
   if (statusFld !== undefined) {
-	  var messList = statusFld.innerHTML;
+	  let messList = statusFld.innerHTML;
 	  messList = (((messList !== undefined && messList.length) > 0 ? messList + '<br>' : '') + mess);
 	  statusFld.innerHTML = messList;
 	  statusFld.scrollTop = statusFld.scrollHeight; // Scroll down
   } else {
   	alert(mess);
   }
-};
+}
 
-var resetStatus = function() {
+function resetStatus() {
   statusFld.innerHTML = "";
-};
+}
 
-var setConnectionStatus = function(ok) {
-  var title = document.getElementById("title");
+function setConnectionStatus(ok) {
+  let title = document.getElementById("title");
   if (title !== undefined) {
     title.style.color = (ok === true ? 'green' : 'red');
     title.title = (ok === true ? 'Connection OK' : 'Connection not established');
   }
-};
+}

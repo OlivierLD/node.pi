@@ -13,21 +13,21 @@
 		<link rel="stylesheet" href="css/web-components.css">
     <script type="module" src="webcomponents/WorldMap.js"></script>
     <script type="text/javascript">
-      var statusFld;
-      var satData;
-      var nmeaID;
+      let statusFld;
+      let satData;
+      let nmeaID;
 
-      var globe;
+      let globe;
 
       // Plot position on the chart
-      var plotPositionOnChart = function(val) {
-        var label = "GPS position";
+      function plotPositionOnChart(val) {
+        let label = "GPS position";
         // Plot the position on the map
 				if (globe !== undefined) {
 					globe.setUserPosition({latitude: val.lat, longitude: val.lng});
 					globe.positionLabel = label;
 				}
-      };
+      }
 
       function setTransparency(wcId, cb) {
 	      document.getElementById(wcId).transparentGlobe = (cb.checked ? 'true' : 'false');
@@ -80,7 +80,7 @@
       }
 
       function getSNRColor(snr) {
-	      var c = 'lightGray';
+	      let c = 'lightGray';
 	      if (snr !== undefined && snr !== null) {
 		      if (snr > 0) {
 			      c = 'red';
@@ -110,7 +110,7 @@
 		      if (Object.keys(worldMap.userPosition).length > 0) {
 			      let userPos = worldMap.getPanelPoint(worldMap.userPosition.latitude, worldMap.userPosition.longitude);
 			      // GPS Satellites in view
-			      for (var sat in gpsSatelliteData) { // sat is the index in the array
+			      for (let sat in gpsSatelliteData) { // sat is the index in the array
 				      let satellite = gpsSatelliteData[sat];
 				      let satellitePosition = worldMap.deadReckoning({
 					      lat: worldMap.toRadians(worldMap.userPosition.latitude),
@@ -176,7 +176,7 @@
 	<script src="./client.gps.js"></script>
 	<script type="text/javascript">
 
-	  window.onload = function() {
+	  window.onload = () => {
 		  statusFld = document.getElementById("status");
 		  satData = document.getElementById("satData");
 		  nmeaID = document.getElementById("nmea-id");
