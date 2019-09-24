@@ -3,12 +3,12 @@
 console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
 console.log("Usage: node " + __filename );
 
-var fs = require('fs'),
+let fs = require('fs'),
     readline = require('readline');;
-var util = require('util');
-var parser = require('./NMEAParser.js');
+let util = require('util');
+let parser = require('./NMEAParser.js');
 
-var NMEA_ARRAY = [
+let NMEA_ARRAY = [
   "$IIRMB,A,0.23,R,,HMB-3   ,,,,,001.20,185,,V,A*1E",
   "$IIRMC,172347,A,3730.079,N,12228.853,W,00.0,301,300814,15,E,A*1E",
   "$IIVHW,,,002,M,00.0,N,,*66",
@@ -54,8 +54,8 @@ var NMEA_ARRAY = [
 
 try {
   console.log('== Sample strings ==');
-  var str = "$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A";
-  var parsed = parser.parseRMC(str);
+  let str = "$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A";
+  let parsed = parser.parseRMC(str);
   console.log("1 - RMC: ", parsed);
   console.log("Date:", new Date(parsed.epoch));
 
@@ -68,7 +68,7 @@ try {
   console.log("3 - GLL: ", parsed);
   console.log("Date:", new Date(parsed.epoch));
 
-  var auto = parser.autoparse(str);
+  let auto = parser.autoparse(str);
   console.log("Auto:", auto);
 
   str = "$HCHDG,101.1,,,7.1,W*3C";
@@ -93,7 +93,7 @@ try {
 
   // From hard-coded sample data
   console.log('== Sample data ==');
-  for (var i=0; i<NMEA_ARRAY.length; i++) {
+  for (let i=0; i<NMEA_ARRAY.length; i++) {
     try {
       str = NMEA_ARRAY[i];
       auto = parser.autoparse(str);
@@ -104,13 +104,13 @@ try {
   }
   // From data file
   console.log('== Sample data files ==');
-  var rd = readline.createInterface({
+  let rd = readline.createInterface({
     input: fs.createReadStream('nmea/headless.nmea'),
 //  output: process.stdout,
     terminal: false
   });
 
-  rd.on('line', function(line) {
+  rd.on('line', (line) => {
 //  console.log("Line by line:" , line);
     try {
       console.log("Parsing ", line);
@@ -123,18 +123,18 @@ try {
     } catch (err) {
       console.log(">> Error in line ", line, err);
     }
-  }).on('close', function() {
+  }).on('close', () => {
     console.log("Data file exhausted");
-    console.log("Type 'quit'");
+    console.log("Type 'quit' now:");
   });
 
-  var rd2 = readline.createInterface({
+  let rd2 = readline.createInterface({
     input: fs.createReadStream('nmea/gps.nmea'),
 //  output: process.stdout,
     terminal: false
   });
 
-  rd2.on('line', function(line) {
+  rd2.on('line', (line) => {
 //  console.log("Line by line:" , line);
     try {
       console.log("Parsing ", line);
@@ -143,9 +143,9 @@ try {
     } catch (err) {
       console.log(">> Error in line ", line, err);
     }
-  }).on('close', function() {
+  }).on('close', () => {
     console.log("Data file exhausted");
-    console.log("Type 'quit'");
+    console.log("Type 'quit' now:");
   });
 
   console.log('== Test bottom ==');
@@ -156,15 +156,15 @@ try {
 }
 console.log("Tests completed, enter [quit] or [Ctrl+C]")
 
-var exit = function() {
+function exit() {
   process.stdin.pause();
-};
+}
 
 process.on('SIGINT', exit); // Ctrl C
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
-process.stdin.on('data', function (text) {
+process.stdin.on('data', (text) => {
   if (text.startsWith('quit')) {
     done();
   }
@@ -174,4 +174,4 @@ function done() {
   console.log("Bye now!");
   exit();
   process.exit();
-};
+}

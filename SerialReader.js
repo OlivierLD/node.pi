@@ -45,7 +45,7 @@ function NMEA(serial, br) {
     return ok;
   }
 
-  port.on('data', function (data) {
+  port.on('data', (data) => {
     try {
       dataBuffer = Buffer.concat([dataBuffer, data]);
       let stringBuffer = dataBuffer.toString();
@@ -149,15 +149,15 @@ function NMEA(serial, br) {
   });
 
   // open errors will be emitted as an error event
-  port.on('error', function(err) {
+  port.on('error', (err) => {
     console.log('Error: ', err.message);
   });
 
-  port.on('close', function() {
+  port.on('close', () => {
     console.log('Bye');
   });
 
-  this.exit = function() {
+  this.exit = () => {
     port.close();
   };
 
