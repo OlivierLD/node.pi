@@ -33,6 +33,11 @@ $ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 $ sudo apt-get install gcc g++ make
 ```
+You may also need
+```
+$ npm install node-gyp
+$ npm install libxmljs
+```
 
 > Note: To upgrade your existing installation:
 ```
@@ -60,7 +65,7 @@ To run a test script:
 ```
  $ node testSwitch.js
  Ctrl+C to stop
- Switch on pin: 7
+ Switch on pin: 18
  Switching off
  Switching on
  Switching off

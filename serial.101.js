@@ -5,9 +5,11 @@
  *
  * Use this to see if your serial output is available and readable.
  */
-
+/**
+ * Nov 2020, problem reading the serial ports...
+ */
 let SerialPort = require('serialport');
-let port = new SerialPort('/dev/ttyUSB0', {
+let port = new SerialPort('/dev/ttyS80', {
   baudRate: 4800,
   parser: SerialPort.parsers.raw
 });

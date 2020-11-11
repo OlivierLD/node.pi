@@ -1,6 +1,10 @@
 // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 "use strict";
 
+/**
+ * Nov 2020, problem reading the serial ports...
+ */
+
 process.title = 'node-gps'; // Optional. You will see this name in eg. 'ps' or 'top' command
 
 // Port where we'll run the websocket server

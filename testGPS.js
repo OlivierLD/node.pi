@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * Nov 2020, problem reading the serial ports...
+ */
 console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
 console.log("Usage: node " + __filename + " [raw]|fmt|auto");
 
@@ -13,12 +16,12 @@ if (process.argv.length > 2) {
   }
 }
 
-var util = require('util');
-var GPS = require('./SerialReader.js').NMEA;
+let util = require('util');
+let GPS = require('./SerialReader.js').NMEA;
 
-var serialPort = '/dev/tty.usbserial'; // On Mac
-// var serialPort = '/dev/ttyUSB0'; // On Linux (including Raspberry)
-var gps = new GPS(serialPort, 4800);
+// let serialPort = '/dev/tty.usbserial'; // On Mac
+let serialPort = '/dev/ttyS80'; // On Linux (including Raspberry)
+let gps = new GPS(serialPort, 4800);
 // var gps = new GPS();
 
 if (global.displayMode === 'fmt') {
@@ -29,7 +32,7 @@ if (global.displayMode === 'fmt') {
     console.log("Time: " + new Date(epoch));
   };
 }
-var exit = function() {
+let exit = () => {
   gps.exit();
   process.stdin.pause();
 };
@@ -45,7 +48,7 @@ process.stdin.on('data', function (text) {
   }
 });
 
-function done() {
+let done = () => {
   console.log("Bye now!");
   exit();
   process.exit();
