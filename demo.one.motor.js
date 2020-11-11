@@ -1,9 +1,9 @@
 "use strict";
 
-var MHat =  require('./MotorHAT.js');
-var utils = require('./utils/utils.js');
+let MHat =  require('./MotorHAT.js');
+let utils = require('./utils/utils.js');
 
-var mh = new MHat.MotorHAT();
-var motor = mh.getMotor(MHat.Motor.M1);
+let mh = new MHat.MotorHAT();
+let motor = mh.getMotor(MHat.Motor.M1);
 
 motor.run(MHat.ServoCommand.RELEASE);

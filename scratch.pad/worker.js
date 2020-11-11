@@ -1,50 +1,42 @@
-var i = 0;
-var max   = 10;   // Nb loops
-var delay = 1000; // ms between loops
-var completed = false;
-var workerID, watcherID;
+let i = 0;
+let max = 10;   // Nb loops
+let delay = 1000; // ms between loops
+let completed = false;
+let workerID, watcherID;
 
-var performLoop = function(clientChannel)
-{
+let performLoop = (clientChannel) => {
     console.log('... Loop # ' + i);
-    if (++i < max)
-    {
-        workerID = setTimeout(function()
-        {
+    if (++i < max) {
+        workerID = setTimeout(function () {
             performLoop(clientChannel);
         }, delay);  // There is a wait here, just to waste time.
-    }
-    else
-    {
+    } else {
         completed = true;
         clientChannel("End of loop, clearing the watcher.");
         clearTimeout(watcherID);
     }
 };
 
-var workAndWatch = function(worker, timeout, cb)
-{
+let workAndWatch = (worker, timeout, cb) => {
     console.log("Starting Worker");
     // The worker
-    setTimeout(function()
-    {
+    setTimeout(function () {
         worker(cb);
     }, 0);
     console.log("Starting Watcher");
     // The watcher
-    watcherID = setTimeout(function()
-    {
-        if (!completed)
-        {
+    watcherID = setTimeout(() => {
+        if (!completed) {
             cb("Killing the lazy worker.");
             clearTimeout(workerID);
         }
     }, timeout);
     console.log("Watcher & worker started.");
 };
-var callback = function(mess)
-{
+
+let callback = (mess) => {
     console.log(mess);
 };
+
 workAndWatch(performLoop, 10000, callback);
 console.log(">>> End of Script");

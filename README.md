@@ -26,6 +26,14 @@ like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samp
 
 ### First installation
 We assume you have already installed `NodeJS` and its `npm` companion on the Raspberry PI.
+
+This can be done this way on teh Raspberry Pi:
+```
+$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+$ sudo apt-get install gcc g++ make
+```
+
 > Note: To upgrade your existing installation:
 ```
  $ npm install -g npm 
@@ -33,16 +41,15 @@ We assume you have already installed `NodeJS` and its `npm` companion on the Ras
 ```
 
 ```
- $> node -v
- v5.11.1
- $> npm -v
- 3.8.6
- $>
+ $ node -v
+ v10.23.0
+ $ npm -v
+ 6.14.8
 ```
 After cloning this repository on the RaspberryPI, run the following command from the root directory 
 of the project (the one containing `package.json`):
 ```
- $> npm install
+ $ npm install
 ```
 This will install the required nodejs modules.
 
@@ -51,7 +58,7 @@ This can be used to drive an led, a relay, etc.
 See the source in `switch.js`.
 To run a test script:
 ```
- $> node testSwitch.js
+ $ node testSwitch.js
  Ctrl+C to stop
  Switch on pin: 7
  Switching off

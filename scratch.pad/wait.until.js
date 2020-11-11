@@ -1,8 +1,14 @@
 "use strict";
 
-var flag = false;
+/**
+ * This is an example of what NOT to do!
+ *
+ * @type {boolean}
+ */
 
-var checkFlag = function() {
+let flag = false;
+
+let checkFlag = () => {
   if (flag === false) {
      setTimeout(checkFlag, 10); /* this checks the flag every 100 milliseconds*/
   } else {
@@ -13,15 +19,15 @@ var checkFlag = function() {
 console.log("Will check flag for 5s...")
 checkFlag();
 
-setTimeout(function() {
+setTimeout(() => {
   flag = true;
   console.log("Flag is set!");
 },
 5000);
 
 // Careful, that one may be demanding...
-var sleep = function(milliseconds) {
-  var start = new Date().getTime();
+let sleep = (milliseconds) => {
+  let start = new Date().getTime();
 //for (var i=0; i<1e7; i++) {
   while (true) {
     if ((new Date().getTime() - start) > milliseconds) {

@@ -32,12 +32,12 @@ let Client = require('node-rest-client').Client;
 let client = new Client();
 
 // Get data, through a callback
-function getSwitchState(cb) {
+let getSwitchState = (cb) => {
     let url = PREFIX + ONOFF_FEED;
     let args = {
         headers: {"X-AIO-Key": key}
     };
-    client.get(url, args, function (data, response) {
+    client.get(url, args, (data, response) => {
         // parsed response body as js object
     //  console.log("Last Value of [%s] (%s) was %s.", data.name, data.description, data.last_value);
         // raw response
@@ -53,7 +53,7 @@ function setSwitchState(state) {
                    "X-AIO-Key": key }
     };
     let url = PREFIX + ONOFF_FEED + "/data";
-    client.post(url, args, function (data, response) {
+    client.post(url, args, (data, response) => {
         // parsed response body as js object
     //  console.log(data);
         // raw response
@@ -62,7 +62,7 @@ function setSwitchState(state) {
 };
 
 let previousState;
-function manageState(state) {
+let manageState = (state) => {
   if (state !== previousState) {
       console.log("State is now:" + state);
       // Do something with the hardware here
@@ -70,16 +70,16 @@ function manageState(state) {
   }
 };
 
-let interv = setInterval(function() {
+let interv = setInterval(() => {
   getSwitchState(manageState);
 }, 1000);
 
-setTimeout(function() {
+setTimeout(() => {
   // Read sensor, push data
   setSwitchState('ON');
 }, 5000);
 
-function exit() {
+let exit = () => {
     console.log("\nBye now!");
     process.exit();
 };

@@ -1,19 +1,19 @@
 "use strict";
 
-var display = function(val) {
+let display = (val) => {
   console.log(">>> Value is " + val);
 };
 
-var firstFunction = function() {
+let firstFunction = () => {
 
-    var external = 0;
+    let external = 0;
 
-    var nestedOne = function() {
+    let nestedOne = () => {
       // Increment external by 1
       external += 1;
     };
 
-    var nestedTwo = function(callback) {
+    let nestedTwo = (callback) => {
       // Increment external by 10
       external += 10;
       if (callback !== undefined) {
@@ -22,11 +22,11 @@ var firstFunction = function() {
     };
 
     console.log("Starting...");
-    setTimeout(function() {
+    setTimeout(() => {
         console.log("First part on its way");
         nestedOne();
         console.log("After one:" + external);
-        setTimeout(function() {
+        setTimeout(() => {
             console.log("Second part on its way");
             nestedTwo(display);
             console.log("After two:" + external);

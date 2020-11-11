@@ -2,19 +2,19 @@
 
 // When run, this program will output the same information as the
 // command 'i2cdetect -F 1'
-var i2c = require('i2c-bus'),
-  i2c1;
+let i2c = require('i2c-bus'),
+    i2c1;
 
-function boolToYesNo(bool) {
+let boolToYesNo = (bool) => {
   return bool ? 'yes' : 'no';
-}
+};
 
-i2c1 = i2c.open(1, function (err) {
+i2c1 = i2c.open(1, (err) => {
   if (err) {
     throw err;
   }
 
-  i2c1.i2cFuncs(function (err, i2cFuncs) {
+  i2c1.i2cFuncs((err, i2cFuncs) => {
     if (err) {
       throw err;
     }

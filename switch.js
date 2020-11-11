@@ -37,12 +37,17 @@ Gpio.prototype.isHigh = function() {
 
 const defaultPin = 18; // GPIO_18, Wiring/PI4J 1
 
-var Switch = function(pin) {
+let Switch = function(pin) {
   if (pin === undefined) {
     pin = defaultPin;
   }
   console.log("Switch on pin:", pin);
-  let PIN  = new Gpio(pin, Direction.OUT);
+  let PIN;
+  try {
+    PIN = new Gpio(pin, Direction.OUT);
+  } catch (err) {
+    throw err;
+  }
 
   this.on = function() {
     PIN.high();

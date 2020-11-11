@@ -34,7 +34,7 @@ function MotorHAT(addr, freq) {
     addr = HAT_ADDR;
   }
 
-  var i2c1;
+  let i2c1;
   let motors = [];
   let steppers = [];
 
@@ -114,7 +114,7 @@ function MotorHAT(addr, freq) {
     const PORT_M1_M2 = 1; // Port #1
     const PORT_M3_M4 = 2; // Port #2
 
-    var mc;
+    let mc;
     const MICROSTEPS = 8;
     const MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255];
 
@@ -127,8 +127,8 @@ function MotorHAT(addr, freq) {
     let BIN2 = 12;
     let BIN1 = 11;
 
-    var revSteps;
-    var motorNum;
+    let revSteps;
+    let motorNum;
     let secPerStep = 0.1;
     let steppingCounter = 0;
     let currentStep = 0;
@@ -313,7 +313,7 @@ function MotorHAT(addr, freq) {
     freq = DEFAULT_FREQ;
   }
 
-  for (var motor in Motor) {
+  for (let motor in Motor) {
     motors.push(new this.AdafruitDCMotor(this, Motor[motor]));
   }
   steppers.push(new this.AdafruitStepperMotor(this, 1));
@@ -356,7 +356,7 @@ function MotorHAT(addr, freq) {
       console.log("getMotor required:", mn);
     }
     let motor = null;
-    for (var m in motors) {
+    for (let m in motors) {
       console.log(">>> Comparing ", motors[m].motorNum, " and ", mn);
       if (motors[m].motorNum === mn) {
         motor = motors[m];
