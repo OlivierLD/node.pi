@@ -979,7 +979,7 @@ exports.parseXDR = parseXDR;
 // To run the tests, do
 // $ node NMEAParser.js --test
 if (process.argv.length > 2) {
-  for (var argc = 2; argc < process.argv.length; argc++) {
+  for (let argc = 2; argc < process.argv.length; argc++) {
     if (process.argv[argc].startsWith("--test")) {
       tests();
     }

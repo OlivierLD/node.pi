@@ -6,12 +6,13 @@ console.log("Ctrl+C to stop");
 let relay;
 let Switch = require('./switch.js').Switch;
 try {
-  relay = new Switch(7); // GPIO_07, pin #26, Wiring/PI4J 11
+  relay = new Switch(); // 7); // GPIO_07, pin #26, Wiring/PI4J 11
 } catch (err) {
   console.log(err);
   process.exit();
 }
 let on = true;
+// Flipping the switch every sec.
 let iv = setInterval(() => {
   if (on === true) {
     console.log("Switching off");
@@ -29,9 +30,11 @@ let exit = () => {
   process.exit();
 };
 
+// Stop after 60 sec.
+const DEMO_LEN = 60000;
 setTimeout(() => {
   clearInterval(iv); // Stop reading
   exit();
-}, 100000); // Stop after 100 sec.
+}, DEMO_LEN);
 
 process.on('SIGINT', exit); // Ctrl C

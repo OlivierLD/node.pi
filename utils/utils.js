@@ -31,7 +31,10 @@ function lpad(str, len, pad) {
   return s;
 }
 
-// Careful with this one, it could be demanding...
+/**
+ * Careful with this one, it could be demanding...
+ * @Deprecated use waitfor instead
+ */
 function sleep(milliseconds) {
   let start = new Date().getTime();
   while (true) {
@@ -39,7 +42,16 @@ function sleep(milliseconds) {
       break;
     }
   }
-};
+}
+
+/**
+ *
+ * @param howMuch in millisec
+ */
+function waitfor(howMuch) {
+  setTimeout(function() {}, howMuch);
+  return;
+}
 
 // Date formatting
 // Provide month names
@@ -133,7 +145,7 @@ Date.prototype.format = function(dateFormat) {
       tzOffset = -(this.getTimezoneOffset() / 60);
 
   // get all date properties ( based on PHP date object functionality )
-  let dateProps =  {
+  const dateProps =  {
     d: date < 10 ? '0' + date : date,
     D: this.getDayAbbr(),
     j: this.getDate(),
