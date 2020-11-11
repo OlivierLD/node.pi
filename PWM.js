@@ -40,7 +40,7 @@ function PWM(addr) {
     console.log(">>> Creating PWM", utils.hexFmt(addr, 2));
   }
 
-  var i2c1;
+  let i2c1;
 
   this.init = function() {
     i2c1 = i2c.openSync(1); // Will require a closeSync

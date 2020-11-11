@@ -1,6 +1,8 @@
 "use strict";
 
-/*
+/**
+ * Read Serial port, parse NMEA data
+ *
  * Doc at https://www.npmjs.com/package/serialport
  */
 

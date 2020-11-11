@@ -2,6 +2,7 @@
 
 /*
  * Doc at https://www.npmjs.com/package/serialport
+ *
  * Use this to see if your serial output is available and readable.
  */
 
