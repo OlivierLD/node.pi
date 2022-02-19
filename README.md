@@ -58,6 +58,16 @@ of the project (the one containing `package.json`):
 ```
 This will install the required nodejs modules.
 
+See the available tasks from `npm`:
+```
+ $ npm run
+```
+Execute one of them:
+```
+ $ npm run test
+```
+...etc.
+
 ### Simple GPIO interaction
 This can be used to drive an led, a relay, etc.
 See the source in `switch.js`.
