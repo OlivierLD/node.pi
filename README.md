@@ -150,6 +150,12 @@ Here is the way to wire both the `BME280` and the `L3GD20`.
 
 
 ### Read GPS data, through a Serial port
+#### Just the parser
+```
+$ node testNMEAParser.js
+```
+
+#### With a real GPS
 See the code in `SerialReader.js` and `NMEAParser.js`.
 To run a test script:
 ```
