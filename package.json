@@ -20,10 +20,10 @@
     "websocket": "^1.0.23",
     "node-rest-client": "3.1.0"
   },
-  "main": "test_mcp3008.js",
+  "main": "testMcp3008.js",
   "devDependencies": {},
   "scripts": {
-    "test": "testMcp3008.js",
+    "test": "node testMcp3008.js",
     "start": "node demo.gps.js"
   },
   "repository": {
