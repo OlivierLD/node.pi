@@ -58,13 +58,8 @@ $ npm install libxmljs
 After cloning this repository on the RaspberryPI, run the following command from the root directory 
 of the project (the one containing `package.json`):
 ```
-<<<<<<< HEAD
- $ npm install [-g --unsafe-perm]
+ $ npm install [-g] [--unsafe-perm] [--registry=https://registry.npmjs.org]
 ```
-=======
- $ npm install [--registry=https://registry.npmjs.org]
- ```
->>>>>>> 69a0c00149955c2124051ce4895193fc98199c35
 This will install the required nodejs modules.
 
 See the available tasks from `npm`:
