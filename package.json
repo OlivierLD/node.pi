@@ -23,7 +23,7 @@
   "main": "test_mcp3008.js",
   "devDependencies": {},
   "scripts": {
-    "test": "tesMcp3008.js",
+    "test": "testMcp3008.js",
     "start": "node demo.gps.js"
   },
   "repository": {
