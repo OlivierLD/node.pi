@@ -16,14 +16,14 @@
   "dependencies": {
     "onoff": "^1.1.1",
     "i2c-bus": "^1.1.1",
-    "serialport": "^4.0.1",
+    "serialport": "^10.0.1",
     "websocket": "^1.0.23",
     "node-rest-client": "3.1.0"
   },
   "main": "test_mcp3008.js",
   "devDependencies": {},
   "scripts": {
-    "test": "test_mcp3008.js",
+    "test": "tesMcp3008.js",
     "start": "node demo.gps.js"
   },
   "repository": {

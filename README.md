@@ -51,10 +51,14 @@ $ npm install libxmljs
  $ npm -v
  6.14.8
 ```
+> Note: I had trouble with recent versions of nodeJS (17.x).  
+> Using nvm to install the version below fixed the issues.
+
+
 After cloning this repository on the RaspberryPI, run the following command from the root directory 
 of the project (the one containing `package.json`):
 ```
- $ npm install
+ $ npm install [-g --unsafe-perm]
 ```
 This will install the required nodejs modules.
 
