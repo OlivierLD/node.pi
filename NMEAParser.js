@@ -476,7 +476,7 @@ function parseMWV(str) {
         speed: parseFloat(data[3]),
         dir: parseFloat(data[1]),
         unit: data[4],
-        uintexp: unitExp, 
+        "unit-exp": unitExp, 
         reference: (data[2] === 'R' ? 'relative' : 'true')
       }
     };
