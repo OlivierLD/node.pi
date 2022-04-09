@@ -469,12 +469,14 @@ function parseMWV(str) {
   if (data[5] !== 'A') {
     throw { err: "No data available for MWV" }
   } else {
+    let unitExp = ( data[4] === 'K' ? 'km/h' : ( data[4] === 'M' ? 'mph' : 'knots'));
     return {
       type: "MWV",
       wind: {
         speed: parseFloat(data[3]),
         dir: parseFloat(data[1]),
         unit: data[4],
+        uintexp: unitExp, 
         reference: (data[2] === 'R' ? 'relative' : 'true')
       }
     };
