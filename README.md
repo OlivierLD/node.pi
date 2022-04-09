@@ -51,12 +51,18 @@ $ npm install libxmljs
  $ npm -v
  6.14.8
 ```
+> Note: I had trouble with recent versions of nodeJS (17.x).  
+> Using nvm to install the version below fixed the issues.
+
+
 After cloning this repository on the RaspberryPI, run the following command from the root directory 
 of the project (the one containing `package.json`):
 ```
  $ npm install [--registry=https://registry.npmjs.org]
  $ npm install serialport --unsafe-perm --build-from-source --registry=https://registry.npmjs.org
- ```
+ $ npm install [-g] [--unsafe-perm] [--registry=https://registry.npmjs.org]
+```
+
 This will install the required nodejs modules.
 
 See the available tasks from `npm`:
@@ -147,6 +153,12 @@ Here is the way to wire both the `BME280` and the `L3GD20`.
 
 
 ### Read GPS data, through a Serial port
+#### Just the parser
+```
+$ node testNMEAParser.js
+```
+
+#### With a real GPS
 See the code in `SerialReader.js` and `NMEAParser.js`.
 To run a test script:
 ```
@@ -331,3 +343,18 @@ Debugger listening on port 5858
 
 Then open Chrome, and load the URL above.
 Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, and start debugging!
+
+#### More recently
+See <https://nodejs.org/en/docs/inspector>
+
+From on terminal
+```
+$ node --inspect server.js
+```
+From a Chrome browser:
+```
+chrome://inspect
+```
+... and follow the instructions.  
+Then from another browser, reach the URL served by the node server, like <http://localhost:8888/leaflet.tide.stations.html>,
+and you can set breakpoints in the server's code.

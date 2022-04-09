@@ -2,6 +2,7 @@
 
 /**
  * Nov 2020, problem reading the serial ports...
+ * See the README.md for workaround.
  */
 console.log('To stop: Ctrl-C, or enter "quit" + [return] here in the console');
 console.log("Usage: node " + __filename + " [raw]|fmt|auto");
