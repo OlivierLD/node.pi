@@ -344,11 +344,14 @@ Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, an
 #### More recently
 See <https://nodejs.org/en/docs/inspector>
 
+From on terminal
 ```
-$ node inspect my-script.js
+$ node --inspect server.js
 ```
-And then, from a Chrome browser
+From a Chrome browser:
 ```
 chrome://inspect
 ```
-
+... and follow the instructions.  
+Then from another browser, reach the URL served by the node server, like <http://localhost:8888/leaflet.tide.stations.html>,
+and you can set breakpoints in the server's code.
