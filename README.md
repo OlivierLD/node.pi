@@ -340,3 +340,15 @@ Debugger listening on port 5858
 
 Then open Chrome, and load the URL above.
 Switch to the "Sources" tab (if it is not visible yet), set your breakpoints, and start debugging!
+
+#### More recently
+See <https://nodejs.org/en/docs/inspector>
+
+```
+$ node inspect my-script.js
+```
+And then, from a Chrome browser
+```
+chrome://inspect
+```
+
