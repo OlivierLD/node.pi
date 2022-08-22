@@ -25,7 +25,7 @@ like the code of [this project](https://github.com/OlivierLD/raspberry-pi4j-samp
 |  The Internet Of Things (IoT) is extensively using services (REST services are among the most popular). NodeJS provides all kind of modules, many of them will allow you to talk REST fluently. Bridging sensor data with an IoT server becomes a piece of cake. See the `Swagger` directory of this project for more details. |
 
 ### First installation
-We assume you have already installed `NodeJS` and its `npm` companion on the Raspberry PI.
+We assume you have already [installed](https://www.scaler.com/topics/javascript/install-node-js/) `NodeJS` and its `npm` companion on the Raspberry PI.
 
 This can be done this way on teh Raspberry Pi:
 ```
